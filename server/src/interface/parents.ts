@@ -7,5 +7,6 @@ export interface IParents extends Document {
   phone: number;
   budget: number;
   email: string;
+  password: string;
   isAdmin: boolean;
 }
