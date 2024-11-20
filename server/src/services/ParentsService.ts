@@ -62,4 +62,16 @@ const updateParents = async (
   }
 };
 
-export { allParents, addNewParents, updateParents };
+const deleteParents = async (parentsId: string) => {
+  try {
+    const deleteParents = await ParentsModel.findByIdAndDelete(parentsId);
+    if (!deleteParents) {
+      throw new Error("Parents not found");
+    }
+    return { message: "Parents deleted successfully" };
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
+
+export { allParents, addNewParents, updateParents, deleteParents };
