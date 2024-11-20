@@ -54,6 +54,10 @@ const BabysitterSchema: Schema = new Schema(
     budget: {
       type: Number,
     },
+    password:{
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,

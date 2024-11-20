@@ -1,5 +1,6 @@
 import express, { IRouter, Request, Response } from "express";
 import { handleError } from "../../utils/handleError";
+import {addBabysitter} from "../services/BabysitterServices"
 
 const router: IRouter = express.Router()
 
@@ -43,3 +44,4 @@ router.delete("/:id", async(req:Request, res:Response): Promise<void> => {
         
     }
 })
+export default router;
