@@ -4,7 +4,7 @@ import { handleError } from '../../utils/handleError';
 const router:IRouter = express.Router()
 
 
-
+router.use("/babysitter", BabysitterController)
 router.use((req:Request,res:Response)=>{
 handleError(res,404,"Not found")
 })
