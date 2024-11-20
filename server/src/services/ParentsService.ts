@@ -1,6 +1,7 @@
 import ParentsModel from "../models/ParentsModel";
 import { handleBadRequest } from "../../utils/handleError";
 import { IParents } from "../interface/parents";
+import { generateUserPassword } from "../../helpers/bcrypt";
 
 const allParents = async () => {
   try {
@@ -15,21 +16,20 @@ const allParents = async () => {
   }
 };
 
-// const addNewParents = async (parentsData: IParents) => {
-//   try {
-//     if (!parentsData.email || !parentsData.password) {
-//       throw new Error("Missing required fields");
-//     }
-
-//     const newParent = new User(parentsData);
-//     newParent.password = generateUserPassword(newParent.password);
-//     await newParent.save();
-//     return newParent;
-//   } catch (error: any) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
-
-export { allParents, 
-    // addNewParents 
+const addNewParents = async (parentsData: IParents) => {
+  try {
+    if (!parentsData.email || !parentsData.password) {
+      throw new Error("Missing required fields");
+    }
+    const newParent = new ParentsModel(parentsData);
+    newParent.password = generateUserPassword(newParent.password);
+    await newParent.save();
+    return newParent;
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
 };
+
+
+
+export { allParents, addNewParents };
