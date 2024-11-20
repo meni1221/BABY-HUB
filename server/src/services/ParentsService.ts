@@ -30,6 +30,36 @@ const addNewParents = async (parentsData: IParents) => {
   }
 };
 
+const updateParents = async (
+  parentsId: string,
+  updateData: Partial<IParents>
+) => {
+  try {
+    if (updateData.password) {
+      throw new Error("Password cannot be updated through this endpoint");
+    }
 
+    const existingParents = await ParentsModel.findById(parentsId);
+    if (!existingParents) {
+      throw new Error("Parents not found");
+    }
 
-export { allParents, addNewParents };
+    const updatedParents = await ParentsModel.findByIdAndUpdate(
+      parentsId,
+      {
+        ...updateData,
+        password: existingParents.password,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return updateData;
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
+
+export { allParents, addNewParents, updateParents };
