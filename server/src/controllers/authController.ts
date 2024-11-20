@@ -1,12 +1,34 @@
 import express, { IRouter, Request, Response } from "express";
-import { logout } from "../services/authService";
+import { loginBabySitter, loginParent, logout } from "../services/authService";
+import { handleError } from "../../utils/handleError";
 
 const router: IRouter = express.Router();
 
-router.post("/login/babysitter")
+// login the bayb sitter
+router.post("/login/babysitter", async (req: Request, res: Response): Promise<void> => {
+	try {
+		const babysitter = req.body;
+		const realNanny = await loginBabySitter(babysitter, res);
+		res.json(realNanny);
+	} catch (error: any) {
+		console.error(error.message);
+		handleError(res, error.status, error.message)
+	}
+});
 
-router.post("/login/parent")
+// Login the parents
+router.post("/login/parent", async (req: Request, res: Response): Promise<void> => {
+	try {
+		const parent = req.body;
+		const realParent = await loginParent(parent, res);
+		res.json(realParent);
+	} catch (error: any) {
+		console.error(error.message);
+		handleError(res, error.status, error.message)
+	}
+});
 
+// Logout ib all the people
 router.post("/logout", (req: Request, res: Response): void => {
 	try {
 		logout(res);
