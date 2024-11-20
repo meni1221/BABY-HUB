@@ -13,21 +13,30 @@ const ParentsSchema: Schema = new Schema({
     type: Number,
     require: true,
     minlength: 1,
-    maxlength: 21
+    maxlength: 21,
   },
   address: {
-    type: {AdderssSchema},
+    type: { AdderssSchema },
     require: true,
   },
   phone: {
     type: Number,
     require: true,
+    // תבנית פשוטה למספר טלפון ישראלי
+    match: [/^0[2-9]\d{7,8}$/, "אנא הכנס מספר טלפון תקין"],
   },
   budget: {
     type: Number,
     require: true,
   },
   email: {
+    type: String,
+    require: true,
+    unique: true,
+    // תבנית בסיסית לבדיקת אימייל
+    match: [/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "אנא הכנס אימייל תקין"],
+  },
+  password: {
     type: String,
     require: true,
   },
