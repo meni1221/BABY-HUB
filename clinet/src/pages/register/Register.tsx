@@ -4,13 +4,7 @@ import { RegisterBaybisitter } from "./registerBaybisitter/RegisterBaybisitter";
 
 export const Register = () => {
   const [flag, setFlag] = useState("");
-  const togel = (register: string) => {
-    if (register === "parent") {
-      <RegisterParent />;
-    } else {
-      <RegisterBaybisitter />;
-    }
-  };
+
   return (
     <>
       <div>
