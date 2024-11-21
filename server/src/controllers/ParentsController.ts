@@ -1,5 +1,10 @@
 import express, { IRouter, Request, Response } from "express";
-import { allParents, addNewParents, updateParents } from "../services/ParentsService";
+import {
+  allParents,
+  addNewParents,
+  updateParents,
+  deleteParents,
+} from "../services/ParentsService";
 import { handleError } from "../../utils/handleError";
 
 const router: IRouter = express.Router();
@@ -31,5 +36,13 @@ router.patch("/:id", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const result = await deleteParents(req.params.id);
+    res.json(result);
+  } catch (error: any) {
+    handleError(res, error.status || 404, error.message);
+  }
+});
 
 export default router;
