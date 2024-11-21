@@ -1,10 +1,15 @@
-import mongoose, { Schema } from "mongoose";
-import { IOrder } from "../interface/orderType";
-import parentModel from "../models/ParentsModel";
-import babysitterModel from "../models/BabysitterModel";
+import mongoose, { Schema } from 'mongoose';
+import { IOrder } from '../interface/orderType';
+import parentModel from '../models/ParentsModel';
+import babysitterModel from '../models/BabysitterModel';
 
 const orderSchema: Schema = new Schema(
   {
+    status: {
+      type: String,
+      enum: ['waiting', 'approved', 'Done', 'rejected'],
+      default: 'waiting',
+    },
     parent_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: parentModel,
@@ -28,4 +33,4 @@ const orderSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.model<IOrder>("order", orderSchema);
+export default mongoose.model<IOrder>('order', orderSchema);
