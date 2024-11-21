@@ -1,0 +1,59 @@
+[
+    {
+      "name": "Moshe Yosef",
+      "amount": 5,
+      "address": {
+        "street": "Rav Kook",
+        "city": "Bnei Brak",
+        "zip": "51224"
+      },
+      "phone": "0547771234",
+      "budget": 8000,
+      "email": "moshe.yosef@example.com",
+      "password": "securePassword1!",
+      "isAdmin": false
+    },
+    {
+      "name": "Shira Golda",
+      "amount": 2,
+      "address": {
+        "street": "Shomrei Emunim",
+        "city": "Jerusalem",
+        "zip": "91111"
+      },
+      "phone": "0526654321",
+      "budget": 5000,
+      "email": "shira.golda@example.com",
+      "password": "securePassword2!",
+      "isAdmin": true
+    },
+    {
+      "name": "Yaakov Elimelech",
+      "amount": 4,
+      "address": {
+        "street": "Vizhnitz",
+        "city": "Elad",
+        "zip": "40824"
+      },
+      "phone": "0509876543",
+      "budget": 10000,
+      "email": "yaakov.elimelech@example.com",
+      "password": "securePassword3!",
+      "isAdmin": false
+    },
+    {
+      "name": "Esther Leah",
+      "amount": 3,
+      "address": {
+        "street": "Rashi",
+        "city": "Beitar Illit",
+        "zip": "60832"
+      },
+      "phone": "0534567890",
+      "budget": 7000,
+      "email": "esther.leah@example.com",
+      "password": "securePassword4!",
+      "isAdmin": true
+    }
+  ]
+  
