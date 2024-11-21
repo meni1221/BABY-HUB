@@ -1,5 +1,5 @@
 import express, { IRouter, Request, Response } from "express";
-import { allParents, addNewParents } from "../services/ParentsService";
+import { allParents, addNewParents, updateParents } from "../services/ParentsService";
 import { handleError } from "../../utils/handleError";
 
 const router: IRouter = express.Router();
@@ -21,5 +21,15 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     handleError(res, error.status || 400, error.message);
   }
 });
+
+router.patch("/:id", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const updateParent = await updateParents(req.params.id, req.body);
+    res.json(updateParent);
+  } catch (error: any) {
+    handleError(res, error.status || 400, error.message);
+  }
+});
+
 
 export default router;
