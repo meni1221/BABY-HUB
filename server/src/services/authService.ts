@@ -82,7 +82,7 @@ const loginParent = async (user: UserDTO, res: Response) => {
 
 	} catch (error: any) {
 		error.status = 400
-		return handleBadRequest("MongoDN", error)
+		return handleBadRequest("MongoDB", error)
 	}
 }
 
