@@ -21,4 +21,5 @@ const adderssSchema: Schema = new Schema({
     maxlength: 3,
   },
 });
-export default adderssSchema;
+export default adderssSchema
+
