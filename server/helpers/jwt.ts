@@ -13,7 +13,7 @@ const generateAuthToken = (user: { _id: any; isAdmin: boolean }): string => {
 		{ id: user._id, isAdmin: user.isAdmin },
 		SECRET_KEY,
 		{
-			expiresIn: "h1"
+			expiresIn: "1h"
 		}
 	);
 };
