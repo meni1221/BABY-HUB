@@ -48,7 +48,7 @@ const getBabysitterById = async (babysitterId: string) => {
 
 const patchBabysitter = async (
   babysitterId: string,
-  updateData: Partial<IBabysitter>
+  updateData: Partial<IBabysitter> 
 ) => {
   try {
     if (updateData.password) {
