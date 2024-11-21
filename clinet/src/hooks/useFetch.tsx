@@ -19,8 +19,14 @@ export default function useFetch<T>(url: string): any {
     }
   };
   //   --------------POST method--------------
-  const POST = async () => {
+  const POST = async (endpoint: string, body: object) => {
     try {
+      const response = await fetch(`${url}/${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
     } catch (error: unknown) {
       setError((error as Error).message || "An unknown error occurred.");
     }
