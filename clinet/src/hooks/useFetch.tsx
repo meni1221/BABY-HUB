@@ -27,6 +27,10 @@ export default function useFetch<T>(url: string): any {
         credentials: "include",
         body: JSON.stringify(body),
       });
+      if (!response.ok){
+        const errorData = await response.json()
+        throw new Error (errorData.error?.message || "Request failed")
+      }
     } catch (error: unknown) {
       setError((error as Error).message || "An unknown error occurred.");
     }
