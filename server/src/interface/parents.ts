@@ -4,7 +4,7 @@ export interface IParents extends Document {
   name: string;
   amount: number;
   address: IAddress;
-  phone: number;
+  phone: string;
   budget: number;
   email: string;
   password: string;
