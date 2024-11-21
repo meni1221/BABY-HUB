@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import { IBabysitter } from "../interface/BabysitterType";
+import mongoose, { Schema } from 'mongoose';
+import { IBabysitter } from '../interface/BabysitterType';
 
 const BabysitterSchema: Schema = new Schema(
   {
@@ -16,7 +16,7 @@ const BabysitterSchema: Schema = new Schema(
     image: {
       type: String,
       default:
-        "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR7Ve418_z0FUjCaMMdgeBOxEnaX6wbhG8kY70C_7Hxeu8WJyzNg2PUg0VHIk9vdb1MdqCYRjbzpE3xkyLFJJLJPsKgzoNvCk5nQJusMavMfGGb3QLJw1Tv-xfdW8mfh6RcLJEHqERHmAA&usqp=CAc",
+        'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR7Ve418_z0FUjCaMMdgeBOxEnaX6wbhG8kY70C_7Hxeu8WJyzNg2PUg0VHIk9vdb1MdqCYRjbzpE3xkyLFJJLJPsKgzoNvCk5nQJusMavMfGGb3QLJw1Tv-xfdW8mfh6RcLJEHqERHmAA&usqp=CAc',
     },
     address: {
       type: String,
@@ -26,7 +26,7 @@ const BabysitterSchema: Schema = new Schema(
       type: String,
       required: true,
       // תבנית פשוטה למספר טלפון ישראלי
-      match: [/^0[2-9]\d{7,8}$/, "אנא הכנס מספר טלפון תקין"],
+      match: [/^0[2-9]\d{7,8}$/, 'אנא הכנס מספר טלפון תקין'],
     },
     email: {
       type: String,
@@ -62,4 +62,4 @@ const BabysitterSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.model<IBabysitter>("Babysitter", BabysitterSchema);
+export default mongoose.model<IBabysitter>('Babysitter', BabysitterSchema);
