@@ -32,8 +32,6 @@ const BabysitterSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // תבנית בסיסית לבדיקת אימייל
-      match: [/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "אנא הכנס אימייל תקין"],
     },
     preferences: {
       type: [String],
@@ -54,10 +52,10 @@ const BabysitterSchema: Schema = new Schema(
     budget: {
       type: Number,
     },
-    password:{
+    password: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
