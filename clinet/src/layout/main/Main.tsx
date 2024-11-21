@@ -7,7 +7,10 @@ interface Props {
 export default function Main({ children }: Props) {
   return (
     <>
-      <main>{children}</main>
+      <main>
+        <h1>Hello from main</h1>
+        {children}
+      </main>
     </>
   );
 }
