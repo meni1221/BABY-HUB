@@ -1,98 +1,79 @@
-// import { generateUserPassword } from "../../helpers/bcrypt";
-// import { handleBadRequest } from "../../utils/handleError";
-// import { IBabysitter } from "../interface/BabysitterType";
-// import IOrder from "../interface/orderType";
-// import orderModel from "../models/BabysitterModel";
+import { handleBadRequest } from "../../utils/handleError";
+import IOrder from "../interface/orderType";
+import orderModel from "../models/orderModel";
 
-// const addOrder = async (dataorder: IOrder) => {
-//   try {
-//     if (
-//       !dataorder.parent_id ||
-//       !dataorder.babysitter_id ||
-//       !dataorder.number_working 
-//     ) {
-//       throw new Error("One of the details is missing");
-//     }
-//     const newOrder = new BabysitterModel(dataBabysitter);
-//     newBabysitter.password = generateUserPassword(newBabysitter.password);
-//     await newBabysitter.save();
-//     return newBabysitter;
-//   } catch (error) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
+const addOrder = async (dataorder: IOrder) => {
+  try {
+    if (
+      !dataorder.parent_id ||
+      !dataorder.babysitter_id ||
+      !dataorder.number_working
+    ) {
+      throw new Error("One of the details is missing");
+    }
+    const newOrder = new orderModel(dataorder);
+    await newOrder.save();
+    return newOrder;
+  } catch (error) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
 
-// const getAllOrders = async () => {
-//   try {
-//     const babysitters = await BabysitterModel.find();
-//     return babysitters;
-//   } catch (error: any) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
+const getAllOrders = async () => {
+  try {
+    const orders = await orderModel.find();
+    return orders;
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
 
-// const getOrderById = async (babysitterId: string) => {
-//   try {
-//     const babysitter = await BabysitterModel.findById(babysitterId);
-//     if (!babysitter) {
-//       throw new Error("babysitter not found");
-//     }
-//     return babysitter;
-//   } catch (error: any) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
+const getOrderById = async (orderId: string) => {
+  try {
+    const order = await orderModel.findById(orderId);
+    if (!order) {
+      throw new Error("order not found");
+    }
+    return order;
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
 
-// const patchOrder = async (
-//   babysitterId: string,
-//   updateData: Partial<IBabysitter> 
-// ) => {
-//   try {
-//     if (updateData.password) {
-//       throw new Error("Password cannot be updated through this endpoint");
-//     }
+const patchOrder = async (orderId: string, updateData: Partial<IOrder>) => {
+  try {
+    const existingOrder = await orderModel.findById(orderId);
+    if (!existingOrder) {
+      throw new Error("order not found");
+    }
 
-//     const existingBabysitter = await BabysitterModel.findById(babysitterId);
-//     if (!existingBabysitter) {
-//       throw new Error("babysitter not found");
-//     }
+    const updatedOrder = await orderModel.findByIdAndUpdate(
+      orderId,
+      {
+        ...updateData,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-//     const updatedBabysitter = await BabysitterModel.findByIdAndUpdate(
-//       babysitterId,
-//       {
-//         ...updateData,
-//         password: existingBabysitter.password,
-//       },
-//       {
-//         new: true,
-//         runValidators: true,
-//       }
-//     );
+    return updatedOrder;
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
 
-//     return updatedBabysitter;
-//   } catch (error: any) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
+const deleteOrder = async (orderid: string) => {
+  try {
+    const deletedorder = await orderModel.findByIdAndDelete(orderid);
+    if (!deletedorder) {
+      throw new Error("order not found");
+    }
+    return { message: "order deleted successfully" };
+  } catch (error: any) {
+    return handleBadRequest("MongoDB", error);
+  }
+};
 
-// const deleteOrder = async (babysitterId: string) => {
-//   try {
-//     const deletedBabysitter = await BabysitterModel.findByIdAndDelete(
-//       babysitterId
-//     );
-//     if (!deletedBabysitter) {
-//       throw new Error("babysitter not found");
-//     }
-//     return { message: "babysitter deleted successfully" };
-//   } catch (error: any) {
-//     return handleBadRequest("MongoDB", error);
-//   }
-// };
-
-// export {
-//     addOrder,
-//     getAllOrders,
-//     getOrderById,
-//     patchOrder,
-//     deleteOrder
-// };
+export { addOrder, getAllOrders, getOrderById, patchOrder, deleteOrder };
