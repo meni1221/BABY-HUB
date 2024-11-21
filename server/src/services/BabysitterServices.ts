@@ -1,3 +1,4 @@
+import { generateUserPassword } from "../../helpers/bcrypt";
 import { handleBadRequest } from "../../utils/handleError";
 import  { IBabysitter } from "../interface/BabysitterType";
 import BabysitterModel from "../models/BabysitterModel";
@@ -16,7 +17,7 @@ const addBabysitter = async (dataBabysitter: IBabysitter) => {
       throw new Error("One of the details is missing");
     }
     const newBabysitter = new BabysitterModel(dataBabysitter)
-    // newBabysitter.password = generateUserPassword(newBabysitter.password);
+    newBabysitter.password = generateUserPassword(newBabysitter.password);
     await newBabysitter.save();
     return newBabysitter;
   } catch (error) {
