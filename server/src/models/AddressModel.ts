@@ -21,4 +21,4 @@ const adderssSchema: Schema = new Schema({
     maxlength: 3,
   },
 });
-export default mongoose.model<IAddress>("adderss", adderssSchema);
+export default adderssSchema
