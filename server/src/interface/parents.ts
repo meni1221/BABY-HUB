@@ -10,3 +10,4 @@ export interface IParents extends Document {
   password: string;
   isAdmin: boolean;
 }
+// export default mongoose.model<IParents>("User");

@@ -3,9 +3,12 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import router from "./src/routers/router";
 import cookieParser from "cookie-parser";
+import loadInitialData from "./src/initailData/initailData";
 
 
 const app: Express = express();
+
+loadInitialData().catch(console.error);
 
 app.use(express.json());
 app.use(cookieParser());
