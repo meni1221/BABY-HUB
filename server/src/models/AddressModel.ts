@@ -11,7 +11,7 @@ const adderssSchema: Schema = new Schema({
   street: {
     type: String,
     required: true,
-    minlength: 2,
+    minlength: 2, 
     maxlength: 20,
   },
   buildingNumber: {

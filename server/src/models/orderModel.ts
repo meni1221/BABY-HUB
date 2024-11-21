@@ -1,16 +1,18 @@
 import mongoose, { Schema } from "mongoose";
 import { IOrder } from "../interface/orderType";
+import parentModel from "../models/ParentsModel";
+import babysitterModel from "../models/BabysitterModel";
 
 const orderSchema: Schema = new Schema(
   {
     parent_id: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: parentModel,
       required: true,
-      minlength: 2,
-      maxlength: 50,
     },
     babysitter_id: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: babysitterModel,
       required: true,
     },
     number_working: {
