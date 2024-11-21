@@ -5,9 +5,9 @@ export default function useFetch<T>(url: string): any {
   const [error, setError] = useState<string | null>(null);
 
   //   --------------GET method--------------
-  const GET = async () => {
+  const GET = async (id?:string) => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(`${url}/${id}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`HTTP error! ${errorData.error.message}`);
