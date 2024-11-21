@@ -26,8 +26,8 @@ async function encryptPasswords(userData: any[]) {
  */
 async function loadInitialData() {
   // Read user data from JSON files
-  const userData = JSON.parse(fs.readFileSync("./parnts.json", "utf8"));
-  const babySitterData = JSON.parse(fs.readFileSync("./babySitter.json", "utf8"));
+  const userData = JSON.parse(fs.readFileSync("./data/parnts.json", "utf8"));
+  const babySitterData = JSON.parse(fs.readFileSync("./data//babySitter.json", "utf8"));
 
   if ((await Parnts.countDocuments()) === 0) {
     const encryptedUserData = await encryptPasswords(userData);

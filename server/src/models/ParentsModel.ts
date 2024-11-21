@@ -20,10 +20,8 @@ const ParentsSchema: Schema = new Schema({
     require: true,
   },
   phone: {
-    type: Number,
+    type: String,
     require: true,
-    // תבנית פשוטה למספר טלפון ישראלי
-    match: [/^0[2-9]\d{7,8}$/, "אנא הכנס מספר טלפון תקין"],
   },
   budget: {
     type: Number,
@@ -33,8 +31,6 @@ const ParentsSchema: Schema = new Schema({
     type: String,
     require: true,
     unique: true,
-    // תבנית בסיסית לבדיקת אימייל
-    match: [/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "אנא הכנס אימייל תקין"],
   },
   password: {
     type: String,
@@ -46,4 +42,4 @@ const ParentsSchema: Schema = new Schema({
   },
 });
 
-export default mongoose.model<IParents>("parents", ParentsSchema);
+export default mongoose.model<IParents>("Parents", ParentsSchema);
