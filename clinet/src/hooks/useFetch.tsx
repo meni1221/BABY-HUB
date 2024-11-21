@@ -7,6 +7,13 @@ export default function useFetch<T>(url: string): any {
   //   --------------GET method--------------
   const GET = async () => {
     try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! ${errorData.error.message}`);
+      }
+      const result = await response.json();
+      setData(result);
     } catch (error: unknown) {
       setError((error as Error).message || "An unknown error occurred.");
     }
