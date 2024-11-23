@@ -1,24 +1,10 @@
 import React, { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
+import { IParents } from "../../../interface/parents";
+import { IAddress } from "../../../interface/Aadress";
 
-interface IAddress extends Document {
-  city: string;
-  street: string;
-  buildingNumber: number;
-}
-
-interface IParent {
-  name: string;
-  amount: number;
-  address: IAddress;
-  phone: string;
-  budget: number;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-}
 export const RegisterParent = () => {
-  const { POST } = useFetch<IParent>("http://localhost:7700/");
+  const { POST } = useFetch<IParents>("http://localhost:7700/");
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
