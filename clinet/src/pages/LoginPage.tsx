@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
-  const [Choice, setChoice] = useState("parents");
+export const LoginPage = () => {
+  const [flag, setFlag] = useState(false);
+  const [endpoint, setEndpoint] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
+  const chooseURL = (endpointFromClient: string) => {
+    setFlag(true);
+    if (endpointFromClient === "/babysitter/login") {
+      setEndpoint(endpointFromClient);
+      console.log(endpointFromClient);
+      return;
+    }
+    setEndpoint("/parent/login");
+    console.log(endpoint);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,10 +25,16 @@ export default function LoginPage() {
     setError("");
   };
 
-
-  return;
-  <>
-  <form onSubmit={handleSubmit} className="login-form">
+  return (
+    <>
+      <div>
+        <button onClick={() => chooseURL("/babysitter/login")}>
+          login babysitter
+        </button>
+        <button onClick={() => chooseURL("/parent/login")}>login parent</button>
+      </div>
+      {flag && (
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="email">אימייל</label>
             <input
@@ -47,5 +63,7 @@ export default function LoginPage() {
 
           <button type="submit">Login</button>
         </form>
-  </>;
-}
+      )}
+    </>
+  );
+};

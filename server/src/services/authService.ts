@@ -1,6 +1,5 @@
 import { CookieOptions, Request, Response } from 'express';
 import { handleBadRequest } from '../../utils/handleError';
-import { IParents } from '../interface/parents';
 import ParentsSchema from '../models/ParentsModel';
 import { comparePassword } from '../../helpers/bcrypt';
 import { generateAuthToken } from '../../helpers/jwt';
