@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useFetch from "../../../hooks/useFetch";
 
 export interface IBabysitter extends Document {
   name: string;
@@ -17,6 +18,8 @@ export interface IBabysitter extends Document {
 }
 
 export const RegisterBaybisitter = () => {
+  const { POST } = useFetch<IBabysitter>("http://localhost:7700/");
+
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [image, setImage] = useState("");
@@ -37,6 +40,20 @@ export const RegisterBaybisitter = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    POST("/babysitter", {
+      name,
+      age,
+      image,
+      address,
+      phone,
+      email,
+      preferences,
+      experience,
+      about,
+      price,
+      budget,
+      password,
+    });
 
     setName("");
     setAge(0);

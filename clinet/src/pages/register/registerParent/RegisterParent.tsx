@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useFetch from "../../../hooks/useFetch";
 
 interface IAddress extends Document {
   city: string;
@@ -16,22 +17,42 @@ interface IParent {
   password: string;
   isAdmin: boolean;
 }
-
 export const RegisterParent = () => {
+  const { POST } = useFetch<IParent>("http://localhost:7700/");
+
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<IAddress>({
+    city: "Asdod",
+    street: "Ben Gurion",
+    buildingNumber: "15",
+  });
   const [phone, setPhone] = useState("");
   const [budget, setBudget] = useState(100);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [buildingNumber, setBuildingNumber] = useState(0);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setAddress({ city, street, buildingNumber });
+
+    POST("/parents", {
+      name,
+      amount,
+      address,
+      phone,
+      budget,
+      email,
+      password,
+    });
 
     setName("");
     setAmount(1);
-    setAddress("");
+    setAddress({});
     setPhone("");
     setBudget(100);
     setEmail("");
@@ -67,11 +88,27 @@ export const RegisterParent = () => {
           <div>
             <label htmlFor="address">address</label>
             <input
-              id="address"
+              id="city"
               type="text"
-              placeholder="הכנס את הכתובת שלך"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              placeholder="הכנס את העיר שלך"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+            <input
+              id="street"
+              type="text"
+              placeholder="הכנס את הרחוב שלך"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+              required
+            />
+            <input
+              id="buildingNumber"
+              type="number"
+              placeholder="הכנס את המספר בית שלך"
+              value={buildingNumber}
+              onChange={(e) => setBuildingNumber(Number(e.target.value))}
               required
             />
           </div>

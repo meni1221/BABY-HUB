@@ -1,11 +1,11 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 export default function useFetch<T>(url: string): any {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   //   --------------GET method--------------
-  const GET = async (id?:string) => {
+  const GET = async (id?: string) => {
     try {
       const response = await fetch(`${url}/${id}`);
       if (!response.ok) {
@@ -41,7 +41,7 @@ export default function useFetch<T>(url: string): any {
       const response = await fetch(`${url}/:${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", 
+        credentials: "include",
         body: JSON.stringify(body),
       });
       if (!response.ok) {
@@ -60,7 +60,7 @@ export default function useFetch<T>(url: string): any {
       const response = await fetch(`${url}/:${id}`, {
         method: "POT",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", 
+        credentials: "include",
       });
       if (!response.ok) {
         const errorData = await response.json();
