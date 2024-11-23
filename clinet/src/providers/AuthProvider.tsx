@@ -2,6 +2,11 @@ import { createContext, ReactNode, useState } from "react";
 import { IParents } from "../interface/parents";
 import IBabysitter from "../interface/BabySitter";
 
+interface UserDTO {
+  email: string;
+  password: string;
+}
+
 interface AuthContextType {
   user: IParents | IBabysitter | null;
 }
