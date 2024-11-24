@@ -46,8 +46,8 @@ console.log(user.password,findUser.password);
     if (!isPasswordCorrect) {
       throw new Error('Incorrect password or Email✍️');
     }
-
-    const { _id, isAdmin } = findUser;
+const isAdmin = false
+    const { _id } = findUser;
     let token = generateAuthToken({ _id, isAdmin });
 
     if (!cookieConfing) {
