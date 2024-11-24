@@ -4,7 +4,7 @@ import { RegisterBaybisitter } from "./registerBaybisitter/RegisterBaybisitter";
 import PageHeader from "../../componnets/PageHeader";
 
 export const Register = () => {
-  const [flag, setFlag] = useState("");
+  const [flag, setFlag] = useState("babysitter");
 
   return (
     <>
@@ -14,16 +14,16 @@ export const Register = () => {
       />
       <div>
         <button
-          className={flag === "parent" ? "selected" : ""}
-          onClick={() => setFlag("parent")}
-        >
-          register parent
-        </button>
-        <button
           className={flag === "babysitter" ? "selected" : ""}
           onClick={() => setFlag("babysitter")}
         >
           register babysitter
+        </button>
+        <button
+          className={flag === "parent" ? "selected" : ""}
+          onClick={() => setFlag("parent")}
+        >
+          register parent
         </button>
       </div>
       {flag === "parent" && <RegisterParent />}

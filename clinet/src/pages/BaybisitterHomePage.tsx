@@ -1,10 +1,23 @@
 // import React, { useContext } from "react";
 // import { AuthContext } from "../providers/AuthProvider";
-// import IBabysitter from "../interface/BabySitter";
 // import { NavLink } from "react-router-dom";
+// import useFetch from "../hooks/useFetch";
+// // import IBabysitter from "../interface/BabySitter";
+// // import { NavLink } from "react-router-dom";
 
+// interface IOrder {
+//   status: String;
+//   parent_id: string;
+//   babysitter_id: string;
+//   number_working: Number;
+//   expectations: String;
+// }
 // export const BaybisitterHomePage = () => {
 //   const { user } = useContext(AuthContext) ?? {};
+//   const { GET } = useFetch<IOrder>("http://localhost:7700/orders");
+
+//   const orders = GET();
+//   console.log(orders);
 
 //   return (
 //     <>
@@ -24,6 +37,13 @@
 //         <p>{`budget:${user?.budget}`}</p>
 //         <NavLink to={`babysitter/edit/${user!._id}`}>Edit babysitter</NavLink>
 //       </div>
+//       <div>
+//         {orders.map((order) => (
+//                 <p>{`parent:${order.}`}</p>
+//         ) )}
+//       </div>
 //     </>
 //   );
 // };
+
+// export default BaybisitterHomePage;
