@@ -43,8 +43,6 @@ const loginBabySitter = async (user: Parent, res: Response) => {
       throw new Error('Incorrect password or Email✍️');
     }
 const isAdmin = false
-    const { _id } = findUser;
-
 
     const { _id } = foundUser;
     let token = generateAuthToken({ _id, isAdmin });
