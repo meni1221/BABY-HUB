@@ -1,8 +1,9 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { IParents } from "../interface/parents";
 import IBabysitter from "../interface/BabySitter";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 interface UserDTO {
   email: string;
@@ -20,10 +21,49 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const { POST } = useFetch("http://localhost:7700");
+  const { POST, VerifyToken } = useFetch("http://localhost:7700");
   const [user, setUser] = useState<IParents | IBabysitter | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("auth_token");
+    console.log("1", token); // מציג את הטוקן
+
+    const verifyAndLogin = async () => {
+      if (token) {
+        try {
+          const decodedToken = await VerifyToken(token);
+          console.log("Decoded Token:", decodedToken);
+
+          const { email, password } = decodedToken.user;
+          console.log(email, password);
+
+          if (email && password) {
+            const success = await login({ email, password }, "babysitter");
+
+            if (!success) {
+              setUser(null);
+              Cookies.remove("auth_token");
+              navigate("/login");
+            }
+          } else {
+            Cookies.remove("auth_token");
+            navigate("/");
+          }
+        } catch (error) {
+          console.error("Error during token verification or login:", error);
+          setUser(null);
+          Cookies.remove("authToken");
+          navigate("/login");
+        }
+      } else {
+        setUser(null);
+      }
+    };
+
+    verifyAndLogin();
+  }, []);
 
   const clearError = () => setError(null);
 
