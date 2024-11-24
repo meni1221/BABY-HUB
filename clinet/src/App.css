@@ -90,13 +90,14 @@ button {
 }
 
 button:hover {
-  background-color: #c2a1ff;
+  background-color: #ff9ae6;
+  color: white;
 }
 
 button.selected {
   border: 2px solid #dec2ff;
-  background-color: black;
-  color: #dec2ff;
+  background-color: #ff9ae6;
+  color: white;
   font-weight: bold;
 }
 
@@ -111,30 +112,30 @@ button.selected:hover {
 .page-header {
   text-align: center;
   padding: 20px;
-  background-color: #f9f7fc; /* רקע לבן-סגלגל */
-  border: 1px solid #e2d9f3; /* מסגרת עדינה */
+  background-color: #f9f7fc;
+  border: 1px solid #e2d9f3;
   border-radius: 8px;
   margin: 20px auto;
   width: 600px;
-  height: 150px; /* גובה קבוע */
+  height: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* ממקם את התוכן במרכז אנכית */
-  align-items: center; /* ממקם את התוכן במרכז אופקית */
+  justify-content: center;
+  align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .page-header__title {
   font-size: 2rem;
   margin: 0;
-  color: #5e3a8c; /* סגול כהה */
+  color: #5e3a8c;
   font-weight: 600;
 }
 
 .page-header__subtitle {
   font-size: 1rem;
   margin: 5px 0 0;
-  color: #8c7aab; /* סגול עדין */
+  color: #8c7aab;
   font-weight: 400;
 }
 .logo {
@@ -155,10 +156,9 @@ button.selected:hover {
 }
 
 .nav .nav-link:hover {
-  color: #fff;
-  background-color: #ff9ae6;
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 5px solid #ff9ae6;
+  font-weight: bold;
+  transition: 0.5s;
 }
 
 .active {
