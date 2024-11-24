@@ -9,21 +9,21 @@ export const Register = () => {
   return (
     <>
       <PageHeader
-        title="register"
-        subtitle="Welcome to the parent/babysitter registration page"
+        title="Register"
+        subtitle="Welcome to the Registration page"
       />
       <div>
         <button
           className={flag === "babysitter" ? "selected" : ""}
           onClick={() => setFlag("babysitter")}
         >
-          register babysitter
+          Babysitter
         </button>
         <button
           className={flag === "parent" ? "selected" : ""}
           onClick={() => setFlag("parent")}
         >
-          register parent
+          Parent
         </button>
       </div>
       {flag === "parent" && <RegisterParent />}

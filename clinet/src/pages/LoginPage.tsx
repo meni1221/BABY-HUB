@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import PageHeader from "../componnets/PageHeader";
 
 export const LoginPage = () => {
   const userContext = useContext(AuthContext);
@@ -26,24 +27,29 @@ export const LoginPage = () => {
 
   return (
     <>
+      <PageHeader title="Login" subtitle="Welcome to the Login page" />
       <div>
         <button
           onClick={() => setCourentURL("babysitter")}
           className={courentURL === "babysitter" ? "selected" : ""}
         >
-          login babysitter
+          Babysitter
         </button>
         <button
           onClick={() => setCourentURL("parent")}
           className={courentURL === "parent" ? "selected" : ""}
         >
-          login parent
+          Parent
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="login-form">
+      <form
+        onSubmit={handleSubmit}
+        className="login-form"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <div className="form-group">
-          <label htmlFor="email">אימייל</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
@@ -55,7 +61,7 @@ export const LoginPage = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">סיסמה</label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"

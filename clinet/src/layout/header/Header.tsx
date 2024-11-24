@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import logo from "../../assets/logo.png";
+import TopNavLink from "../../componnets/TopNavLink";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext) ?? {};
@@ -9,23 +11,27 @@ export default function Header() {
     <div>
       <header className="nav-bar">
         <div className="nav left-side">
-          <Link to={"/"}>Home </Link>
-          <Link to={"/about"}>About </Link>
+          <TopNavLink to="/">Home</TopNavLink>
+          <TopNavLink to="/about">About</TopNavLink>
         </div>
-        <h1>BabyHub</h1>
+
+        <div className="logo-container ">
+          <Link to="/">
+            <img src={logo} alt="BabyHub Logo" className="logo" />
+          </Link>
+        </div>
+
         {!user && (
           <div className="nav right-side">
-            <Link to={"/login"} id="login-header">
-              Login
-            </Link>
-            <Link to={"/register"}> Register</Link>
+            <TopNavLink to="/login">Login</TopNavLink>
+            <TopNavLink to="/register">Register</TopNavLink>
           </div>
         )}
 
         {user && (
-          <span className="nav right-side" onClick={() => logout!()}>
-            <Link to={"/"}> Loguot</Link>
-          </span>
+          <div className="nav right-side" onClick={() => logout!()}>
+            <TopNavLink to="/">Logout</TopNavLink>
+          </div>
         )}
       </header>
     </div>
