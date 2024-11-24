@@ -1,11 +1,11 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 export default function useFetch<T>(url: string): any {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   //   --------------GET method--------------
-  const GET = async (id?:string) => {
+  const GET = async (id?: string) => {
     try {
       const response = await fetch(`${url}/${id}`);
       if (!response.ok) {
@@ -27,12 +27,18 @@ export default function useFetch<T>(url: string): any {
         credentials: "include",
         body: JSON.stringify(body),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error?.message || "Request failed");
       }
-    } catch (error: unknown) {
+
+      const result = await response.json();
+      setData(result);
+      return result;
+    } catch (error) {
       setError((error as Error).message || "An unknown error occurred.");
+      throw error;
     }
   };
   //   --------------PATCH method--------------
@@ -41,7 +47,7 @@ export default function useFetch<T>(url: string): any {
       const response = await fetch(`${url}/:${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", 
+        credentials: "include",
         body: JSON.stringify(body),
       });
       if (!response.ok) {
@@ -60,7 +66,7 @@ export default function useFetch<T>(url: string): any {
       const response = await fetch(`${url}/:${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", 
+        credentials: "include",
       });
       if (!response.ok) {
         const errorData = await response.json();
