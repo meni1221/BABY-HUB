@@ -1,6 +1,8 @@
 import { CookieOptions, Request, Response } from 'express';
 import { handleBadRequest } from '../../utils/handleError';
 import ParentsSchema from '../models/ParentsModel';
+import BabysitterSchema from '../models/BabysitterModel';
+
 import { comparePassword } from '../../helpers/bcrypt';
 import { generateAuthToken } from '../../helpers/jwt';
 
@@ -26,8 +28,10 @@ const loginBabySitter = async (user: Parent, res: Response) => {
     if (!user.email || !user.password) {
       throw new Error('Missing required fields✍️');
     }
+console.log(user.email ,user.password);
 
-    const findUser = await ParentsSchema.findOne({ email: user.email });
+    const findUser = await BabysitterSchema.findOne({ email: user.email });
+    
     if (!findUser) {
       throw new Error('Could not find this user in the database🔍❌');
     }
@@ -36,6 +40,9 @@ const loginBabySitter = async (user: Parent, res: Response) => {
       user.password,
       findUser.password,
     );
+console.log(user.password,findUser.password);
+
+
     if (!isPasswordCorrect) {
       throw new Error('Incorrect password or Email✍️');
     }

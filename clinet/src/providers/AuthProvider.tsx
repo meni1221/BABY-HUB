@@ -10,7 +10,7 @@ interface UserDTO {
 
 interface AuthContextType {
   user: IParents | IBabysitter | null;
-  login: (user: UserDTO) => Promise<boolean>;
+  login: (user: UserDTO,urlPath:string) => Promise<boolean>;
   logout: () => Promise<boolean>;
 }
 
@@ -22,9 +22,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   // -----------LOGIN-----------
-  const login = async (userClient: UserDTO): Promise<boolean> => {
+  const login = async (userClient: UserDTO,urlPath:string): Promise<boolean> => {
     try {
-      const userData = await POST("auth/login", userClient);
+      const userData = await POST(`auth/login/${urlPath}`, userClient);
       setUser(userData.foundUser);
       return true;
     } catch (error) {
