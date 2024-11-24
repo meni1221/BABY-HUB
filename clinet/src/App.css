@@ -21,6 +21,7 @@ header {
   text-align: center;
   padding: 15px;
   font-weight: 600;
+  text-shadow: #333;
 }
 
 main {
@@ -40,4 +41,18 @@ footer {
   text-align: center;
   padding: 15px;
   font-size: 0.8em;
+}
+
+.login-register {
+  text-align: right;
+}
+
+.home-about {
+  text-align: left;
+}
+
+.nav-bar{
+  display: flex;
+  justify-content: space-between;
+  
 }

@@ -10,10 +10,10 @@ export default function Main({ children }: Props) {
   return (
     <>
       <main>
-        <h1>Hello from main</h1>
         {children}
-        <Register />
-        <LoginPage />
+        {/* <h1>Hello from main</h1> */}
+        {/* <Register /> */}
+        {/* <LoginPage /> */}
       </main>
     </>
   );
