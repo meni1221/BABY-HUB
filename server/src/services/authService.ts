@@ -28,33 +28,29 @@ const loginBabySitter = async (user: Parent, res: Response) => {
     if (!user.email || !user.password) {
       throw new Error('Missing required fields✍️');
     }
-console.log(user.email ,user.password);
+    console.log(user.email, user.password);
 
-    const findUser = await BabysitterSchema.findOne({ email: user.email });
-    
-    if (!findUser) {
+    const foundUser = await BabysitterSchema.findOne({ email: user.email });
+
+    if (!foundUser) {
       throw new Error('Could not find this user in the database🔍❌');
     }
 
-    const isPasswordCorrect = await comparePassword(
-      user.password,
-      findUser.password,
-    );
-console.log(user.password,findUser.password);
-
+    const isPasswordCorrect = await comparePassword(user.password, foundUser.password);
+    console.log(user.password, foundUser.password);
 
     if (!isPasswordCorrect) {
       throw new Error('Incorrect password or Email✍️');
     }
 
-    const { _id, isAdmin } = findUser;
+    const { _id, isAdmin } = foundUser;
     let token = generateAuthToken({ _id, isAdmin });
 
     if (!cookieConfing) {
       throw new Error('Cookie configuration is missing🍪');
     }
     res.cookie('auth_token', token, cookieConfing);
-    return { findUser, token };
+    return { foundUser, token };
   } catch (error: any) {
     error.status = 400;
     return handleBadRequest('MongoDN', error);
@@ -68,27 +64,24 @@ const loginParent = async (user: UserDTO, res: Response) => {
       throw new Error('Missing required fields✍️');
     }
 
-    const findUser = await ParentsSchema.findOne({ email: user.email });
-    if (!findUser) {
+    const foundUser = await ParentsSchema.findOne({ email: user.email });
+    if (!foundUser) {
       throw new Error('Could not find this user in the database🔍❌');
     }
 
-    const isPasswordCorrect = await comparePassword(
-      user.password,
-      findUser.password,
-    );
+    const isPasswordCorrect = await comparePassword(user.password, foundUser.password);
     if (!isPasswordCorrect) {
       throw new Error('Incorrect password or Email✍️');
     }
 
-    const { _id, isAdmin } = findUser;
+    const { _id, isAdmin } = foundUser;
     let token = generateAuthToken({ _id, isAdmin });
 
     if (!cookieConfing) {
       throw new Error('Cookie configuration is missing🍪');
     }
     res.cookie('auth_token', token, cookieConfing);
-    return { findUser, token };
+    return { foundUser, token };
   } catch (error: any) {
     error.status = 400;
     return handleBadRequest('MongoDB', error);

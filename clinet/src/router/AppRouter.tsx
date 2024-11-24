@@ -1,5 +1,3 @@
 export default function AppRouter() {
-  return <div>
-    
-  </div>;
+  return <div></div>;
 }

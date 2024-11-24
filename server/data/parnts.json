@@ -5,7 +5,7 @@
       "address": {
         "street": "Rav Kook",
         "city": "Bnei Brak",
-        "zip": "51224"
+        "buildingNumber": "51224"
       },
       "phone": "0547771234",
       "budget": 8000,
@@ -19,7 +19,7 @@
       "address": {
         "street": "Shomrei Emunim",
         "city": "Jerusalem",
-        "zip": "91111"
+        "buildingNumber": "91111"
       },
       "phone": "0526654321",
       "budget": 5000,
@@ -33,7 +33,7 @@
       "address": {
         "street": "Vizhnitz",
         "city": "Elad",
-        "zip": "40824"
+        "buildingNumber": "40824"
       },
       "phone": "0509876543",
       "budget": 10000,
@@ -47,7 +47,7 @@
       "address": {
         "street": "Rashi",
         "city": "Beitar Illit",
-        "zip": "60832"
+        "buildingNumber": "60832"
       },
       "phone": "0534567890",
       "budget": 7000,

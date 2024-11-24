@@ -4,15 +4,11 @@ import { IParents } from "../../../interface/parents";
 import { IAddress } from "../../../interface/Aadress";
 
 export const RegisterParent = () => {
-  const { POST } = useFetch<IParents>("http://localhost:7700/");
+  const { POST } = useFetch<IParents>("http://localhost:7700");
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
-  const [address, setAddress] = useState<IAddress>({
-    city: "Asdod",
-    street: "Ben Gurion",
-    buildingNumber: "15",
-  });
+  // const [address, setAddress] = useState<IAddress | null>(null);
   const [phone, setPhone] = useState("");
   const [budget, setBudget] = useState(100);
   const [email, setEmail] = useState("");
@@ -24,9 +20,9 @@ export const RegisterParent = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setAddress({ city, street, buildingNumber });
+    const address = { city, street, buildingNumber };
 
-    POST("/parents", {
+    POST("parents", {
       name,
       amount,
       address,
@@ -38,7 +34,6 @@ export const RegisterParent = () => {
 
     setName("");
     setAmount(1);
-    setAddress({});
     setPhone("");
     setBudget(100);
     setEmail("");
