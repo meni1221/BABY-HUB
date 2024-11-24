@@ -17,13 +17,13 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const { POST, data } = useFetch("http://localhost:7700");
+  const { POST } = useFetch("http://localhost:7700");
   const [user, setUser] = useState<IParents | IBabysitter | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    console.log(error);
+  }, [error]);
 
   // -----------LOGIN-----------
   const login = async (
@@ -36,7 +36,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setUser(userData.foundUser);
       return true;
     } catch (error) {
-      setError("Login failed. Please try again.");
+      setError(`Login failed. Please try again ${error}`);
       return false;
     }
   };
@@ -49,7 +49,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       return true;
     } catch (error) {
-      setError("Logout failed. Please try again");
+      setError(`Logout failed. Please try again ${error}`);
       return false;
     }
   };

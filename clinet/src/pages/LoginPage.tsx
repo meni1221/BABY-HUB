@@ -27,10 +27,18 @@ export const LoginPage = () => {
   return (
     <>
       <div>
-        <button onClick={() => setCourentURL("babysitter")}>
+        <button
+          onClick={() => setCourentURL("babysitter")}
+          className={courentURL === "babysitter" ? "selected" : ""}
+        >
           login babysitter
         </button>
-        <button onClick={() => setCourentURL("parent")}>login parent</button>
+        <button
+          onClick={() => setCourentURL("parent")}
+          className={courentURL === "parent" ? "selected" : ""}
+        >
+          login parent
+        </button>
       </div>
 
       <form onSubmit={handleSubmit} className="login-form">
@@ -51,7 +59,7 @@ export const LoginPage = () => {
           <input
             id="password"
             type="password"
-            placeholder="Please enter an password"
+            placeholder="Please enter a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
