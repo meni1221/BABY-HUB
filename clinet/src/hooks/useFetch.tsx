@@ -93,7 +93,7 @@ export default function useFetch<T>(url: string): any {
     }
   };
 
-  const VerifyToken = async (token: any) => {
+  const VerifyToken = async () => {
     try {
       const response = await fetch("http://localhost:7700/auth/verifyUser", {
         method: "POST",

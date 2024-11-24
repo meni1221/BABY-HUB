@@ -33,7 +33,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const verifyAndLogin = async () => {
       if (token) {
         try {
-          const decodedToken = await VerifyToken(token);
+          const decodedToken = await VerifyToken();
           console.log("Decoded Token:", decodedToken);
 
           const { email, password } = decodedToken.user;
