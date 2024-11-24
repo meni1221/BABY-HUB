@@ -35,7 +35,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const userData = await POST(`auth/login/${urlPath}`, userClient);
 
       setUser(userData.foundUser);
-      navigate(`/${urlPath}`);
+      navigate(`${urlPath}`);
       return true;
     } catch (error) {
       setError(`Login failed. Please try again ${error}`);

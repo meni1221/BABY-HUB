@@ -58,7 +58,7 @@ export default function useFetch<T>(url: string): any {
   //   --------------PATCH method--------------
   const PATCH = async (id: string, body: any) => {
     try {
-      const response = await fetch(`${url}/:${id}`, {
+      const response = await fetch(`${url}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -69,6 +69,7 @@ export default function useFetch<T>(url: string): any {
         throw new Error(`error is: ${errorData.error.message}`);
       }
       const result = await response.json();
+
       setData(result);
     } catch (error: unknown) {
       setError((error as Error).message || "An unknown error occurred.");
@@ -92,5 +93,5 @@ export default function useFetch<T>(url: string): any {
       setError((error as Error).message);
     }
   };
-  return { data, error, GET, POST, PATCH, DELETE,GETOne };
+  return { data, error, GET, POST, PATCH, DELETE, GETOne };
 }

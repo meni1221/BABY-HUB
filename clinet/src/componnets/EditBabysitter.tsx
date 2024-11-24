@@ -8,7 +8,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
-  const { PATCH } = useFetch<IBabysitter>("http://localhost:7700");
+  const { PATCH } = useFetch<IBabysitter>("http://localhost:7700/babysitter");
 
   //   const navigate = useNavigate();
   const { id } = useParams();
@@ -26,18 +26,20 @@ export const EditBabysitter = () => {
   const [price, setPrice] = useState(0);
   const [budget, setBudget] = useState(100);
 
+  const userBabysitter = user as IBabysitter;
+
   useEffect(() => {
-    setName(user?.name);
-    setAge(user.age);
-    setImage(user.image);
-    setAddress(user.address);
-    setPhone(user.phone);
-    setEmail(user.email);
-    setPreferences(user.preferences);
-    setExperience(user.experience);
-    setAbout(user.about);
-    setPrice(user.price);
-    setBudget(user.budget);
+    setName(userBabysitter?.name);
+    setAge(userBabysitter.age);
+    setImage(userBabysitter.image);
+    setAddress(userBabysitter.address);
+    setPhone(userBabysitter.phone);
+    setEmail(userBabysitter.email);
+    setPreferences(userBabysitter.preferences);
+    setExperience(userBabysitter.experience);
+    setAbout(userBabysitter.about);
+    setPrice(userBabysitter.price);
+    setBudget(userBabysitter.budget);
   }, []);
 
   const addpreferences = (newPpreferences: string) => {
@@ -47,7 +49,7 @@ export const EditBabysitter = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    PATCH(`babysitter/${id}`, {
+    PATCH(id, {
       name,
       age,
       image,
