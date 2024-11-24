@@ -87,4 +87,62 @@ const deleteBabysitter = async (babysitterId: string) => {
   }
 };
 
-export { addBabysitter, getAllBabysitters, getBabysitterById, patchBabysitter, deleteBabysitter };
+const addReviewToBabysitter = async (
+  babysitterId: string,
+  review: { userId: string; comment: string; rating: number }
+) => {
+  try {
+    const babysitter = await BabysitterModel.findById(babysitterId);
+    if (!babysitter) {
+      throw new Error('Babysitter not found');
+    }
+
+    babysitter.reviews.push({
+      ...review,
+      createdAt: new Date(),
+    });
+
+    await babysitter.save();
+    return babysitter;
+  } catch (error: any) {
+    return handleBadRequest('MongoDB', error);
+  }
+};
+const getBabysitterReviews = async (babysitterId: string) => {
+  try {
+    const babysitter = await BabysitterModel.findById(babysitterId).select('reviews');
+    if (!babysitter) {
+      throw new Error('Babysitter not found');
+    }
+    return babysitter.reviews;
+  } catch (error: any) {
+    return handleBadRequest('MongoDB', error);
+  }
+};
+const deleteReviewFromBabysitter = async (babysitterId: string, reviewId: string) => {
+  try {
+    const babysitter = await BabysitterModel.findById(babysitterId);
+    if (!babysitter) {
+      throw new Error('Babysitter not found');
+    }
+
+    babysitter.reviews = babysitter.reviews.filter(
+      (review: any) => review._id.toString() !== reviewId
+    );
+
+    await babysitter.save();
+    return babysitter;
+  } catch (error: any) {
+    return handleBadRequest('MongoDB', error);
+  }
+};
+export {
+  addBabysitter,
+  getAllBabysitters,
+  getBabysitterById,
+  patchBabysitter,
+  deleteBabysitter,
+  addReviewToBabysitter,
+  getBabysitterReviews,
+  deleteReviewFromBabysitter,
+};
