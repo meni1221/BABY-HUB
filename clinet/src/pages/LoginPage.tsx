@@ -1,21 +1,24 @@
 import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const [flag, setFlag] = useState(false);
   const [endpoint, setEndpoint] = useState("");
 
+  const [Choice, setChoice] = useState("parents");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  // const navigate = useNavigate();
 
   const chooseURL = (endpointFromClient: string) => {
     setFlag(true);
-    if (endpointFromClient === "/babysitter/login") {
+    if (endpointFromClient === "/login/babysitter") {
       setEndpoint(endpointFromClient);
       console.log(endpointFromClient);
       return;
     }
-    setEndpoint("/parent/login");
+    setEndpoint("/login/parent");
     console.log(endpoint);
   };
 
