@@ -13,8 +13,16 @@ export const Register = () => {
         subtitle="Welcome to the parent/babysitter registration page"
       />
       <div>
-        <button onClick={() => setFlag("parent")}>register parent</button>
-        <button onClick={() => setFlag("babysitter")}>
+        <button
+          className={flag === "parent" ? "selected" : ""}
+          onClick={() => setFlag("parent")}
+        >
+          register parent
+        </button>
+        <button
+          className={flag === "babysitter" ? "selected" : ""}
+          onClick={() => setFlag("babysitter")}
+        >
           register babysitter
         </button>
       </div>
