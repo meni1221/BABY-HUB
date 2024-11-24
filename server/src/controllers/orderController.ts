@@ -1,16 +1,16 @@
-import express, { IRouter, Request, Response } from "express";
-import { handleError } from "../../utils/handleError";
+import express, { IRouter, Request, Response } from 'express';
+import { handleError } from '../../utils/handleError';
 import {
   addOrder,
   getAllOrders,
   getOrderById,
   patchOrder,
   deleteOrder,
-} from "../services/orderService";
+} from '../services/orderService';
 
 const router: IRouter = express.Router();
 
-router.post("/", async (req: Request, res: Response): Promise<void> => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const order = await addOrder(req.body);
     res.status(201).json(order);
@@ -19,7 +19,7 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.get("/", async (req: Request, res: Response): Promise<void> => {
+router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const orders = await getAllOrders();
     res.status(201).json(orders);
@@ -28,7 +28,7 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.get("/:id", async (req: Request, res: Response): Promise<void> => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const order = await getOrderById(req.params.id);
     res.status(201).json(order);
@@ -37,7 +37,7 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.patch("/:id", async (req: Request, res: Response): Promise<void> => {
+router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const updatedOrder = await patchOrder(req.params.id, req.body);
     res.json(updatedOrder);
@@ -46,7 +46,7 @@ router.patch("/:id", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
+router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const deletedOrder = await deleteOrder(req.params.id);
     res.json(deletedOrder);
