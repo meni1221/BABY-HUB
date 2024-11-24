@@ -3,7 +3,7 @@ import useFetch from "../../../hooks/useFetch";
 import IBabysitter from "../../../interface/BabySitter";
 
 export const RegisterBaybisitter = () => {
-  const { POST } = useFetch<IBabysitter>("http://localhost:7700/");
+  const { POST } = useFetch<IBabysitter>("http://localhost:7700");
 
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
@@ -25,7 +25,7 @@ export const RegisterBaybisitter = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    POST("/babysitter", {
+    POST("babysitter", {
       name,
       age,
       image,
