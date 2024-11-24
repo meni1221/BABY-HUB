@@ -58,7 +58,7 @@ export default function useFetch<T>(url: string): any {
   const DELETE = async (id: string) => {
     try {
       const response = await fetch(`${url}/:${id}`, {
-        method: "POT",
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include", 
       });
