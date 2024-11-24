@@ -42,8 +42,9 @@ const loginBabySitter = async (user: Parent, res: Response) => {
     if (!isPasswordCorrect) {
       throw new Error('Incorrect password or Email✍️');
     }
+const isAdmin = false
 
-    const { _id, isAdmin } = foundUser;
+    const { _id } = foundUser;
     let token = generateAuthToken({ _id, isAdmin });
 
     if (!cookieConfing) {

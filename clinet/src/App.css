@@ -16,6 +16,7 @@ header {
   text-align: center;
   padding: 15px;
   font-weight: 600;
+  text-shadow: #333;
 }
 
 main {
@@ -36,6 +37,7 @@ footer {
   padding: 15px;
   font-size: 0.8em;
 }
+
 
 form {
   display: grid;
