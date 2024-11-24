@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
-import { IParents } from "../interface/parents";
-import AdderssSchema from "../models/AddressModel";
+import mongoose, { Schema } from 'mongoose';
+import { IParents } from '../interface/parents';
+import AdderssSchema from '../models/AddressModel';
 
 const ParentsSchema: Schema = new Schema({
   name: {
@@ -11,35 +11,50 @@ const ParentsSchema: Schema = new Schema({
   },
   amount: {
     type: Number,
-    require: true,
+    required: true,
     minlength: 1,
     maxlength: 21,
   },
   address: {
-    type: { AdderssSchema },
-    require: true,
+    city: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 20,
+    },
+    street: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 20,
+    },
+    buildingNumber: {
+      type: Number,
+      required: true,
+      minlength: 1,
+      maxlength: 3,
+    },
   },
   phone: {
     type: String,
-    require: true,
+    required: true,
   },
   budget: {
     type: Number,
-    require: true,
+    required: true,
   },
+
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   isAdmin: {
     type: Boolean,
-    require: true,
   },
 });
-
-export default mongoose.model<IParents>("Parents", ParentsSchema);
+export default mongoose.model<IParents>('Parents', ParentsSchema);
