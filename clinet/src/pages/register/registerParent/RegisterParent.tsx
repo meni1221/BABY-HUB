@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { IParents } from "../../../interface/parents";
-import { IAddress } from "../../../interface/Aadress";
 
 export const RegisterParent = () => {
   const { POST } = useFetch<IParents>("http://localhost:7700");

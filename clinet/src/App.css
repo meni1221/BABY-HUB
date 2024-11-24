@@ -8,11 +8,6 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #f9f9f9;
   color: #333;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* min-width: 100vh; */
-  /* margin: 0; */
 }
 
 header {
@@ -43,16 +38,65 @@ footer {
   font-size: 0.8em;
 }
 
-.login-register {
-  text-align: right;
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
 }
 
-.home-about {
-  text-align: left;
+/* עיצוב לכל שדה טופס */
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
 }
 
-.nav-bar{
-  display: flex;
-  justify-content: space-between;
-  text-decoration: none;
+input,
+textarea,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+textarea {
+  grid-column: span 2; /* שדה טקסט ייקח שתי עמודות */
+  height: 120px;
+}
+
+button {
+  background-color: #dec2ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  grid-column: span 2;
+}
+
+button:hover {
+  background-color: #c2a1ff;
+}
+
+button.selected {
+  border: 2px solid #dec2ff;
+  background-color: black;
+  color: #dec2ff;
+  font-weight: bold;
+}
+
+/* אם הכפתור נבחר */
+button.selected:hover {
+  color: white;
 }
