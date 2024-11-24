@@ -17,6 +17,10 @@ header {
   padding: 15px;
   font-weight: 600;
   text-shadow: #333;
+  display: flex;
+  justify-content: space-between; /* מיישר את התוכן בין שני צדדים */
+  align-items: center;
+  color: white;
 }
 
 main {
@@ -37,7 +41,6 @@ footer {
   padding: 15px;
   font-size: 0.8em;
 }
-
 
 form {
   display: grid;
@@ -96,7 +99,11 @@ button.selected {
   font-weight: bold;
 }
 
-/* אם הכפתור נבחר */
 button.selected:hover {
   color: white;
+}
+.nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 150px;
 }

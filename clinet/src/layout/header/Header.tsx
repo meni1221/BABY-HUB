@@ -8,21 +8,22 @@ export default function Header() {
   return (
     <div>
       <header className="nav-bar">
-        <div className="home-about">
+        <div className="nav left-side">
           <Link to={"/"}>Home </Link>
           <Link to={"/about"}>About </Link>
         </div>
-        <h1>Hello from header</h1>
+        <h1>BabyHub</h1>
         {!user && (
-          <div className="login-register">
+          <div className="nav right-side">
             <Link to={"/login"} id="login-header">
               Login
             </Link>
             <Link to={"/register"}> Register</Link>
           </div>
         )}
+
         {user && (
-          <span onClick={() => logout!()}>
+          <span className="nav right-side" onClick={() => logout!()}>
             <Link to={"/"}> Loguot</Link>
           </span>
         )}
