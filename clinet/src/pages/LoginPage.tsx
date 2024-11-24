@@ -1,42 +1,40 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 export const LoginPage = () => {
-  const [flag, setFlag] = useState(false);
-  const [endpoint, setEndpoint] = useState("");
-
-  const [Choice, setChoice] = useState("parents");
+  const userContext = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // const navigate = useNavigate();
+  const [courentURL, setCourentURL] = useState("");
 
-  const chooseURL = (endpointFromClient: string) => {
-    setFlag(true);
-    if (endpointFromClient === "/login/babysitter") {
-      setEndpoint(endpointFromClient);
-      console.log(endpointFromClient);
-      return;
-    }
-    setEndpoint("/login/parent");
-    console.log(endpoint);
-  };
+useEffect(() => {
+console.log(courentURL);
+
+}, [courentURL])
+
 
   const handleSubmit = async (e: React.FormEvent) => {
+    if (!userContext) {
+      return <p>Error: User context is not available.</p>;
+    }
+    
     e.preventDefault();
-
-    setError("");
+    console.log("TAKTAKTAK" + courentURL);
+    
+    userContext.login({email,password},courentURL)
+    setError(" ");
   };
 
   return (
     <>
       <div>
-        <button onClick={() => chooseURL("/babysitter/login")}>
+        <button onClick={() => setCourentURL("babysitter")}>
           login babysitter
         </button>
-        <button onClick={() => chooseURL("/parent/login")}>login parent</button>
+        <button onClick={() => setCourentURL("parent")}>login parent</button>
       </div>
-      {flag && (
+     
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="email">אימייל</label>
@@ -66,7 +64,7 @@ export const LoginPage = () => {
 
           <button type="submit">Login</button>
         </form>
-      )}
+
     </>
   );
 };
