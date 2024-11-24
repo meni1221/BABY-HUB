@@ -3,14 +3,16 @@
 // import IBabysitter from "../interface/BabySitter";
 // // import { useNavigate, useParams } from "react-router-dom";
 // import { AuthContext } from "../providers/AuthProvider";
-// import { useNavigate, useParams } from "react-router-dom";
+// import { Navigate, useNavigate, useParams } from "react-router-dom";
+// // import { useNavigate, useParams } from "react-router-dom";
 
 // export const EditBabysitter = () => {
 //   const { user } = useContext(AuthContext) ?? {};
-//   const { PATCH } = useFetch<IBabysitter>("http://localhost:3001");
+//   const { PATCH } = useFetch<IBabysitter>("http://localhost:7700");
 
+//   //   const navigate = useNavigate();
+//   const { id } = useParams();
 //   const navigate = useNavigate();
-//   const { _id } = useParams();
 
 //   const [name, setName] = useState("");
 //   const [age, setAge] = useState(0);
@@ -45,7 +47,7 @@
 
 //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 //     e.preventDefault();
-//     PATCH({
+//     PATCH(`babysitter/${id}`, {
 //       name,
 //       age,
 //       image,
@@ -58,7 +60,7 @@
 //       price,
 //       budget,
 //     });
-//     // navigate("/users/display");
+//     navigate("/babysitter");
 //   };
 //   return (
 //     <>
@@ -188,7 +190,7 @@
 //             required
 //           />
 //         </div>
-//         <button type="submit">Add New Babysitter</button>
+//         <button type="submit">Edit Babysitter</button>
 //       </form>
 //     </>
 //   );
