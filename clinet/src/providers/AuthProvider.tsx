@@ -41,7 +41,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
           const { email, password } = decodedToken.user;
           let success = false;
-
           try {
             const loginPath =
               tokenRole === "babysitter" ? "babysitter" : "parent";
