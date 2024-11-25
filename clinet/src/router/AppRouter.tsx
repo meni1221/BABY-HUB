@@ -7,6 +7,7 @@ import ParentPage from "../pages/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../componnets/EditBabysitter";
 import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
+import ErrorPage from "../pages/ErrorPage";
 
 export default function AppRouter() {
   return (
@@ -20,7 +21,7 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/parent" element={<ParentPage />} />
         <Route path="/display/:id" element={<DisplayBabisitterPage />} />
-
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

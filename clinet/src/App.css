@@ -103,6 +103,35 @@ button.selected {
 button.selected:hover {
   color: white;
 }
+.star,.contenerStarChecked {
+  width: 30px;
+  height: 30px;
+  /* background-color: black; */
+  /* color: black; */
+  border: 15.6px solid rgb(6, 6, 6);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  /* clip-path מגדיר את הצורה של כוכב */
+}
+.contenerStar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenerStarChecked{
+   background-color: gold;
+   border: none;}
 .nav {
   display: flex;
   justify-content: space-evenly;
@@ -165,6 +194,7 @@ button.selected:hover {
   border-bottom: 5px solid #ff9ae6;
   font-weight: bold;
 }
+
 .card-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
