@@ -42,7 +42,6 @@ export default function Header() {
         )}
 
         {user && (
-
           <div className="nav right-side" onClick={() => logout!()}>
             <TopNavLink to="/">Logout</TopNavLink>
           </div>
