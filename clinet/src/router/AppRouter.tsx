@@ -6,6 +6,7 @@ import AboutPage from "../pages/AboutPage";
 import ParentPage from "../pages/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../componnets/EditBabysitter";
+import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
 
 export default function AppRouter() {
   return (
@@ -18,6 +19,8 @@ export default function AppRouter() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/parent" element={<ParentPage />} />
+        <Route path="/display/:id" element={<DisplayBabisitterPage />} />
+
       </Routes>
     </div>
   );
