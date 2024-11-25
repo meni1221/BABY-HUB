@@ -39,8 +39,9 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
-    const updatedOrder = await patchOrder(req.params.id, req.body);
-    res.json(updatedOrder);
+    await patchOrder(req.params.id, req.body);
+    const all = await getAllOrders();
+    res.json(all);
   } catch (error: any) {
     handleError(res, error.status || 404, error.message);
   }

@@ -18,10 +18,13 @@ interface IOrder {
 }
 
 export const BaybisitterHomePage = () => {
+  const [status, setStatus] = useState("waiting");
+  const [buttonStatus, setButtonStatus] = useState("");
+
   const { user } = useContext(AuthContext) ?? {};
   //   const [newBabysitter, setnewBabysitter] = useState({}) ?? {};
   const [orders, setorders] = useState<IOrder[]>([]);
-  const { GET, data } = useFetch<IOrder>("http://localhost:7700/orders");
+  const { GET, data, PATCH } = useFetch<IOrder>("http://localhost:7700/orders");
 
   const userBabysitter = user as IBabysitter;
 
@@ -31,16 +34,31 @@ export const BaybisitterHomePage = () => {
 
   useEffect(() => {
     if (data) {
-      return setorders([data]);
+      console.log({ data });
+      return setorders(data);
     } else {
       console.log("No data Brooooo...");
     }
   }, [data]);
 
-  const orderToBabysitter: IOrder[] = orders.filter(
-    (order) => order.babysitter_id !== userBabysitter!._id
+  const orderToBabysitter = orders?.filter(
+    (order) => order.babysitter_id == userBabysitter!._id
   );
-  console.log(orderToBabysitter);
+  console.log({ orderToBabysitter, userBabysitter });
+
+  const statusUpdate = (orderid: string) => {
+    if (status === "waiting") {
+      setStatus("approved");
+    }
+    if (status === "approved") {
+      setStatus("Done");
+    }
+    if (status === "Done") {
+      setStatus("rejected");
+    }
+
+    PATCH(orderid, { status });
+  };
 
   return (
     <>
@@ -64,14 +82,18 @@ export const BaybisitterHomePage = () => {
         <div>
           <PageHeader title="order" subtitle="order to babysitter" />
           {orders.length > 0 &&
-            orderToBabysitter.map((order) => (
+            orderToBabysitter?.map((order) => (
               <div>
                 <p key={order.babysitter_id}>Order Status: {order.status}</p>
                 <p>Order to babysitter: {order.babysitter_id}</p>
                 <p>Order from parent: {order.parent_id}</p>
                 <p>Order number_working: {Number(order.number_working)}</p>
+                <button onClick={() => statusUpdate(order._id)}>
+                  {order.status}
+                </button>
               </div>
             ))}
+          {orders.length === 0 && <h1>Sorry but there no orders</h1>}
         </div>
       </div>
     </>
