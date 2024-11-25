@@ -10,7 +10,6 @@ const router: IRouter = express.Router();
 router.use('/orders', orderController);
 router.use('/babysitter', BabysitterController);
 router.use('/parents', ParentsControler);
-
 router.use('/auth', AuthController);
 
 export default router;

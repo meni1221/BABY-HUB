@@ -23,7 +23,12 @@ export default function Header() {
         )}
         {user && (
           <span onClick={() => logout!()}>
-            <Link to={"/"}> Loguot</Link>
+            <Link to={"/"}>Loguot </Link>
+          </span>
+        )}
+        {user && (
+          <span>
+            <Link to={"/addc"}>Add reviews </Link>
           </span>
         )}
       </header>
