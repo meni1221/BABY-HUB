@@ -1,11 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import logo from "../../assets/logo.png";
+import Cookies from "js-cookie";
 import TopNavLink from "../../componnets/TopNavLink";
-import { Link } from "react-router-dom";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext) ?? {};
+  const [tokenRole, setTokenRole] = useState("");
+
+  useEffect(() => {
+    const role = Cookies.get("role");
+    setTokenRole(role || "");
+  }, []);
 
   return (
     <div>
@@ -13,9 +20,15 @@ export default function Header() {
         <div className="nav left-side">
           <TopNavLink to="/">Home</TopNavLink>
           <TopNavLink to="/about">About</TopNavLink>
+          {user &&
+            (tokenRole === "babysitter" ? (
+              <TopNavLink to="/babysitter">Dashboard</TopNavLink>
+            ) : (
+              <TopNavLink to="/parent">Babysitters</TopNavLink>
+            ))}
         </div>
 
-        <div className="logo-container ">
+        <div className="logo-container">
           <Link to="/">
             <img src={logo} alt="BabyHub Logo" className="logo" />
           </Link>

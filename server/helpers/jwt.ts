@@ -41,7 +41,6 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       message: 'Access denied. No token provided😔',
     });
   }
-
   try {
     const decoded = jwt.verify(token, SECRET_KEY, {
       algorithms: ['HS256'],

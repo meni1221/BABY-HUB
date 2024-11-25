@@ -15,8 +15,8 @@ export default function AppRouter() {
     <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/babysitter" element={<BaybisitterHomePage />} />
-        <Route path="babysitter/Edit/:id" element={<EditBabysitter />} />
+        <Route path="/babysitter/*" element={<BaybisitterHomePage />} />
+        <Route path="/Edit/:id" element={<EditBabysitter />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />

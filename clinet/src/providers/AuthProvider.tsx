@@ -24,42 +24,49 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const { POST, VerifyToken } = useFetch("http://localhost:7700");
   const [user, setUser] = useState<IParents | IBabysitter | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = Cookies.get("auth_token");
-    console.log("1", token); // מציג את הטוקן
+    const tokenRole = Cookies.get("role");
 
     const verifyAndLogin = async () => {
       if (token) {
         try {
           const decodedToken = await VerifyToken();
-          console.log("Decoded Token:", decodedToken);
+          if (!decodedToken?.user?.email || !decodedToken?.user?.password) {
+            throw new Error("Invalid token data");
+          }
 
           const { email, password } = decodedToken.user;
-          console.log(email, password);
+          let success = false;
+          try {
+            const loginPath =
+              tokenRole === "babysitter" ? "babysitter" : "parent";
+            success = await login({ email, password }, loginPath);
+          } catch (loginError) {
+            console.error("Login error:", loginError);
+            success = false;
+          }
 
-          if (email && password) {
-            const success = await login({ email, password }, "babysitter");
-
-            if (!success) {
-              setUser(null);
-              Cookies.remove("auth_token");
-              navigate("/login");
-            }
-          } else {
-            Cookies.remove("auth_token");
-            navigate("/");
+          if (!success) {
+            handleLogout();
           }
         } catch (error) {
-          console.error("Error during token verification or login:", error);
-          setUser(null);
-          Cookies.remove("authToken");
-          navigate("/login");
+          console.error("Token verification error:", error);
+          handleLogout();
         }
       } else {
         setUser(null);
       }
+    };
+
+    const handleLogout = () => {
+      setUser(null);
+      Cookies.remove("auth_token");
+      Cookies.remove("role");
+      navigate("/login");
     };
 
     verifyAndLogin();
@@ -73,16 +80,31 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   ): Promise<boolean> => {
     try {
       clearError();
-      const userData = await POST(`auth/login/${urlPath}`, userClient);
 
-      if (!userData || !userData.foundUser) {
+      // בניית ה-URL הנכון
+      let endpoint = "auth/login";
+      if (urlPath) {
+        endpoint += `/${urlPath}`;
+      }
+
+      const response = await POST(endpoint, userClient);
+
+      if (!response || !response.foundUser) {
+        console.error("Invalid response:", response);
         throw new Error("Invalid response from server");
       }
 
-      setUser(userData.foundUser);
-      navigate(`/${urlPath}`);
+      setUser(response.foundUser);
+
+      // עדכון הקוקיז
+      const role = urlPath === "babysitter" ? "babysitter" : "parent";
+      Cookies.set("role", role);
+
+      // ניווט
+      navigate(`${urlPath}`);
       return true;
     } catch (error) {
+      console.error("Login error details:", error);
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
       setError(`Login failed: ${errorMessage}`);
@@ -95,6 +117,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       clearError();
       await POST("auth/logout");
       setUser(null);
+      Cookies.remove("auth_token");
+      Cookies.remove("role");
       navigate("/");
       return true;
     } catch (error) {
