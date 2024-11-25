@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <AuthProvider>
+        
         <Layout children={<AppRouter />} />
       </AuthProvider>
     </>
