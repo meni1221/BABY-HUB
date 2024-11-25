@@ -18,7 +18,6 @@ export const LoginPage = () => {
     }
 
     e.preventDefault();
-    console.log("TAKTAKTAK" + courentURL);
 
     userContext.login({ email, password }, courentURL);
     setError(" ");
