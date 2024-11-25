@@ -1,4 +1,4 @@
-import { IAddress } from "./Aadress"
+import { IAddress } from "./Aadress";
 
 export interface IParents extends Document {
   name: string;
@@ -9,4 +9,5 @@ export interface IParents extends Document {
   email: string;
   password: string;
   isAdmin: boolean;
+  _id?: string;
 }

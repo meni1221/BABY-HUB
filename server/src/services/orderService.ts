@@ -15,6 +15,7 @@ const addOrder = async (dataorder: IOrder) => {
   }
 };
 
+
 const getAllOrders = async () => {
   try {
     const orders = await orderModel.find();

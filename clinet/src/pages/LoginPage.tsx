@@ -20,6 +20,7 @@ export const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     authContext.clearError();
     await authContext.login({ email, password }, currentURL);
   };
