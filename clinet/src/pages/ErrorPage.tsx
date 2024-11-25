@@ -1,8 +1,13 @@
-import React from 'react'
-import PageHeader from '../componnets/PageHeader'
+import React from "react";
+import PageHeader from "../componnets/PageHeader";
 
 export default function ErrorPage() {
-	return (
-		<PageHeader title={'Error'} subtitle={'אח שלי היקר למה לך לרעות בשדות זרים כשיש לך אופק'} />
-	)
+  return (
+    <PageHeader
+      title={"Error"}
+      subtitle={
+        "למה לך לרעות בשדות זרים כשאפשר למחוק שגיאות בקוד ולשמור על הבייבי סיטר בהרפתקאות ג'אווה סקריפט? לפחות כאן, הבאגים נמחקים מהר יותר מאשר הילדים מצאו את החטיפים!"
+      }
+    />
+  );
 }
