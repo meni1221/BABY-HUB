@@ -4,6 +4,8 @@ import IBabysitter from "../interface/BabySitter";
 import IOrder from "../interface/orderType";
 import { AuthContext } from "../providers/AuthProvider";
 import { IParents } from "../interface/parents";
+import { Link, useNavigate } from "react-router-dom";
+import DisplayBabisitterPage from "./DisplayBabisitterPage";
 
 export default function ParentPage() {
   const { user } = useContext(AuthContext) ?? {};
@@ -16,6 +18,7 @@ export default function ParentPage() {
   const [expectations, setExpectations] = useState("");
   const [babyId, setBabyId] = useState("");
 
+  const navigate = useNavigate()
   useEffect(() => {
     GET();
   }, []);
@@ -47,7 +50,8 @@ export default function ParentPage() {
 
   return (
     <>
-      <div className="card-list">
+    
+      <div className="card-list" >
         {babysitters && babysitters.length > 0 ? (
           babysitters.map((user) => (
             <div key={user.email} className="user-card">
@@ -64,14 +68,17 @@ export default function ParentPage() {
               <p>
                 <strong>Location:</strong> {user.address}
               </p>
+              <button onClick={() => navigate(`/display/${user._id}`)}>More Details</button>
               {!isOpen && (
                 <button onClick={() => open(user._id)}>Contact</button>
               )}
+              
             </div>
           ))
         ) : (
           <p>No babysitters available.</p>
         )}
+     
       </div>
       {isOpen && (
         <>
