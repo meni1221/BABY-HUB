@@ -1,8 +1,6 @@
-import React, { Children } from "react";
-import { Register } from "../../pages/register/Register";
-import { LoginPage } from "../../pages/LoginPage";
-import { BaybisitterHomePage } from "../../pages/BaybisitterHomePage";
-import { EditBabysitter } from "../../componnets/EditBabysitter";
+import React from "react";
+
+import CommentRejister from "../../componnets/CommentRegister";
 
 interface Props {
   children: React.ReactNode;
@@ -11,6 +9,7 @@ interface Props {
 export default function Main({ children }: Props) {
   return (
     <>
+      <CommentRejister id={`$`} />
       <main>{children}</main>
     </>
   );

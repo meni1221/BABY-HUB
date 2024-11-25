@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+interface IComment {
+  id: string;
+  review: { userId: string; comment: string; rating: number };
+}
+
 export default function useFetch<T>(url: string): any {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -115,5 +120,17 @@ export default function useFetch<T>(url: string): any {
       throw error;
     }
   };
-  return { data, error, GET, POST, PATCH, DELETE, GETOne, VerifyToken };
+
+  const addComment = async (comment: IComment)=>{
+    const res = await fetch(`http://localhost:7700/${comment.id}/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      
+      body: JSON.stringify(comment),
+    })
+    const data = await res.json()
+    return data
+  }
+
+  return { data, error, GET, POST, PATCH, DELETE, GETOne, VerifyToken, addComment };
 }
