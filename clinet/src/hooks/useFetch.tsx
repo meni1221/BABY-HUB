@@ -93,5 +93,30 @@ export default function useFetch<T>(url: string): any {
       setError((error as Error).message);
     }
   };
+
   return { data, error, GET, POST, PATCH, DELETE, GETOne };
+
+  const VerifyToken = async () => {
+    try {
+      const response = await fetch("http://localhost:7700/auth/verifyUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || "Request failed");
+      }
+
+      const result = await response.json();
+      setData(result);
+      return result;
+    } catch (error) {
+      setError((error as Error).message || "An unknown error occurred.");
+      throw error;
+    }
+  };
+  return { data, error, GET, POST, PATCH, DELETE, GETOne, VerifyToken };
+>>>>>>> 002aeff40f56cb08ceed219c53067e8d68c11f24
 }

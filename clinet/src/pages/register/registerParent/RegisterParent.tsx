@@ -44,33 +44,33 @@ export const RegisterParent = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">name</label>
+            <label htmlFor="name">Name</label>
             <input
               id="name"
               type="text"
-              placeholder="הכנס את השם שלך"
+              placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="amount">amount children</label>
+            <label htmlFor="amount">Number of children</label>
             <input
               id="amount"
               type="number"
-              placeholder="הכנס את מספר הילדים"
+              placeholder="Enter the number of children"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="address">address</label>
+            <label htmlFor="address">Address</label>
             <input
               id="city"
               type="text"
-              placeholder="הכנס את העיר שלך"
+              placeholder="Enter your city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
@@ -78,7 +78,7 @@ export const RegisterParent = () => {
             <input
               id="street"
               type="text"
-              placeholder="הכנס את הרחוב שלך"
+              placeholder="Enter your street"
               value={street}
               onChange={(e) => setStreet(e.target.value)}
               required
@@ -86,51 +86,51 @@ export const RegisterParent = () => {
             <input
               id="buildingNumber"
               type="number"
-              placeholder="הכנס את המספר בית שלך"
+              placeholder="Enter your building number"
               value={buildingNumber}
               onChange={(e) => setBuildingNumber(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="phone">phone</label>
+            <label htmlFor="phone">Phone</label>
             <input
               id="phone"
               type="text"
-              placeholder="הכנס את מספר טלפון שלך"
+              placeholder="Enter your phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="budget">budget</label>
+            <label htmlFor="budget">Budget</label>
             <input
               id="budget"
               type="number"
-              placeholder="הכנס סכום כסף ראשוני לארנק"
+              placeholder="Enter initial wallet amount"
               value={budget}
               onChange={(e) => setBudget(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="email">email</label>
+            <label htmlFor="email">Email</label>
             <input
               id="email"
               type="email"
-              placeholder="הכנס את המייל שלך"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="password">password</label>
+            <label htmlFor="password">Password</label>
             <input
               id="password"
               type="text"
-              placeholder="הכנס את הסיסמא שלך"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
