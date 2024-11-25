@@ -4,26 +4,26 @@ import { RegisterBaybisitter } from "./registerBaybisitter/RegisterBaybisitter";
 import PageHeader from "../../componnets/PageHeader";
 
 export const Register = () => {
-  const [flag, setFlag] = useState("");
+  const [flag, setFlag] = useState("babysitter");
 
   return (
     <>
       <PageHeader
-        title="register"
-        subtitle="Welcome to the parent/babysitter registration page"
+        title="Register"
+        subtitle="Welcome to the Registration page"
       />
       <div>
-        <button
-          className={flag === "parent" ? "selected" : ""}
-          onClick={() => setFlag("parent")}
-        >
-          register parent
-        </button>
         <button
           className={flag === "babysitter" ? "selected" : ""}
           onClick={() => setFlag("babysitter")}
         >
-          register babysitter
+          Babysitter
+        </button>
+        <button
+          className={flag === "parent" ? "selected" : ""}
+          onClick={() => setFlag("parent")}
+        >
+          Parent
         </button>
       </div>
       {flag === "parent" && <RegisterParent />}

@@ -5,7 +5,21 @@ export default function useFetch<T>(url: string): any {
   const [error, setError] = useState<string | null>(null);
 
   //   --------------GET method--------------
-  const GET = async (id?: string) => {
+  const GET = async () => {
+    try {
+      const response = await fetch(`${url}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! ${errorData.error.message}`);
+      }
+      const result = await response.json();
+      setData(result);
+    } catch (error: unknown) {
+      setError((error as Error).message || "An unknown error occurred.");
+    }
+  };
+  //   --------------GET One method--------------
+  const GETOne = async (id: string) => {
     try {
       const response = await fetch(`${url}/${id}`);
       if (!response.ok) {
@@ -78,5 +92,27 @@ export default function useFetch<T>(url: string): any {
       setError((error as Error).message);
     }
   };
-  return { data, error, GET, POST, PATCH, DELETE };
+
+  const VerifyToken = async () => {
+    try {
+      const response = await fetch("http://localhost:7700/auth/verifyUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || "Request failed");
+      }
+
+      const result = await response.json();
+      setData(result);
+      return result;
+    } catch (error) {
+      setError((error as Error).message || "An unknown error occurred.");
+      throw error;
+    }
+  };
+  return { data, error, GET, POST, PATCH, DELETE, GETOne, VerifyToken };
 }

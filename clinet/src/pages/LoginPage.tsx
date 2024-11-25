@@ -1,75 +1,101 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import PageHeader from "../componnets/PageHeader";
+import TopNavLink from "../componnets/TopNavLink";
 
 export const LoginPage = () => {
-  const userContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [courentURL, setCourentURL] = useState("");
-
+  const [currentURL, setCurrentURL] = useState("babysitter");
   useEffect(() => {
-    console.log(courentURL);
-  }, [courentURL]);
+    return () => {
+      authContext!.clearError();
+    };
+  }, []);
+
+  if (!authContext) {
+    return <p>Error: User context is not available.</p>;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (!userContext) {
-      return <p>Error: User context is not available.</p>;
-    }
-
     e.preventDefault();
-    console.log("TAKTAKTAK" + courentURL);
+    authContext.clearError();
+    await authContext.login({ email, password }, currentURL);
+  };
 
-    userContext.login({ email, password }, courentURL);
-    setError(" ");
+  const handleURLChange = (url: string) => {
+    setCurrentURL(url);
+    authContext.clearError();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    if (id === "email") setEmail(value);
+    if (id === "password") setPassword(value);
+    authContext.clearError();
   };
 
   return (
     <>
+      <PageHeader title="Login" subtitle="Welcome to the Login page" />
       <div>
         <button
-          onClick={() => setCourentURL("babysitter")}
-          className={courentURL === "babysitter" ? "selected" : ""}
+          onClick={() => handleURLChange("babysitter")}
+          className={currentURL === "babysitter" ? "selected" : ""}
         >
-          login babysitter
+          Babysitter
         </button>
         <button
-          onClick={() => setCourentURL("parent")}
-          className={courentURL === "parent" ? "selected" : ""}
+          onClick={() => handleURLChange("parent")}
+          className={currentURL === "parent" ? "selected" : ""}
         >
-          login parent
+          Parent
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="login-form">
+      <form
+        onSubmit={handleSubmit}
+        className="login-form"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <div className="form-group">
-          <label htmlFor="email">אימייל</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
             placeholder="Please enter an email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleInputChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">סיסמה</label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
             placeholder="Please enter a password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleInputChange}
             required
           />
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {authContext.error && (
+          <div className="error-message">{authContext.error}</div>
+        )}
 
         <button type="submit">Login</button>
       </form>
+
+      <div style={{ marginTop: "10px", textAlign: "center" }}>
+        <p>
+          If you are not registered yet, please{" "}
+          <TopNavLink to="/register">register here</TopNavLink>
+        </p>
+      </div>
     </>
   );
 };

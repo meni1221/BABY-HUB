@@ -7,9 +7,9 @@ interface Props {
 
 export default function PageHeader(props: Props) {
   return (
-    <>
-      <h1>{props.title}</h1>
-      <h2>{props.subtitle}</h2>
-    </>
+    <div className="page-header">
+      <h1 className="page-header__title">{props.title}</h1>
+      <h2 className="page-header__subtitle">{props.subtitle}</h2>
+    </div>
   );
 }

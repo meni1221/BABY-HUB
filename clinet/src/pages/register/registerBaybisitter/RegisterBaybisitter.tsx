@@ -61,7 +61,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="name"
             type="text"
-            placeholder="הכנס את השם שלך"
+            placeholder="Enter your Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -72,7 +72,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="age"
             type="number"
-            placeholder="הכנס את הגיל שלך"
+            placeholder="Enter your age"
             value={age}
             onChange={(e) => setAge(Number(e.target.value))}
             required
@@ -83,7 +83,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="image"
             type="text"
-            placeholder="הכנס את התמונה שלך"
+            placeholder="Enter your image URL"
             value={image}
             onChange={(e) => setImage(e.target.value)}
             required
@@ -94,7 +94,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="address"
             type="text"
-            placeholder="הכנס את הכתובת שלך"
+            placeholder="Enter your Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
@@ -105,7 +105,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="phone"
             type="text"
-            placeholder="הכנס את המפר טלפון שלך"
+            placeholder="Enter your Phone number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
@@ -116,7 +116,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="email"
             type="email"
-            placeholder="הכנס את המייל שלך"
+            placeholder="Enter your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -142,7 +142,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="experience"
             type="text"
-            placeholder="הכנס את תחום הנסיון שלך"
+            placeholder="Enter your experience"
             value={experience}
             onChange={(e) => setExperience(e.target.value)}
             required
@@ -153,7 +153,6 @@ export const RegisterBaybisitter = () => {
           <input
             id="about"
             type="text"
-            placeholder="ספר לי עליך בקצרה"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
             required
@@ -164,7 +163,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="price"
             type="number"
-            placeholder="הכנס את המחיר שלך לשעה"
+            placeholder="Enter your price per 1H"
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
             required
@@ -175,7 +174,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="budget"
             type="number"
-            placeholder="הכנס את הסכום הראשוני שלך"
+            placeholder="Enter your budget"
             value={budget}
             onChange={(e) => setBudget(Number(e.target.value))}
             required
@@ -186,7 +185,7 @@ export const RegisterBaybisitter = () => {
           <input
             id="password"
             type="text"
-            placeholder="הכנס את הסיסמא שלך"
+            placeholder="Enter a Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
