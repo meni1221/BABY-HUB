@@ -19,7 +19,9 @@ interface IOrder {
 
 export const BaybisitterHomePage = () => {
   const [status, setStatus] = useState("waiting");
-  const [buttonStatus, setButtonStatus] = useState("");
+  const [buttonStatus, setButtonStatus] = useState("rejected");
+  const [flagstatus, setflagstatus] = useState(true);
+  const [flag, setFlag] = useState(false);
 
   const { user } = useContext(AuthContext) ?? {};
   //   const [newBabysitter, setnewBabysitter] = useState({}) ?? {};
@@ -47,15 +49,21 @@ export const BaybisitterHomePage = () => {
   console.log({ orderToBabysitter, userBabysitter });
 
   const statusUpdate = (orderid: string) => {
-    if (status === "waiting") {
-      setStatus("approved");
+    switch (status) {
+      case "waiting":
+        setStatus("approved");
+        setFlag(true);
+      case "approved":
+        setStatus("Done");
     }
-    if (status === "approved") {
-      setStatus("Done");
-    }
-    if (status === "Done") {
-      setStatus("rejected");
-    }
+
+    PATCH(orderid, { status });
+  };
+
+  const statusRejected = (orderid: string) => {
+    setFlag(false);
+
+    setStatus("rejected");
 
     PATCH(orderid, { status });
   };
@@ -88,9 +96,17 @@ export const BaybisitterHomePage = () => {
                 <p>Order to babysitter: {order.babysitter_id}</p>
                 <p>Order from parent: {order.parent_id}</p>
                 <p>Order number_working: {Number(order.number_working)}</p>
-                <button onClick={() => statusUpdate(order._id)}>
-                  {order.status}
-                </button>
+                {flagstatus && (
+                  <button onClick={() => statusUpdate(order._id)}>
+                    {order.status}
+                  </button>
+                )}
+
+                {flag && (
+                  <button onClick={() => statusRejected(order._id)}>
+                    {buttonStatus}
+                  </button>
+                )}
               </div>
             ))}
           {orders.length === 0 && <h1>Sorry but there no orders</h1>}
