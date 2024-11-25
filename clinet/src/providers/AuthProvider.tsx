@@ -41,7 +41,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
           const { email, password } = decodedToken.user;
           let success = false;
-
           try {
             const loginPath =
               tokenRole === "babysitter" ? "babysitter" : "parent";
@@ -102,8 +101,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       Cookies.set("role", role);
 
       // ניווט
-      navigate(urlPath ? `/${urlPath}` : "/");
-
+      navigate(`${urlPath}`);
       return true;
     } catch (error) {
       console.error("Login error details:", error);
