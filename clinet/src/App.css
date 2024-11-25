@@ -14,9 +14,14 @@ header {
   background-color: #dec2ff;
   color: white;
   text-align: center;
-  padding: 15px;
   font-weight: 600;
   text-shadow: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+  position: relative;
 }
 
 main {
@@ -32,12 +37,12 @@ main {
 
 footer {
   background-color: #dec2ff;
-  color: white;
+  color: black;
   text-align: center;
-  padding: 15px;
-  font-size: 0.8em;
+  padding: 20px;
+  font-size: 1em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 
 form {
   display: grid;
@@ -51,7 +56,6 @@ form {
   max-width: 800px;
 }
 
-/* עיצוב לכל שדה טופס */
 label {
   font-size: 1rem;
   font-weight: 500;
@@ -70,8 +74,7 @@ select {
 }
 
 textarea {
-  grid-column: span 2; /* שדה טקסט ייקח שתי עמודות */
-  height: 120px;
+  grid-column: span 2;
 }
 
 button {
@@ -86,17 +89,144 @@ button {
 }
 
 button:hover {
-  background-color: #c2a1ff;
+  background-color: #ff9ae6;
+  color: white;
 }
 
 button.selected {
   border: 2px solid #dec2ff;
-  background-color: black;
-  color: #dec2ff;
+  background-color: #ff9ae6;
+  color: white;
   font-weight: bold;
 }
 
-/* אם הכפתור נבחר */
 button.selected:hover {
   color: white;
+}
+.nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 300px;
+}
+.page-header {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f7fc;
+  border: 1px solid #e2d9f3;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 600px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.page-header__title {
+  font-size: 2rem;
+  margin: 0;
+  color: #5e3a8c;
+  font-weight: 600;
+}
+
+.page-header__subtitle {
+  font-size: 1rem;
+  margin: 5px 0 0;
+  color: #8c7aab;
+  font-weight: 400;
+}
+.logo {
+  height: 120px;
+  width: auto;
+  object-fit: contain;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.nav a,
+.nav .nav-link {
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav .nav-link:hover {
+  border-bottom: 5px solid #ff9ae6;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.active {
+  color: #fff;
+  border-bottom: 5px solid #ff9ae6;
+  font-weight: bold;
+}
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.user-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #dec2ff;
+}
+
+.user-card h2 {
+  font-size: 1.5rem;
+  color: #5e3a8c;
+  margin-bottom: 10px;
+}
+
+.user-card p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.user-card button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #ff9ae6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.user-card button:hover {
+  background-color: #e284d8;
 }

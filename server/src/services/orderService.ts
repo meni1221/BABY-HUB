@@ -26,10 +26,12 @@ const getAllOrders = async () => {
 
 const getOrderById = async (orderId: string) => {
   try {
-    const order = await orderModel.findById(orderId);
+    const order = await orderModel.findOne({ babysitter_id: orderId });
+
     if (!order) {
       throw new Error('order not found');
     }
+
     return order;
   } catch (error: any) {
     return handleBadRequest('MongoDB', error);
