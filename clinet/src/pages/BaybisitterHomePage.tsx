@@ -1,31 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { NavLink } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import IBabysitter from "../interface/BabySitter";
-import { IParents } from "../interface/parents";
-import PageHeader from "../componnets/PageHeader";
-import { EditBabysitter } from "../componnets/EditBabysitter";
-
-// import { NavLink } from "react-router-dom";
 
 interface IOrder {
-  status: String;
+  status: string;
   parent_id: string;
   babysitter_id: string;
-  number_working: Number;
-  expectations: String;
+  number_working: number;
+  expectations: string;
 }
 
 export const BaybisitterHomePage = () => {
   const [status, setStatus] = useState("waiting");
-  const [buttonStatus, setButtonStatus] = useState("");
-
   const { user } = useContext(AuthContext) ?? {};
-  //   const [newBabysitter, setnewBabysitter] = useState({}) ?? {};
   const [orders, setorders] = useState<IOrder[]>([]);
   const { GET, data, PATCH } = useFetch<IOrder>("http://localhost:7700/orders");
-
   const userBabysitter = user as IBabysitter;
 
   useEffect(() => {
@@ -34,17 +25,13 @@ export const BaybisitterHomePage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log({ data });
-      return setorders(data);
-    } else {
-      console.log("No data Brooooo...");
+      setorders(data);
     }
   }, [data]);
 
   const orderToBabysitter = orders?.filter(
     (order) => order.babysitter_id == userBabysitter!._id
   );
-  console.log({ orderToBabysitter, userBabysitter });
 
   const statusUpdate = (orderid: string) => {
     if (status === "waiting") {
@@ -62,39 +49,67 @@ export const BaybisitterHomePage = () => {
 
   return (
     <>
-      <div>{userBabysitter && <h1> welcome {userBabysitter.name}</h1>}</div>
-      <div>
-        <div>
-          <h2>{`name:${userBabysitter?.name}`}</h2>
-          <p>{`age:${userBabysitter?.age}`}</p>
-          <p>{`image:${userBabysitter?.image}`}</p>
-          <p>{`address:${userBabysitter?.address}`}</p>
-          <p>{`phone:${userBabysitter?.phone}`}</p>
-          <p>{`email:${userBabysitter?.email}`}</p>
-          <p>{`preferences:${userBabysitter?.preferences}`}</p>
-          <p>{`experience:${userBabysitter?.experience}`}</p>
-          <p>{`about:${userBabysitter?.about}`}</p>
-          <p>{`price:${userBabysitter?.price}`}</p>
-          <p>{`likes:${userBabysitter?.likes}`}</p>
-          <p>{`budget:${userBabysitter?.budget}`}</p>
-          <NavLink to={`/edit/${userBabysitter!._id}`}>Edit babysitter</NavLink>
+      <div className="page-header">
+        <h1 className="page-header__title">Welcome, {userBabysitter?.name}</h1>
+        <p className="page-header__subtitle">
+          Manage your babysitting profile and orders
+        </p>
+      </div>
+
+      <div className="user-card">
+        <img
+          src={userBabysitter?.image || "/default-avatar.png"}
+          alt={userBabysitter?.name}
+          className="user-avatar"
+        />
+        <h2>{userBabysitter?.name}</h2>
+        <div className="user-info">
+          <p>Age: {userBabysitter?.age}</p>
+          <p>Address: {userBabysitter?.address}</p>
+          <p>Phone: {userBabysitter?.phone}</p>
+          <p>Email: {userBabysitter?.email}</p>
+          <p>Preferences: {userBabysitter?.preferences}</p>
+          <p>Experience: {userBabysitter?.experience}</p>
+          <p>About: {userBabysitter?.about}</p>
+          <p>Price: {userBabysitter?.price}</p>
+          <p>Likes: {userBabysitter?.likes}</p>
+          <p>Budget: {userBabysitter?.budget}</p>
         </div>
-        <div>
-          <PageHeader title="order" subtitle="order to babysitter" />
-          {orders.length > 0 &&
-            orderToBabysitter?.map((order) => (
-              <div>
-                <p key={order.babysitter_id}>Order Status: {order.status}</p>
-                <p>Order to babysitter: {order.babysitter_id}</p>
-                <p>Order from parent: {order.parent_id}</p>
-                <p>Order number_working: {Number(order.number_working)}</p>
-                <button onClick={() => statusUpdate(order._id)}>
-                  {order.status}
-                </button>
-              </div>
-            ))}
-          {orders.length === 0 && <h1>Sorry but there no orders</h1>}
-        </div>
+        <NavLink to={`/edit/${userBabysitter!._id}`}>
+          <button>Edit Profile</button>
+        </NavLink>
+      </div>
+
+      <div className="page-header">
+        <h2 className="page-header__title">Your Orders</h2>
+        <p className="page-header__subtitle">Manage your current orders</p>
+      </div>
+
+      <div className="card-list">
+        {orders.length > 0 ? (
+          orderToBabysitter?.map((order) => (
+            <div className="user-card" key={order.parent_id}>
+              <h2>Order Details</h2>
+              <p>Status: {order.status}</p>
+              <p>Babysitter ID: {order.babysitter_id}</p>
+              <p>Parent ID: {order.parent_id}</p>
+              <p>Working Hours: {order.number_working}</p>
+              <button
+                onClick={() => statusUpdate(order.parent_id)}
+                className={`status-btn ${order.status}`}
+              >
+                Update Status
+              </button>
+            </div>
+          ))
+        ) : (
+          <div className="page-header">
+            <h2 className="page-header__title">No Orders Available</h2>
+            <p className="page-header__subtitle">
+              You currently have no orders assigned
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

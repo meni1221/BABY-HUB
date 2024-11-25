@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import IBabysitter from "../interface/BabySitter";
-// import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-// import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import PageHeader from "./PageHeader";
+import TopNavLink from "./TopNavLink";
 
 export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
@@ -66,6 +66,7 @@ export const EditBabysitter = () => {
   };
   return (
     <>
+      <PageHeader title="Edit Page" subtitle="Here you can edit your profile" />
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">name</label>
@@ -74,7 +75,7 @@ export const EditBabysitter = () => {
             type="text"
             placeholder="הכנס את השם שלך"
             value={name}
-            onChange={(e) => setName(e.target.target)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -192,7 +193,11 @@ export const EditBabysitter = () => {
             required
           />
         </div>
+
         <button type="submit">Edit Babysitter</button>
+        <button>
+          <TopNavLink to={"/babysitter"}>Back</TopNavLink>
+        </button>
       </form>
     </>
   );
