@@ -10,9 +10,9 @@ export default function Header() {
   const [tokenRole, setTokenRole] = useState("");
 
   useEffect(() => {
-    const role = Cookies.get("role");
-    setTokenRole(role || "");
-  }, []);
+    const role = Cookies.get("role") || "guest";
+    setTokenRole(role);
+  }, [user]);
 
   return (
     <div>
