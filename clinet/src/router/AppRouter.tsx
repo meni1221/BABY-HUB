@@ -8,19 +8,32 @@ import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../componnets/EditBabysitter";
 import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
 import ErrorPage from "../pages/ErrorPage";
+import PrivateRouteUser from "../componnets/UserPrivateRoute";
 
 export default function AppRouter() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/babysitter/*" element={<BaybisitterHomePage />} />
-        <Route path="/Edit/:id" element={<EditBabysitter />} />
+        <Route
+          path="/babysitter/*"
+          element={<PrivateRouteUser children={<BaybisitterHomePage />} />}
+        />
+        <Route
+          path="/Edit/:id"
+          element={<PrivateRouteUser children={<EditBabysitter />} />}
+        />
         <Route path="about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/parent" element={<ParentPage />} />
-        <Route path="/display/:id" element={<DisplayBabisitterPage />} />
+        <Route
+          path="/parent"
+          element={<PrivateRouteUser children={<ParentPage />} />}
+        />
+        <Route
+          path="/display/:id"
+          element={<PrivateRouteUser children={<DisplayBabisitterPage />} />}
+        />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>
