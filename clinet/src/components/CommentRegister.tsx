@@ -79,7 +79,7 @@ export default function CommentRegister({ id }: Props) {
       </div>
 
       <button type="button"  onClick={() => handleSubmit() }>
-        Submit💌
+        Submit
       </button>
     </div>
   ) : (
