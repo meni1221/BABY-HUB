@@ -1,5 +1,5 @@
 import React from "react";
-import PageHeader from "../componnets/PageHeader";
+import PageHeader from "../components/PageHeader";
 
 export default function ErrorPage() {
   return (
