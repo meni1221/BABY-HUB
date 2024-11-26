@@ -15,7 +15,10 @@ export default function AppRouter() {
     <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/babysitter/*" element={<BaybisitterHomePage />} />
+        <Route
+          path="/babysitter/*"
+          element={<PrivateRouteUser children={<BaybisitterHomePage />} />}
+        />
         <Route
           path="/Edit/:id"
           element={<PrivateRouteUser children={<EditBabysitter />} />}
@@ -23,9 +26,14 @@ export default function AppRouter() {
         <Route path="about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/parent" element={<ParentPage />} />
-        <Route path="/display/:id" element={<DisplayBabisitterPage />} />
-
+        <Route
+          path="/parent"
+          element={<PrivateRouteUser children={<ParentPage />} />}
+        />
+        <Route
+          path="/display/:id"
+          element={<PrivateRouteUser children={<DisplayBabisitterPage />} />}
+        />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>
