@@ -3,9 +3,7 @@ import useFetch from "../hooks/useFetch";
 import IBabysitter from "../interface/BabySitter";
 import IOrder from "../interface/orderType";
 import { AuthContext } from "../providers/AuthProvider";
-import { IParents } from "../interface/parents";
 import { Link, useNavigate } from "react-router-dom";
-import DisplayBabisitterPage from "./DisplayBabisitterPage";
 
 export default function ParentPage() {
   const { user } = useContext(AuthContext) ?? {};
