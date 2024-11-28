@@ -7,7 +7,7 @@ import { comparePassword } from '../../helpers/bcrypt';
 import { generateAuthToken } from '../../helpers/jwt';
 
 const cookieConfing: CookieOptions = {
-  httpOnly: false,
+  httpOnly: true,
   secure: false,
   sameSite: 'strict',
 };
@@ -46,7 +46,7 @@ const loginBabySitter = async (user: Parent, res: Response) => {
     const password = user.password;
 
     const { _id, email } = foundUser;
-    let token = generateAuthToken({ _id, email, password, isAdmin });
+    let token = generateAuthToken({ _id ,isAdmin});
 
     if (!cookieConfing) {
       throw new Error('Cookie configuration is missing🍪');
@@ -77,7 +77,7 @@ const loginParent = async (user: UserDTO, res: Response) => {
     }
     const password = user.password;
     const { _id, email, isAdmin } = foundUser;
-    let token = generateAuthToken({ _id, email, isAdmin, password });
+    let token = generateAuthToken({ _id,isAdmin });
 
     if (!cookieConfing) {
       throw new Error('Cookie configuration is missing🍪');

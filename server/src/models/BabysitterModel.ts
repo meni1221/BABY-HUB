@@ -70,4 +70,11 @@ const BabysitterSchema: Schema = new Schema(
   }
 );
 
+// מסתיר את הסיסמה כשמחזירים את המשתמש
+BabysitterSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
+
 export default mongoose.model<IBabysitter>('Babysitter', BabysitterSchema);

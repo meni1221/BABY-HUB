@@ -57,4 +57,12 @@ const ParentsSchema: Schema = new Schema({
     type: Boolean,
   },
 });
+
+// מסתיר את הסיסמה כשמחזירים את המשתמש
+ParentsSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
+
 export default mongoose.model<IParents>('Parents', ParentsSchema);
