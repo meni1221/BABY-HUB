@@ -1,7 +1,7 @@
 import miki from "../assets/miki.png";
 import meni from "../assets/meni.png";
 import eliya from "../assets/eliya.png";
-import PageHeader from "../componnets/PageHeader";
+import PageHeader from "../components/PageHeader";
 
 const developers = [
   {
