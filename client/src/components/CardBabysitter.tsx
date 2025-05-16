@@ -5,16 +5,18 @@ import { useState } from "react";
 interface Props {
   users: IBabysitter[];
 }
+
 export default function CardBabysitter({ users }: Props) {
   const navigate = useNavigate();
 
-  const [,setBabyId] = useState("");
+  const [, setBabyId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const open = (id: any) => {
     setIsOpen(true);
     setBabyId(id);
   };
+  
   return (
     <div className="card-list">
       {users.map((user) => (

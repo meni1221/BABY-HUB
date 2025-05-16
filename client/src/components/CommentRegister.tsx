@@ -2,14 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import useFetch from "../hooks/useFetch";
 
-
 interface Props {
   id: string;
 }
 
 export default function CommentRegister({ id }: Props) {
   const { GETOne, data } = useFetch("http://localhost:7700/babysitter");
-  const [stars, setStars] = useState(["star", "star", "star", "star", "star"]); // מערך לניהול הכוכבים
+  const [stars, setStars] = useState(["star", "star", "star", "star", "star"]);
   const [comment, setComment] = useState("");
   const [babysitter, setBabysitter] = useState<any>({});
   const { user } = useContext(AuthContext) ?? {};
@@ -51,16 +50,20 @@ export default function CommentRegister({ id }: Props) {
       <input
         type=""
         onChange={(e) => setComment(e.target.value)}
-        value={comment} placeholder="Write your comment..."
+        value={comment}
+        placeholder="Write your comment..."
       />
       <div className="contenerStar">
         {stars.map((star, index) => (
-          <div key={index}onClick={() => handelStyle(index + 1)}className={star}
+          <div
+            key={index}
+            onClick={() => handelStyle(index + 1)}
+            className={star}
           ></div>
         ))}
       </div>
       <button type="button" onClick={() => handleSubmit()}>
-        Submit 
+        Submit
       </button>
     </div>
   ) : (

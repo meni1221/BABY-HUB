@@ -9,7 +9,7 @@ interface PrivateRouteProps {
 
 const AdminPrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { user } = useContext(AuthContext) ?? {};
-  const userAdmin = user as IParents
+  const userAdmin = user as IParents;
   return userAdmin.isAdmin ? children : <Navigate to="/login" />;
 };
 

@@ -1,19 +1,18 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../providers/AuthProvider";
+import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import IBabysitter from "../interface/BabySitter";
 import { useParams } from "react-router-dom";
 import CommentRegister from "../components/CommentRegister";
 
 export default function DisplayBabisitterPage() {
-  const { user } = useContext(AuthContext) ?? {};
   const { GETOne, data } = useFetch("http://localhost:7700/babysitter");
   const [babysitter, setbabysitter] = useState<IBabysitter>();
   const { id } = useParams();
 
   useEffect(() => {
     GETOne(id);
-  }, []);
+  }, [id]);
+
   useEffect(() => {
     if (data) setbabysitter(data);
   }, [data]);
@@ -50,7 +49,7 @@ export default function DisplayBabisitterPage() {
           <p>
             <strong>likes:</strong> {babysitter.likes}
           </p>
-          <CommentRegister id={babysitter._id} />
+          <CommentRegister id={babysitter._id!} />
         </>
       ) : (
         <h1>No Users</h1>

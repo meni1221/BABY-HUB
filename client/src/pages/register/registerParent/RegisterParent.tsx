@@ -7,7 +7,6 @@ export const RegisterParent = () => {
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
-  // const [address, setAddress] = useState<IAddress | null>(null);
   const [phone, setPhone] = useState("");
   const [budget, setBudget] = useState(100);
   const [email, setEmail] = useState("");
