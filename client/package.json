@@ -1,9 +1,12 @@
 {
+  "homepage": "https://meni1221.github.io/BABY-HUB",
   "name": "clinet",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run dev",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

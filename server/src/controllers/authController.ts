@@ -39,10 +39,11 @@ router.post('/logout', (req: Request, res: Response): void => {
   }
 });
 
-router.post('/verifyUser', (req: Request, res: Response): void => {
+router.post('/verifyUser/:role', async (req: Request, res: Response):  Promise<void> => {
   try {
-    const user = verifyUserForLogin(req);
-
+    const {role} = req.params
+    const user = await verifyUserForLogin(req,res,role);
+    
     res.json(user);
   } catch (error: any) {
     console.error(error.message);

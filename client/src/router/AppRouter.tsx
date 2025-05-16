@@ -5,10 +5,10 @@ import { Register } from "../pages/register/Register";
 import AboutPage from "../pages/AboutPage";
 import ParentPage from "../pages/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
-import { EditBabysitter } from "../componnets/EditBabysitter";
+import { EditBabysitter } from "../components/EditBabysitter";
 import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
 import ErrorPage from "../pages/ErrorPage";
-import PrivateRouteUser from "../componnets/UserPrivateRoute";
+import PrivateRouteUser from "../components/UserPrivateRoute";
 
 export default function AppRouter() {
   return (

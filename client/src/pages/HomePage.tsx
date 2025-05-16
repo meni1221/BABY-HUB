@@ -1,5 +1,4 @@
-import React from "react";
-import PageHeader from "../componnets/PageHeader";
+import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
