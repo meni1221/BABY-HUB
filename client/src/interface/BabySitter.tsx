@@ -1,5 +1,4 @@
 export interface IBabysitter extends Document {
-  _id?: string;
   name: string;
   age: number;
   image: string;
@@ -13,6 +12,7 @@ export interface IBabysitter extends Document {
   likes: [string];
   budget: number;
   password: string;
+  _id?: string;
 }
 
 export default IBabysitter;
