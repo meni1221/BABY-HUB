@@ -1,5 +1,27 @@
-.developers-list{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+.about-container {
+    padding: 20px;
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    background-color: #f8f9fa;
+}
+
+.developers-list {
+    display: flex
+;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.developer-card {
+    width: 250px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    transition: transform 0.2s 
+ease, box-shadow 0.2s 
+ease;
 }
