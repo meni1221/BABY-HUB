@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { Register } from "../pages/register/Register";
-import AboutPage from "../pages/AboutPage/AboutPage";
+import AboutPage from "../pages/AboutPage";
 import ParentPage from "../pages/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../components/EditBabysitter";
