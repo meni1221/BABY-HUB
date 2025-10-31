@@ -44,16 +44,6 @@ body {
   }
 }
 
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  min-height: 85vh;
-  overflow-y: auto;
-  background-color: var(--color-bg);
-}
 
 form {
   display: grid;
