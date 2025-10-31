@@ -1,0 +1,350 @@
+$color-primary: #dec2ff;
+$color-secondary: #ff9ae6;
+$color-bg: #f9f9f9;
+$color-text: #333;
+$color-white: #fff;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: $color-bg;
+  color: $color-text;
+}
+
+header {
+  background-color: $color-primary;
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+  position: relative;
+
+  .logo {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    background: none;
+    margin: 0;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 300px;
+
+  a,
+  .nav-link {
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-bottom: 5px solid $color-secondary;
+      font-weight: bold;
+    }
+
+    &.active {
+      color: white;
+      border-bottom: 5px solid $color-secondary;
+      font-weight: bold;
+    }
+  }
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 85vh;
+  overflow-y: auto;
+  background-color: $color-bg;
+}
+
+footer {
+  background-color: $color-primary;
+  color: black;
+  text-align: center;
+  padding: 20px;
+  font-size: 1em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background-color: $color-white;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+
+  label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  textarea {
+    grid-column: span 2;
+  }
+
+  button {
+    background-color: $color-primary;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    grid-column: span 2;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $color-secondary;
+    }
+
+    &.selected {
+      border: 2px solid $color-primary;
+      background-color: $color-secondary;
+      font-weight: bold;
+    }
+  }
+}
+
+// ⭐ כוכבים
+.contenerStar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .star,
+  .contenerStarChecked {
+    width: 30px;
+    height: 30px;
+    border: 15.6px solid rgb(6, 6, 6);
+    clip-path: polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+  }
+
+  .contenerStarChecked {
+    background-color: gold;
+    border: none;
+  }
+}
+
+.page-header {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f7fc;
+  border: 1px solid #e2d9f3;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 600px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &__title {
+    font-size: 2rem;
+    margin: 0;
+    color: #5e3a8c;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    margin: 5px 0 0;
+    color: #8c7aab;
+    font-weight: 400;
+  }
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.user-card {
+  background-color: $color-white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid $color-primary;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #5e3a8c;
+    margin-bottom: 10px;
+  }
+
+  .user-info {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+
+    p {
+      font-size: 0.9rem;
+      color: #555;
+      padding: 10px;
+      background-color: #f9f7fc;
+      border-radius: 5px;
+      margin: 0;
+    }
+  }
+
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: $color-primary;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $color-secondary;
+    }
+  }
+}
+
+.status-btn {
+  background-color: $color-primary !important;
+  width: 100% !important;
+  margin-top: 20px !important;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $color-secondary !important;
+  }
+
+  &.waiting {
+    background-color: #ffd700 !important;
+    color: black;
+  }
+
+  &.approved {
+    background-color: #98fb98 !important;
+    color: black;
+  }
+
+  &.Done {
+    background-color: #87ceeb !important;
+    color: black;
+  }
+
+  &.rejected {
+    background-color: #ffb6c1 !important;
+    color: black;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-size: 1000px 100%;
+}
+
+@media (max-width: 768px) {
+  .user-card .user-info {
+    grid-template-columns: 1fr;
+  }
+
+  .card-list {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    width: 90%;
+    height: auto;
+    padding: 15px;
+  }
+}

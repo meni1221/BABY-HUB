@@ -1,7 +1,7 @@
-import "./App.css";
 import Layout from "./layout/Layout";
 import AuthProvider from "./providers/AuthProvider";
 import AppRouter from "./router/AppRouter";
+import "./Style.scss";
 
 function App() {
   return (
