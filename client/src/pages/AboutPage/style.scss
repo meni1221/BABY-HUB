@@ -1,49 +1,78 @@
 .about-container {
-  padding: 20px;
-  text-align: center;
-  font-family: "Arial", sans-serif;
+  padding: 40px 0;
   background-color: #f8f9fa;
-}
+  font-family: "Arial", sans-serif;
+  text-align: center;
 
-.developers-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  .developers-carousel {
+    width: 280px;
+    margin: 0 auto;
+
+    .slick-slide {
+      display: flex !important;
+      justify-content: center;
+    }
+
+    .slick-prev,
+    .slick-next {
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      &:before {
+        font-size:30px;
+        color: #a87aff;
+      }
+    }
+
+    .slick-dots {
+      bottom: -35px;
+
+      li button:before {
+        font-size: 10px;
+        color: #a87aff;
+      }
+
+      li.slick-active button:before {
+        color: #7d47ff;
+      }
+    }
+  }
 
   .developer-card {
     width: 250px;
     background: #ffffff;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 15px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 20px;
+    transition: all 0.3s ease;
+    margin: 0 auto;
 
     &:hover {
       transform: translateY(-5px);
-      transition: 1s;
       background-color: #dec2ff;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
 
-    p {
-      font-size: 1rem;
-      color: #6c757d;
-      line-height: 1.5;
+    .developer-image {
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
 
     h3 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin: 10px 0;
-      color: #495057;
+      color: #333;
     }
-  }
-  .developer-image {
-    width: 200px;
-    height: 300px;
-    object-fit: cover;
-    margin-bottom: 10px;
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+    }
   }
 }
