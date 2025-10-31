@@ -4,6 +4,28 @@
   --color-bg: #f9f9f9;
   --color-text: #333;
   --color-white: #fff;
+
+  button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 1.1rem;
+    grid-column: span 2;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      cursor: pointer;
+      background-color: var(--color-secondary);
+    }
+
+    &.selected {
+      border: 2px solid var(--color-primary);
+      background-color: var(--color-secondary);
+      font-weight: bold;
+    }
+  }
 }
 
 * {
@@ -75,28 +97,6 @@ form {
 
   textarea {
     grid-column: span 2;
-  }
-
-  button {
-    background-color: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 12px;
-    font-size: 1.1rem;
-    grid-column: span 2;
-    transition: background-color 0.3s ease;
-    
-    &:hover {
-      cursor: pointer;
-      background-color: var(--color-secondary);
-    }
-
-    &.selected {
-      border: 2px solid var(--color-primary);
-      background-color: var(--color-secondary);
-      font-weight: bold;
-    }
   }
 }
 
