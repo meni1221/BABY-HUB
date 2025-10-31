@@ -1,19 +1,17 @@
 .about-container {
-    padding: 20px;
-    text-align: center;
-    font-family: "Arial", sans-serif;
-    background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa;
 }
 
 .developers-list {
-    display: flex
-;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
 
-.developer-card {
+  .developer-card {
     width: 250px;
     background: #ffffff;
     border: 1px solid #e0e0e0;
@@ -21,7 +19,24 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 15px;
-    transition: transform 0.2s 
-ease, box-shadow 0.2s 
-ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    p {
+      font-size: 1rem;
+      color: #6c757d;
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #495057;
+    }
+  }
+  .developer-image {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
 }
