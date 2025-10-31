@@ -1,8 +1,10 @@
-$color-primary: #dec2ff;
-$color-secondary: #ff9ae6;
-$color-bg: #f9f9f9;
-$color-text: #333;
-$color-white: #fff;
+:root {
+  --color-primary: #dec2ff;
+  --color-secondary: #ff9ae6;
+  --color-bg: #f9f9f9;
+  --color-text: #333;
+  --color-white: #fff;
+}
 
 * {
   box-sizing: border-box;
@@ -12,29 +14,8 @@ $color-white: #fff;
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: $color-bg;
-  color: $color-text;
-}
-
-header {
-  background-color: $color-primary;
-  color: white;
-  text-align: center;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  height: 80px;
-  position: relative;
-
-  .logo {
-    height: 120px;
-    width: auto;
-    object-fit: contain;
-    background: none;
-    margin: 0;
-  }
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .nav {
@@ -51,13 +32,13 @@ header {
     transition: all 0.3s ease;
 
     &:hover {
-      border-bottom: 5px solid $color-secondary;
+      border-bottom: 5px solid var(--color-secondary);
       font-weight: bold;
     }
 
     &.active {
       color: white;
-      border-bottom: 5px solid $color-secondary;
+      border-bottom: 5px solid var(--color-secondary);
       font-weight: bold;
     }
   }
@@ -71,11 +52,11 @@ main {
   padding: 20px;
   min-height: 85vh;
   overflow-y: auto;
-  background-color: $color-bg;
+  background-color: var(--color-bg);
 }
 
 footer {
-  background-color: $color-primary;
+  background-color: var(--color-primary);
   color: black;
   text-align: center;
   padding: 20px;
@@ -87,7 +68,7 @@ form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  background-color: $color-white;
+  background-color: var(--color-white);
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -116,7 +97,7 @@ form {
   }
 
   button {
-    background-color: $color-primary;
+    background-color: var(--color-primary);
     color: white;
     border: none;
     border-radius: 5px;
@@ -127,12 +108,12 @@ form {
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
     }
 
     &.selected {
-      border: 2px solid $color-primary;
-      background-color: $color-secondary;
+      border: 2px solid var(--color-primary);
+      background-color: var(--color-secondary);
       font-weight: bold;
     }
   }
@@ -210,7 +191,7 @@ form {
 }
 
 .user-card {
-  background-color: $color-white;
+  background-color: var(--color-white);
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -234,7 +215,7 @@ form {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid $color-primary;
+    border: 3px solid var(--color-primary);
   }
 
   h2 {
@@ -263,7 +244,7 @@ form {
   button {
     margin-top: 15px;
     padding: 10px 20px;
-    background-color: $color-primary;
+    background-color: var(--color-primary);
     color: white;
     border: none;
     border-radius: 5px;
@@ -272,13 +253,13 @@ form {
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
     }
   }
 }
 
 .status-btn {
-  background-color: $color-primary !important;
+  background-color: var(--color-primary) !important;
   width: 100% !important;
   margin-top: 20px !important;
   border: none;
@@ -288,7 +269,7 @@ form {
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: $color-secondary !important;
+    background-color: var(--color-secondary) !important;
   }
 
   &.waiting {
