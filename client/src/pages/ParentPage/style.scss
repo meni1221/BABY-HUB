@@ -75,3 +75,113 @@
     }
   }
 }
+
+.popup-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  border: none;
+  border-radius: 12px;
+  padding: 30px;
+  width: 400px;
+  max-width: 90%;
+  background: var(--color-white);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+  font-family: "Arial", sans-serif;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  .popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+
+    h2 {
+      margin-bottom: 10px;
+      color: var(--color-primary);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #d93636;
+      }
+    }
+
+    label {
+      text-align: left;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .dialog-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .cancel-btn {
+        background-color: #e0e0e0;
+        color: #333;
+        &:hover {
+          background-color: #ccc;
+        }
+      }
+
+      .submit-btn {
+        background-color: var(--color-primary);
+        color: #fff;
+        &:hover {
+          background-color: var(--color-secondary);
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
