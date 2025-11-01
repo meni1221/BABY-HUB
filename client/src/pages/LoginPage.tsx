@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import PageHeader from "../components/PageHeader";
 import TopNavLink from "../components/TopNavLink";
+import { LOGIN } from "../Constants/Text.const";
 
 export const LoginPage = () => {
   const authContext = useContext(AuthContext);
@@ -88,7 +89,7 @@ export const LoginPage = () => {
           <div className="error-message">{authContext.error}</div>
         )}
 
-        <button type="submit">Login</button>
+        <button type="submit">{LOGIN}</button>
       </form>
 
       <div style={{ marginTop: "10px", textAlign: "center" }}>

@@ -5,6 +5,7 @@ import logo from "../../assets/logo.png";
 import Cookies from "js-cookie";
 import TopNavLink from "../../components/TopNavLink";
 import "./style.scss";
+import { REGISTER ,LOGIN, LOGOUT, HOME, ABOUT, DASHBOARD, BABYSITTERS} from "../../Constants/Text.const";
 
 
 export default function Header() {
@@ -20,13 +21,13 @@ export default function Header() {
     <div>
       <header className="nav-bar">
         <div className="nav left-side">
-          <TopNavLink to="/">Home</TopNavLink>
-          <TopNavLink to="/about">About</TopNavLink>
+          <TopNavLink to="/">{HOME}</TopNavLink>
+          <TopNavLink to="/about">{ABOUT}</TopNavLink>
           {user &&
             (tokenRole === "babysitter" ? (
-              <TopNavLink to="/babysitter">Dashboard</TopNavLink>
+              <TopNavLink to="/babysitter">{DASHBOARD}</TopNavLink>
             ) : (
-              <TopNavLink to="/parent">Babysitters</TopNavLink>
+              <TopNavLink to="/parent">{BABYSITTERS}</TopNavLink>
             ))}
         </div>
 
@@ -38,14 +39,14 @@ export default function Header() {
 
         {!user && (
           <div className="nav right-side">
-            <TopNavLink to="/login">Login</TopNavLink>
-            <TopNavLink to="/register">Register</TopNavLink>
+            <TopNavLink to="/login">{LOGIN}</TopNavLink>
+            <TopNavLink to="/register">{REGISTER}</TopNavLink>
           </div>
         )}
 
         {user && (
           <div className="nav right-side" onClick={() => logout!()}>
-            <TopNavLink to="/">Logout</TopNavLink>
+            <TopNavLink to="/">{LOGOUT}</TopNavLink>
           </div>
         )}
       </header>
