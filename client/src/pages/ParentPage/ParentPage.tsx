@@ -86,7 +86,7 @@ export default function ParentPage() {
       {/* דיאלוג פופאפ */}
       <dialog ref={dialogRef} className="popup-dialog">
         <form onSubmit={handleSubmit} className="popup-form">
-          <IoClose />
+          <IoClose onClick={closeDialog} size={23}/>
           <h2>Contact Babysitter</h2>
           <label htmlFor="number_working">Number of Hours</label>
           <input
