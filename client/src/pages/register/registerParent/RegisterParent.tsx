@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { IParents } from "../../../interface/parents";
+import {
+  ADD_NEW_PARENT,
+  ADDRESS,
+  AMOUNT_OF_CHILDREN,
+  BUDGET,
+  CITY,
+  EMAIL,
+  NAME,
+  NUMBER_OF_BILDINGS,
+  PASSWORD,
+  PHONE,
+  STREET,
+} from "../../../Constants/Text.const";
 
 export const RegisterParent = () => {
   const { POST } = useFetch<IParents>("http://localhost:7700");
@@ -43,7 +56,7 @@ export const RegisterParent = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">{NAME}</label>
             <input
               id="name"
               type="text"
@@ -54,7 +67,7 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="amount">Number of children</label>
+            <label htmlFor="amount">{AMOUNT_OF_CHILDREN}</label>
             <input
               id="amount"
               type="number"
@@ -65,7 +78,8 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="address">Address</label>
+            <h3>{ADDRESS}</h3>
+            <label htmlFor="city">{CITY}</label>
             <input
               id="city"
               type="text"
@@ -74,6 +88,7 @@ export const RegisterParent = () => {
               onChange={(e) => setCity(e.target.value)}
               required
             />
+            <label htmlFor="street">{STREET}</label>
             <input
               id="street"
               type="text"
@@ -82,6 +97,7 @@ export const RegisterParent = () => {
               onChange={(e) => setStreet(e.target.value)}
               required
             />
+            <label htmlFor="number">{NUMBER_OF_BILDINGS}</label>
             <input
               id="buildingNumber"
               type="number"
@@ -92,7 +108,7 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone">{PHONE}</label>
             <input
               id="phone"
               type="text"
@@ -103,7 +119,7 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="budget">Budget</label>
+            <label htmlFor="budget">{BUDGET}</label>
             <input
               id="budget"
               type="number"
@@ -114,7 +130,7 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{EMAIL}</label>
             <input
               id="email"
               type="email"
@@ -125,7 +141,7 @@ export const RegisterParent = () => {
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{PASSWORD}</label>
             <input
               id="password"
               type="text"
@@ -135,7 +151,7 @@ export const RegisterParent = () => {
               required
             />
           </div>
-          <button type="submit">Add New Parent</button>
+          <button type="submit">{ADD_NEW_PARENT}</button>
         </form>
       </div>
     </>
