@@ -8,7 +8,12 @@ header {
   align-items: center;
   padding: 0 20px;
   height: 80px;
-  position: relative;
+
+  position: fixed;   // צמוד תמיד למעלה
+  top: 0;
+  left: 0;
+  width: 100%;       // כדי שימלא את כל רוחב המסך
+  z-index: 1000;     // תמיד מעל התוכן
 
   .logo {
     height: 120px;

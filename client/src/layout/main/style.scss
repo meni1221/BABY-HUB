@@ -1,10 +1,54 @@
 main {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: 85vh;
+  padding-top: 100px;
+  height: 100%;       
   overflow-y: auto;
   background-color: var(--color-bg);
+}
+
+
+main {
+  padding: 20px;
+  margin-top: 80px;    // לא להסתיר את התוכן מתחת ל-header
+  margin-bottom: 60px; // לא להסתיר את התוכן מתחת ל-footer
+  overflow-y: auto;    // גלילה אנכית
+  scroll-behavior: smooth; // גלילה חלקה
+
+  /* Webkit Browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 12px; 
+    background: transparent; // שקוף כברירת מחדל
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); // מסילה בהירה עדינה
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(168, 122, 255, 0.6); // צבע ראשי עם שקיפות
+    border-radius: 6px;
+    border: 3px solid transparent; // ריווח קטן סביב הכפתור
+    transition: background-color 0.3s ease; // אנימציה חלקה
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(125, 71, 255, 0.9); // צבע חזק יותר בהורה
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 122, 255, 0.6) rgba(0, 0, 0, 0.05);
+
+  /* אפקט שקוף כשהסקרול לא בשימוש */
+  &::-webkit-scrollbar-thumb {
+    opacity: 0; 
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    opacity: 1; 
+  }
 }
