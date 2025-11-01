@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import IBabysitter from "../interface/BabySitter";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import IBabysitter from "../../interface/BabySitter";
+import "./style.scss";
 
 interface Props {
   users: IBabysitter[];
@@ -16,7 +17,7 @@ export default function CardBabysitter({ users }: Props) {
     setIsOpen(true);
     setBabyId(id);
   };
-  
+
   return (
     <div className="card-list">
       {users.map((user) => (

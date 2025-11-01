@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
-import IBabysitter from "../interface/BabySitter";
-import IOrder from "../interface/orderType";
-import { AuthContext } from "../providers/AuthProvider";
+import useFetch from "../../hooks/useFetch";
+import IBabysitter from "../../interface/BabySitter";
+import IOrder from "../../interface/orderType";
+import { AuthContext } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import "./style.scss";
 
 export default function ParentPage() {
   const { user } = useContext(AuthContext) ?? {};
