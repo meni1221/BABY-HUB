@@ -4,38 +4,11 @@
   font-family: "Arial", sans-serif;
   text-align: center;
 
-  .developers-carousel {
-    width: 280px;
-    margin: 0 auto;
-
-    .slick-slide {
-      display: flex !important;
-      justify-content: center;
-    }
-
-    .slick-prev,
-    .slick-next {
-      z-index: 2;
-      width: 40px;
-      height: 40px;
-      &:before {
-        font-size:30px;
-        color: #a87aff;
-      }
-    }
-
-    .slick-dots {
-      bottom: -35px;
-
-      li button:before {
-        font-size: 10px;
-        color: #a87aff;
-      }
-
-      li.slick-active button:before {
-        color: #7d47ff;
-      }
-    }
+  .developers-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
   .developer-card {
@@ -73,6 +46,65 @@
       font-size: 1rem;
       color: #555;
       line-height: 1.5;
+    }
+  }
+
+  .developers-carousel {
+    display: none;
+    width: 280px;
+    margin: 0 auto;
+    position: relative;
+
+    .slick-slide {
+      display: flex !important;
+      justify-content: center;
+    }
+
+    .slick-dots {
+      bottom: -35px;
+
+      li button:before {
+        font-size: 10px;
+        color: #a87aff;
+      }
+
+      li.slick-active button:before {
+        color: #7d47ff;
+      }
+    }
+  }
+
+  .custom-arrow {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 5;
+    cursor: pointer;
+    font-size: 25px;
+    color: #a87aff;
+    transition: 0.3s;
+
+    &.prev {
+      left: -45px;
+    }
+
+    &.next {
+      right: -45px;
+    }
+
+    &:hover {
+      color: #7d47ff;
+      transform: translateY(-50%) scale(1.2);
+    }
+  }
+
+  // 📱 מצב מובייל: להציג את הקרוסלה ולהסתיר את הרשימה הרגילה
+  @media (max-width: 900px) {
+    .developers-list {
+      display: none;
+    }
+    .developers-carousel {
+      display: block;
     }
   }
 }
