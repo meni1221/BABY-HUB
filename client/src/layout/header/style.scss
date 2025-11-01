@@ -1,0 +1,25 @@
+header {
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+
+  position: fixed;   // צמוד תמיד למעלה
+  top: 0;
+  left: 0;
+  width: 100%;       // כדי שימלא את כל רוחב המסך
+  z-index: 1000;     // תמיד מעל התוכן
+
+  .logo {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    background: none;
+    margin: 0;
+  }
+}

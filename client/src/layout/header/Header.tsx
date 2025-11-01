@@ -4,6 +4,8 @@ import { AuthContext } from "../../providers/AuthProvider";
 import logo from "../../assets/logo.png";
 import Cookies from "js-cookie";
 import TopNavLink from "../../components/TopNavLink";
+import "./style.scss";
+
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext) ?? {};

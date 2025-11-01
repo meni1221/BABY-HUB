@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { Register } from "../pages/register/Register";
 import AboutPage from "../pages/AboutPage";
-import ParentPage from "../pages/ParentPage";
+import ParentPage from "../pages/ParentPage/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../components/EditBabysitter";
 import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
