@@ -85,7 +85,7 @@
 
   border: none;
   border-radius: 12px;
-  padding: 30px;
+  padding: 1.5rem 2rem;
   width: 400px;
   max-width: 90%;
   background: var(--color-white);
@@ -99,6 +99,11 @@
     backdrop-filter: blur(3px);
   }
 
+  form {
+    box-shadow: none;
+    padding: 0;
+  }
+
   .popup-form {
     display: flex;
     flex-direction: column;
@@ -110,6 +115,7 @@
       color: var(--color-primary);
     }
 
+    /* 🆕 אייקון סגירה */
     .close-btn {
       position: absolute;
       top: -10px;
@@ -127,6 +133,16 @@
       &:hover {
         background-color: #d93636;
       }
+    }
+
+    /* 🆕 תמונת הבייביסיטר בפופאפ */
+    .popup-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--color-primary);
+      margin: 10px auto;
     }
 
     label {

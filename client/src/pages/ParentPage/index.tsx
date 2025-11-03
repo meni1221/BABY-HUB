@@ -16,6 +16,8 @@ export default function ParentPage() {
   const [number_working, setNumber_working] = useState(1);
   const [expectations, setExpectations] = useState("");
   const [babyId, setBabyId] = useState("");
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedName, setSelectedName] = useState<string>("");
 
   const navigate = useNavigate();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -32,6 +34,13 @@ export default function ParentPage() {
   const openDialog = (id?: string) => {
     if (!id) return;
     setBabyId(id);
+
+    const selected = babysitters.find((b) => b._id === id);
+    if (selected) {
+      setSelectedImage(selected.image || "default-avatar.jpg");
+      setSelectedName(selected.name);
+    }
+
     dialogRef.current?.showModal();
   };
 
@@ -83,10 +92,17 @@ export default function ParentPage() {
         )}
       </div>
 
+      {/* 🎯 דיאלוג פופאפ */}
       <dialog ref={dialogRef} className="popup-dialog">
         <form onSubmit={handleSubmit} className="popup-form">
-          <IoClose onClick={closeDialog} size={23} />
-          <h2>Contact Babysitter</h2>
+          <IoClose className="close-icon" onClick={closeDialog} size={24} />
+          <img
+            src={selectedImage}
+            alt={selectedName}
+            className="popup-avatar"
+          />
+          <h2>Contact {selectedName}</h2>
+
           <label htmlFor="number_working">Number of Hours</label>
           <input
             id="number_working"
