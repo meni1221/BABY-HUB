@@ -14,7 +14,7 @@ const developers = [
   { name: "Eliya", image: eliya, story: "Full Stack Developer" },
 ];
 
-function NextArrow(props: any) {
+export function NextArrow(props: any) {
   const { onClick } = props;
   return (
     <div className="custom-arrow next" onClick={onClick}>
@@ -23,7 +23,7 @@ function NextArrow(props: any) {
   );
 }
 
-function PrevArrow(props: any) {
+export function PrevArrow(props: any) {
   const { onClick } = props;
   return (
     <div className="custom-arrow prev" onClick={onClick}>
@@ -47,7 +47,6 @@ export default function AboutPage() {
     <>
       <PageHeader title="Meet the Developers" subtitle="Pearl Team" />
       <div className="about-container">
-        {/* גרסת דסקטופ רגילה */}
         <div className="developers-list">
           {developers.map((dev, index) => (
             <div key={index} className="developer-card">
