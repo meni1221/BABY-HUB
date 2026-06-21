@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { apiUrl } from "../config/api";
-import { logger } from "../utils/logger";
+import { apiUrl } from "../../config/api";
+import { logger } from "../../utils/logger";
 
 interface IComment {
   id: string;
