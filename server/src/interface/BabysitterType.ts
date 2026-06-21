@@ -1,4 +1,7 @@
 export interface IReview {
+  _id?: {
+    toString: () => string;
+  };
   userId: string;
   comment: string;
   rating: number;

@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import { IParents } from '../interface/parents';
-import AdderssSchema from '../models/AddressModel';
 
 const ParentsSchema: Schema = new Schema({
   name: {
@@ -58,7 +57,6 @@ const ParentsSchema: Schema = new Schema({
   },
 });
 
-// מסתיר את הסיסמה כשמחזירים את המשתמש
 ParentsSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
