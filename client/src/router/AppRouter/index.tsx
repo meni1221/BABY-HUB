@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import { LoginPage } from "../pages/LoginPage";
-import { Register } from "../pages/register";
-import AboutPage from "../pages/AboutPage";
-import ParentPage from "../pages/ParentPage";
-import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
-import { EditBabysitter } from "../components/EditBabysitter";
-import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
-import ErrorPage from "../pages/ErrorPage";
-import PrivateRouteUser from "../components/UserPrivateRoute";
+import HomePage from "../../pages/HomePage";
+import { LoginPage } from "../../pages/LoginPage";
+import { Register } from "../../pages/register";
+import AboutPage from "../../pages/AboutPage";
+import ParentPage from "../../pages/ParentPage";
+import { BaybisitterHomePage } from "../../pages/BaybisitterHomePage";
+import { EditBabysitter } from "../../components/EditBabysitter";
+import DisplayBabisitterPage from "../../pages/DisplayBabisitterPage";
+import ErrorPage from "../../pages/ErrorPage";
+import PrivateRouteUser from "../../components/UserPrivateRoute";
 
 const AppRouter = () => {
   return (
