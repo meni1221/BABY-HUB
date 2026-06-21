@@ -25,7 +25,6 @@ const BabysitterSchema: Schema = new Schema(
     phone: {
       type: String,
       required: true,
-      // תבנית פשוטה למספר טלפון ישראלי
       match: [/^0[2-9]\d{7,8}$/, 'אנא הכנס מספר טלפון תקין'],
     },
     email: {
@@ -70,7 +69,6 @@ const BabysitterSchema: Schema = new Schema(
   }
 );
 
-// מסתיר את הסיסמה כשמחזירים את המשתמש
 BabysitterSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;

@@ -1,75 +1,80 @@
 .about-container {
-  padding: 40px 0;
-  background-color: #f8f9fa;
-  font-family: "Arial", sans-serif;
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 10px 0 44px;
   text-align: center;
 
   .developers-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 24px;
   }
 
   .developer-card {
-    width: 250px;
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px;
-    transition: all 0.3s ease;
-    margin: 0 auto;
+    min-height: 430px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 16px 40px var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:hover {
-      transform: translateY(-5px);
-      background-color: #dec2ff;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-6px);
+      border-color: var(--color-accent-soft);
+      box-shadow: 0 22px 48px var(--shadow-card-hover);
     }
 
     .developer-image {
-      width: 200px;
-      height: 300px;
+      width: 100%;
+      max-width: 230px;
+      aspect-ratio: 3 / 4;
       object-fit: cover;
       border-radius: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
+      border: 1px solid var(--color-border);
     }
 
     h3 {
-      font-size: 1.3rem;
-      margin: 10px 0;
-      color: #333;
+      margin: 0 0 6px;
+      color: var(--color-heading);
+      font-size: 1.45rem;
+      font-weight: 800;
     }
 
     p {
+      color: var(--color-muted);
       font-size: 1rem;
-      color: #555;
-      line-height: 1.5;
+      line-height: 1.6;
     }
   }
 
   .developers-carousel {
     display: none;
-    width: 280px;
+    width: min(100%, 340px);
     margin: 0 auto;
     position: relative;
 
     .slick-slide {
       display: flex !important;
       justify-content: center;
+      padding: 4px 0;
     }
 
     .slick-dots {
-      bottom: -35px;
+      bottom: -36px;
 
       li button:before {
         font-size: 10px;
-        color: #a87aff;
+        color: var(--color-accent-muted);
       }
 
       li.slick-active button:before {
-        color: #7d47ff;
+        color: var(--color-accent-strong);
       }
     }
   }
@@ -77,32 +82,36 @@
   .custom-arrow {
     position: absolute;
     top: 45%;
-    transform: translateY(-50%);
     z-index: 5;
+    display: grid;
+    place-items: center;
+    color: var(--color-primary-strong);
     cursor: pointer;
-    font-size: 25px;
-    color: #a87aff;
-    transition: 0.3s;
+    font-size: 28px;
+    transform: translateY(-50%);
+    transition: color 0.2s ease, transform 0.2s ease;
 
     &.prev {
-      left: -45px;
+      left: -38px;
     }
 
     &.next {
-      right: -45px;
+      right: -38px;
     }
 
     &:hover {
-      color: #7d47ff;
-      transform: translateY(-50%) scale(1.2);
+      color: var(--color-secondary-strong);
+      transform: translateY(-50%) scale(1.12);
     }
   }
+}
 
-  // 📱 מצב מובייל: להציג את הקרוסלה ולהסתיר את הרשימה הרגילה
-  @media (max-width: 900px) {
+@media (max-width: 900px) {
+  .about-container {
     .developers-list {
       display: none;
     }
+
     .developers-carousel {
       display: block;
     }

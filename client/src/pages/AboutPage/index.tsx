@@ -5,34 +5,40 @@ import PageHeader from "../../components/PageHeader";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
+import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
+import { useLanguage } from "../../providers/LanguageProvider";
 import "./style.scss";
 
+interface ArrowProps {
+  onClick?: () => void;
+}
+
 const developers = [
-  { name: "Miki", image: miki, story: "Full Stack Developer" },
-  { name: "Meni", image: meni, story: "Full Stack Developer" },
-  { name: "Eliya", image: eliya, story: "Full Stack Developer" },
+  { name: "Miki", image: miki },
+  { name: "Meni", image: meni },
+  { name: "Eliya", image: eliya },
 ];
 
-function NextArrow(props: any) {
+export const NextArrow = (props: ArrowProps) => {
   const { onClick } = props;
   return (
     <div className="custom-arrow next" onClick={onClick}>
-      <FaCircleChevronRight />
+      <TbChevronRight />
     </div>
   );
-}
+};
 
-function PrevArrow(props: any) {
+export const PrevArrow = (props: ArrowProps) => {
   const { onClick } = props;
   return (
     <div className="custom-arrow prev" onClick={onClick}>
-      <FaCircleChevronLeft />
+      <TbChevronLeft />
     </div>
   );
-}
+};
 
-export default function AboutPage() {
+const AboutPage = () => {
+  const { t } = useLanguage();
   const settings = {
     dots: true,
     infinite: true,
@@ -45,20 +51,18 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageHeader title="Meet the Developers" subtitle="Pearl Team" />
+      <PageHeader title={t("aboutTitle")} subtitle={t("aboutSubtitle")} />
       <div className="about-container">
-        {/* גרסת דסקטופ רגילה */}
         <div className="developers-list">
           {developers.map((dev, index) => (
             <div key={index} className="developer-card">
               <img src={dev.image} alt={dev.name} className="developer-image" />
               <h3>{dev.name}</h3>
-              <p>{dev.story}</p>
+              <p>{t("developerRole")}</p>
             </div>
           ))}
         </div>
 
-        {/* גרסת מובייל – קרוסלה */}
         <div className="developers-carousel">
           <Slider {...settings}>
             {developers.map((dev, index) => (
@@ -69,7 +73,7 @@ export default function AboutPage() {
                   className="developer-image"
                 />
                 <h3>{dev.name}</h3>
-                <p>{dev.story}</p>
+                <p>{t("developerRole")}</p>
               </div>
             ))}
           </Slider>
@@ -77,4 +81,6 @@ export default function AboutPage() {
       </div>
     </>
   );
-}
+};
+
+export default AboutPage;

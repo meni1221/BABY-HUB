@@ -1,19 +1,18 @@
 header {
-  background-color: var(--color-primary);
-  color: white;
-  text-align: center;
-  font-weight: 600;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000;
+  height: 80px;
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  height: 80px;
-
-  position: fixed;   // צמוד תמיד למעלה
-  top: 0;
-  left: 0;
-  width: 100%;       // כדי שימלא את כל רוחב המסך
-  z-index: 1000;     // תמיד מעל התוכן
+  color: var(--color-surface);
+  text-align: center;
+  font-weight: 600;
+  background: var(--header-bg);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px var(--shadow-nav);
 
   .logo {
     height: 120px;
@@ -21,5 +20,43 @@ header {
     object-fit: contain;
     background: none;
     margin: 0;
+  }
+
+  .nav-link,
+  .language-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    svg {
+      width: 1.15em;
+      height: 1.15em;
+      flex: 0 0 auto;
+    }
+  }
+
+  .language-toggle {
+    min-width: 64px;
+    height: 40px;
+    padding: 0 12px;
+    color: var(--color-heading);
+    background: var(--language-bg);
+    border: 1px solid var(--color-border-strong);
+    box-shadow: 0 8px 20px var(--shadow-nav);
+
+    &:hover {
+      color: var(--color-surface);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  header {
+    height: auto;
+    min-height: 80px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 14px;
   }
 }

@@ -1,0 +1,32 @@
+.login-page__switcher {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 22px;
+
+  button {
+    min-width: 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+.login-page__register {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--color-muted-strong);
+}

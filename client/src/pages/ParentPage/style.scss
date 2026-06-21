@@ -7,11 +7,11 @@
   max-width: 1200px;
   margin: auto;
 
-  .user-card {
+  .babysitter-card {
     background-color: var(--color-white);
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--color-border-light);
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--shadow-card-strong);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px var(--shadow-card-strong-hover);
     }
 
     .user-avatar {
@@ -37,7 +37,7 @@
 
     h2 {
       font-size: 1.5rem;
-      color: #5e3a8c;
+      color: var(--color-heading-soft);
       margin-bottom: 10px;
     }
 
@@ -50,9 +50,9 @@
 
       p {
         font-size: 0.9rem;
-        color: #555;
+        color: var(--color-muted-strong);
         padding: 10px;
-        background-color: #f9f7fc;
+        background-color: var(--color-bg);
         border-radius: 5px;
         margin: 0;
       }
@@ -62,8 +62,7 @@
       margin-top: 15px;
       padding: 10px 20px;
       background-color: var(--color-primary);
-      color: white;
-      border: none;
+      color: var(--color-surface);
       border-radius: 5px;
       cursor: pointer;
       font-size: 1rem;
@@ -72,6 +71,72 @@
       &:hover {
         background-color: var(--color-secondary);
       }
+    }
+  }
+
+  .babysitters-carousel {
+    img {
+      width: 7rem;
+      height: 7rem;
+      border: var(--color-accent-muted) 3px solid;
+      border-radius: 50%;
+    }
+
+    display: none;
+    width: 15rem;
+    margin: 0 auto;
+    position: relative;
+
+    .slick-slide {
+      display: flex !important;
+      justify-content: center;
+    }
+
+    .slick-dots {
+      bottom: -35px;
+
+      li button:before {
+        font-size: 10px;
+        color: var(--color-accent-muted);
+      }
+
+      li.slick-active button:before {
+        color: var(--color-accent-strong);
+      }
+    }
+  }
+
+  .custom-arrow {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 5;
+    cursor: pointer;
+    font-size: 25px;
+    color: var(--color-accent-muted);
+    transition: 0.3s;
+
+    &.prev {
+      left: -45px;
+    }
+
+    &.next {
+      right: -45px;
+    }
+
+    &:hover {
+      color: var(--color-accent-strong);
+      transform: translateY(-50%) scale(1.2);
+    }
+  }
+
+  @media (max-width: 900px) {
+    > .babysitter-card {
+      display: none;
+    }
+
+    .babysitters-carousel {
+      display: block;
     }
   }
 }
@@ -85,18 +150,23 @@
 
   border: none;
   border-radius: 12px;
-  padding: 30px;
+  padding: 1.5rem 2rem;
   width: 400px;
   max-width: 90%;
   background: var(--color-white);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 25px var(--shadow-dialog);
   text-align: center;
   animation: fadeIn 0.3s ease;
   font-family: "Arial", sans-serif;
 
   &::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--shadow-backdrop);
     backdrop-filter: blur(3px);
+  }
+
+  form {
+    box-shadow: none;
+    padding: 0;
   }
 
   .popup-form {
@@ -110,13 +180,12 @@
       color: var(--color-primary);
     }
 
-    .close-btn {
+    .close-icon {
       position: absolute;
       top: -10px;
       right: -10px;
-      background: #ff4d4d;
-      color: white;
-      border: none;
+      background: var(--color-danger);
+      color: var(--color-surface);
       border-radius: 50%;
       width: 28px;
       height: 28px;
@@ -125,20 +194,29 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #d93636;
+        background-color: var(--color-danger-strong);
       }
+    }
+
+    .popup-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--color-primary);
+      margin: 10px auto;
     }
 
     label {
       text-align: left;
       font-weight: bold;
-      color: #444;
+      color: var(--color-label);
     }
 
     input {
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--color-neutral-strong);
       font-size: 1rem;
     }
 
@@ -157,16 +235,16 @@
       }
 
       .cancel-btn {
-        background-color: #e0e0e0;
-        color: #333;
+        background-color: var(--color-neutral);
+        color: var(--color-text);
         &:hover {
-          background-color: #ccc;
+          background-color: var(--color-neutral-strong);
         }
       }
 
       .submit-btn {
         background-color: var(--color-primary);
-        color: #fff;
+        color: var(--color-surface);
         &:hover {
           background-color: var(--color-secondary);
         }
