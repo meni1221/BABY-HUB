@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { apiUrl } from "../config/api";
+import { logger } from "../utils/logger";
 
 interface IComment {
   id: string;
@@ -38,34 +39,41 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
 
   const GET = async () => {
     try {
+      logger.info(`GET ${url}`);
       const response = await fetch(`${url}`);
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`GET failed ${url}: ${message}`);
         throw new Error(`HTTP error! ${message}`);
       }
       const result = (await response.json()) as T;
       setData(result);
     } catch (error: unknown) {
+      logger.error(`GET error ${url}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
   };
 
   const GETOne = async (id: string) => {
     try {
+      logger.info(`GET one ${url}/${id}`);
       const response = await fetch(`${url}/${id}`);
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`GET one failed ${url}/${id}: ${message}`);
         throw new Error(`HTTP error! ${message}`);
       }
       const result = (await response.json()) as T;
       setData(result);
     } catch (error: unknown) {
+      logger.error(`GET one error ${url}/${id}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
   };
 
   const POST = async <TResponse = T,>(endpoint: string, body: object = {}) => {
     try {
+      logger.info(`POST ${url}/${endpoint}`);
       const response = await fetch(`${url}/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,6 +83,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
 
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`POST failed ${url}/${endpoint}: ${message}`);
         throw new Error(message);
       }
 
@@ -82,6 +91,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       setData(result as unknown as T);
       return result;
     } catch (error) {
+      logger.error(`POST error ${url}/${endpoint}`, error);
       setError((error as Error).message || "An unknown error occurred.");
       throw error;
     }
@@ -89,6 +99,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
 
   const PATCH = async (id: string, body: Record<string, unknown>) => {
     try {
+      logger.info(`PATCH ${url}/${id}`);
       const response = await fetch(`${url}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -97,34 +108,40 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       });
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`PATCH failed ${url}/${id}: ${message}`);
         throw new Error(`error is: ${message}`);
       }
       const result = (await response.json()) as T;
       setData(result);
     } catch (error: unknown) {
+      logger.error(`PATCH error ${url}/${id}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
   };
   const DELETE = async (id: string) => {
     try {
-      const response = await fetch(`${url}/:${id}`, {
+      logger.info(`DELETE ${url}/${id}`);
+      const response = await fetch(`${url}/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`DELETE failed ${url}/${id}: ${message}`);
         throw new Error(`error is: ${message}`);
       }
       const result = (await response.json()) as T;
       setData(result);
     } catch (error) {
+      logger.error(`DELETE error ${url}/${id}`, error);
       setError((error as Error).message);
     }
   };
 
   const VerifyToken = async <TResponse = T,>(role: string) => {
     try {
+      logger.info(`Verify token for role ${role}`);
       const response = await fetch(apiUrl(`auth/verifyUser/${role}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,6 +150,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
 
       if (!response.ok) {
         const message = await getErrorMessage(response, "Request failed");
+        logger.warn(`Verify token failed for role ${role}: ${message}`);
         throw new Error(message);
       }
 
@@ -140,20 +158,36 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       setData(result as unknown as T);
       return result;
     } catch (error) {
+      logger.error(`Verify token error for role ${role}`, error);
       setError((error as Error).message || "An unknown error occurred.");
       throw error;
     }
   };
 
   const addComment = async (comment: IComment) => {
-    const res = await fetch(apiUrl(`babysitter/${comment.id}/reviews`), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const endpoint = apiUrl(`babysitter/${comment.id}/reviews`);
 
-      body: JSON.stringify(comment),
-    });
-    const data = await res.json();
-    return data;
+    try {
+      logger.info(`POST comment ${endpoint}`);
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(comment.review),
+      });
+
+      if (!res.ok) {
+        const message = await getErrorMessage(res, "Comment request failed");
+        logger.warn(`POST comment failed ${endpoint}: ${message}`);
+        throw new Error(message);
+      }
+
+      return res.json();
+    } catch (error) {
+      logger.error(`POST comment error ${endpoint}`, error);
+      setError((error as Error).message || "An unknown error occurred.");
+      throw error;
+    }
   };
 
   return {
