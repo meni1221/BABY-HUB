@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { RegisterParent } from "./registerParent/RegisterParent";
-import { RegisterBaybisitter } from "./registerBaybisitter/RegisterBaybisitter";
+import { RegisterParent } from "./registerParent";
+import { RegisterBaybisitter } from "./registerBaybisitter";
 import PageHeader from "../../components/PageHeader";
 import { useLanguage } from "../../providers/LanguageProvider";
 import { TbUserHeart, TbUsers } from "react-icons/tb";
