@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { IParents } from "../interface/parents";
-import IBabysitter from "../interface/BabySitter";
-import useFetch from "../hooks/useFetch";
+import { IParents } from "../../interface/parents";
+import IBabysitter from "../../interface/BabySitter";
+import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { API_BASE_URL } from "../config/api";
-import { logger } from "../utils/logger";
+import { API_BASE_URL } from "../../config/api";
+import { logger } from "../../utils/logger";
 
 interface UserDTO {
   email: string;
