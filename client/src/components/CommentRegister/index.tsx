@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../providers/AuthProvider";
-import useFetch from "../hooks/useFetch";
-import { apiUrl } from "../config/api";
-import IBabysitter from "../interface/BabySitter";
-import { useLanguage } from "../providers/LanguageProvider";
+import { AuthContext } from "../../providers/AuthProvider";
+import useFetch from "../../hooks/useFetch";
+import { apiUrl } from "../../config/api";
+import IBabysitter from "../../interface/BabySitter";
+import { useLanguage } from "../../providers/LanguageProvider";
 import { TbMessageCircle, TbSend } from "react-icons/tb";
-import "./CommentRegister.scss";
+import "./style.scss";
 
 interface Props {
   id: string;
