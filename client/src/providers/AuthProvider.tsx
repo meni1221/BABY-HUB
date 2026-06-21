@@ -5,6 +5,7 @@ import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "../config/api";
+import { logger } from "../utils/logger";
 
 interface UserDTO {
   email: string;
@@ -57,7 +58,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           try {
             success = await login({ email, password }, loginPath);
           } catch (loginError) {
-            console.error("Login error:", loginError);
+            logger.error("Login error during token restore", loginError);
             success = false;
           }
 
@@ -65,7 +66,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             handleLogout();
           }
         } catch (error) {
-          console.error("Token verification error:", error);
+          logger.error("Token verification error", error);
           handleLogout();
         }
       } else {
@@ -100,7 +101,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await POST<AuthResponse>(endpoint, userClient);
 
       if (!response || !response.foundUser) {
-        console.error("Invalid response:", response);
+        logger.warn("Invalid login response", response);
         throw new Error("Invalid response from server");
       }
 
@@ -109,10 +110,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const role = urlPath === "babysitter" ? "babysitter" : "parent";
       Cookies.set("role", role);
 
+      logger.info(`User logged in as ${role}`);
       navigate(`${urlPath}`);
       return true;
     } catch (error) {
-      console.error("Login error details:", error);
+      logger.error("Login error details", error);
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
       setError(`Login failed: ${errorMessage}`);
@@ -127,9 +129,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       Cookies.remove("auth_token");
       Cookies.remove("role");
+      logger.info("User logged out");
       navigate("/");
       return true;
     } catch (error) {
+      logger.error("Logout error details", error);
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
       setError(`Logout failed: ${errorMessage}`);
