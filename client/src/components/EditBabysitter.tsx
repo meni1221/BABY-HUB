@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { apiUrl } from "../config/api";
 import useFetch from "../hooks/useFetch";
 import IBabysitter from "../interface/BabySitter";
 import { AuthContext } from "../providers/AuthProvider";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLanguage } from "../providers/LanguageProvider";
 import PageHeader from "./PageHeader";
 import TopNavLink from "./TopNavLink";
 
 export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
-  const { PATCH } = useFetch<IBabysitter>("http://localhost:7700/babysitter");
-
+  const { PATCH } = useFetch<IBabysitter>(apiUrl("babysitter"));
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -28,26 +30,30 @@ export const EditBabysitter = () => {
   const userBabysitter = user as IBabysitter;
 
   useEffect(() => {
-    setName(userBabysitter?.name);
-    setAge(userBabysitter.age);
-    setImage(userBabysitter.image);
-    setAddress(userBabysitter.address);
-    setPhone(userBabysitter.phone);
-    setEmail(userBabysitter.email);
-    setPreferences(userBabysitter.preferences);
-    setExperience(userBabysitter.experience);
-    setAbout(userBabysitter.about);
-    setPrice(userBabysitter.price);
-    setBudget(userBabysitter.budget);
-  }, []);
+    if (!userBabysitter) return;
 
-  const addpreferences = (newPpreferences: string) => {
+    setName(userBabysitter.name || "");
+    setAge(userBabysitter.age || 0);
+    setImage(userBabysitter.image || "");
+    setAddress(userBabysitter.address || "");
+    setPhone(userBabysitter.phone || "");
+    setEmail(userBabysitter.email || "");
+    setPreferences(userBabysitter.preferences || [""]);
+    setExperience(userBabysitter.experience || "");
+    setAbout(userBabysitter.about || "");
+    setPrice(userBabysitter.price || 0);
+    setBudget(userBabysitter.budget || 100);
+  }, [userBabysitter]);
+
+  const addPreferences = (newPreference: string) => {
     if (preferences.length >= 3) return;
-    setPreferences([...preferences, newPpreferences]);
+    setPreferences([...preferences, newPreference]);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!id) return;
+
     PATCH(id, {
       name,
       age,
@@ -61,141 +67,145 @@ export const EditBabysitter = () => {
       price,
       budget,
     });
+
     navigate("/babysitter");
   };
+
   return (
     <>
-      <PageHeader title="Edit Page" subtitle="Here you can edit your profile" />
+      <PageHeader title={t("editTitle")} subtitle={t("editSubtitle")} />
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">name</label>
+          <label htmlFor="name">{t("name")}</label>
           <input
             id="name"
             type="text"
-            placeholder="הכנס את השם שלך"
+            placeholder={t("namePlaceholder")}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(event) => setName(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="age">age</label>
+          <label htmlFor="age">{t("age")}</label>
           <input
             id="age"
             type="number"
-            placeholder="הכנס את הגיל שלך"
+            placeholder={t("agePlaceholder")}
             value={age}
-            onChange={(e) => setAge(Number(e.target.value))}
+            onChange={(event) => setAge(Number(event.target.value))}
             required
           />
         </div>
         <div>
-          <label htmlFor="image">image</label>
+          <label htmlFor="image">{t("image")}</label>
           <input
             id="image"
             type="text"
-            placeholder="הכנס את התמונה שלך"
+            placeholder={t("imagePlaceholder")}
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(event) => setImage(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="address">address</label>
+          <label htmlFor="address">{t("address")}</label>
           <input
             id="address"
             type="text"
-            placeholder="הכנס את הכתובת שלך"
+            placeholder={t("addressPlaceholder")}
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(event) => setAddress(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="phone">phone</label>
+          <label htmlFor="phone">{t("phone")}</label>
           <input
             id="phone"
             type="text"
-            placeholder="הכנס את המפר טלפון שלך"
+            placeholder={t("phonePlaceholder")}
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(event) => setPhone(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="email">email</label>
+          <label htmlFor="email">{t("email")}</label>
           <input
             id="email"
             type="email"
-            placeholder="הכנס את המייל שלך"
+            placeholder={t("emailPlaceholder")}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="preferences">preferences</label>
+          <label htmlFor="preferences">{t("preferences")}</label>
           <select
             id="preferences"
             value={preferences[0]}
-            onChange={(e) => addpreferences(e.target.value)}
+            onChange={(event) => addPreferences(event.target.value)}
           >
-            <option value="infancy">infancy</option>
-            <option value="special education">special education</option>
-            <option value="Age 5 and up">Age 5 and up</option>
-            <option value="Rewards">Rewards</option>
-            <option value="without food">without food</option>
-            <option value="no homework">no homework</option>
+            <option value="infancy">{t("preferenceInfancy")}</option>
+            <option value="special education">
+              {t("preferenceSpecialEducation")}
+            </option>
+            <option value="Age 5 and up">{t("preferenceAgeFive")}</option>
+            <option value="Rewards">{t("preferenceRewards")}</option>
+            <option value="without food">{t("preferenceWithoutFood")}</option>
+            <option value="no homework">{t("preferenceNoHomework")}</option>
           </select>
         </div>
         <div>
-          <label htmlFor="experience">experience</label>
+          <label htmlFor="experience">{t("experience")}</label>
           <input
             id="experience"
             type="text"
-            placeholder="הכנס את תחום הנסיון שלך"
+            placeholder={t("experiencePlaceholder")}
             value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            onChange={(event) => setExperience(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="about">about</label>
+          <label htmlFor="about">{t("about")}</label>
           <input
             id="about"
             type="text"
-            placeholder="ספר לי עליך בקצרה"
+            placeholder={t("aboutPlaceholder")}
             value={about}
-            onChange={(e) => setAbout(e.target.value)}
+            onChange={(event) => setAbout(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="price">price</label>
+          <label htmlFor="price">{t("price")}</label>
           <input
             id="price"
             type="number"
-            placeholder="הכנס את המחיר שלך לשעה"
+            placeholder={t("pricePlaceholder")}
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={(event) => setPrice(Number(event.target.value))}
             required
           />
         </div>
         <div>
-          <label htmlFor="budget">budget</label>
+          <label htmlFor="budget">{t("budget")}</label>
           <input
             id="budget"
             type="number"
-            placeholder="הכנס את הסכום הראשוני שלך"
+            placeholder={t("budgetPlaceholder")}
             value={budget}
-            onChange={(e) => setBudget(Number(e.target.value))}
+            onChange={(event) => setBudget(Number(event.target.value))}
             required
           />
         </div>
 
-        <button type="submit">Edit Babysitter</button>
-        <button>
-          <TopNavLink to={"/babysitter"}>Back</TopNavLink>
+        <button type="submit">{t("editSubmit")}</button>
+        <button type="button">
+          <TopNavLink to="/babysitter">{t("back")}</TopNavLink>
         </button>
       </form>
     </>

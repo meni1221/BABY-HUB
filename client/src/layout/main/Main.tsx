@@ -1,14 +1,16 @@
-import React from "react";
+import { ReactNode } from "react";
 import "./style.scss";
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export default function Main({ children }: Props) {
+const Main = ({ children }: Props) => {
   return (
     <>
       <main>{children}</main>
     </>
   );
-}
+};
+
+export default Main;

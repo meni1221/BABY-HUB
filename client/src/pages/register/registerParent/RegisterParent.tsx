@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import { FormEvent, useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { IParents } from "../../../interface/parents";
+import { API_BASE_URL } from "../../../config/api";
+import { useLanguage } from "../../../providers/LanguageProvider";
 
 export const RegisterParent = () => {
-  const { POST } = useFetch<IParents>("http://localhost:7700");
+  const { POST } = useFetch<IParents>(API_BASE_URL);
+  const { t } = useLanguage();
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
@@ -16,7 +19,7 @@ export const RegisterParent = () => {
   const [street, setStreet] = useState("");
   const [buildingNumber, setBuildingNumber] = useState(0);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const address = { city, street, buildingNumber };
 
@@ -43,33 +46,33 @@ export const RegisterParent = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">{t("name")}</label>
             <input
               id="name"
               type="text"
-              placeholder="Enter your name"
+              placeholder={t("namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="amount">Number of children</label>
+            <label htmlFor="amount">{t("amount")}</label>
             <input
               id="amount"
               type="number"
-              placeholder="Enter the number of children"
+              placeholder={t("amountPlaceholder")}
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="address">Address</label>
+            <label htmlFor="address">{t("address")}</label>
             <input
               id="city"
               type="text"
-              placeholder="Enter your city"
+              placeholder={t("cityPlaceholder")}
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
@@ -77,7 +80,7 @@ export const RegisterParent = () => {
             <input
               id="street"
               type="text"
-              placeholder="Enter your street"
+              placeholder={t("streetPlaceholder")}
               value={street}
               onChange={(e) => setStreet(e.target.value)}
               required
@@ -85,57 +88,57 @@ export const RegisterParent = () => {
             <input
               id="buildingNumber"
               type="number"
-              placeholder="Enter your building number"
+              placeholder={t("buildingNumberPlaceholder")}
               value={buildingNumber}
               onChange={(e) => setBuildingNumber(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone">{t("phone")}</label>
             <input
               id="phone"
               type="text"
-              placeholder="Enter your phone number"
+              placeholder={t("phonePlaceholder")}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="budget">Budget</label>
+            <label htmlFor="budget">{t("budget")}</label>
             <input
               id="budget"
               type="number"
-              placeholder="Enter initial wallet amount"
+              placeholder={t("budgetPlaceholder")}
               value={budget}
               onChange={(e) => setBudget(Number(e.target.value))}
               required
             />
           </div>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t("email")}</label>
             <input
               id="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t("password")}</label>
             <input
               id="password"
               type="text"
-              placeholder="Enter your password"
+              placeholder={t("passwordPlaceholder")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Add New Parent</button>
+          <button type="submit">{t("registerParentSubmit")}</button>
         </form>
       </div>
     </>

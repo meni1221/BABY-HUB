@@ -4,11 +4,22 @@ import { AuthContext } from "../../providers/AuthProvider";
 import logo from "../../assets/logo.png";
 import Cookies from "js-cookie";
 import TopNavLink from "../../components/TopNavLink";
+import { useLanguage } from "../../providers/LanguageProvider";
+import {
+  TbHome,
+  TbInfoCircle,
+  TbLanguage,
+  TbLayoutDashboard,
+  TbLogin2,
+  TbLogout,
+  TbUserHeart,
+  TbUserPlus,
+} from "react-icons/tb";
 import "./style.scss";
 
-
-export default function Header() {
+const Header = () => {
   const { user, logout } = useContext(AuthContext) ?? {};
+  const { t, toggleLanguage } = useLanguage();
   const [tokenRole, setTokenRole] = useState("");
 
   useEffect(() => {
@@ -20,13 +31,25 @@ export default function Header() {
     <div>
       <header className="nav-bar">
         <div className="nav left-side">
-          <TopNavLink to="/">Home</TopNavLink>
-          <TopNavLink to="/about">About</TopNavLink>
+          <TopNavLink to="/">
+            <TbHome />
+            {t("navHome")}
+          </TopNavLink>
+          <TopNavLink to="/about">
+            <TbInfoCircle />
+            {t("navAbout")}
+          </TopNavLink>
           {user &&
             (tokenRole === "babysitter" ? (
-              <TopNavLink to="/babysitter">Dashboard</TopNavLink>
+              <TopNavLink to="/babysitter">
+                <TbLayoutDashboard />
+                {t("navDashboard")}
+              </TopNavLink>
             ) : (
-              <TopNavLink to="/parent">Babysitters</TopNavLink>
+              <TopNavLink to="/parent">
+                <TbUserHeart />
+                {t("navBabysitters")}
+              </TopNavLink>
             ))}
         </div>
 
@@ -38,17 +61,38 @@ export default function Header() {
 
         {!user && (
           <div className="nav right-side">
-            <TopNavLink to="/login">Login</TopNavLink>
-            <TopNavLink to="/register">Register</TopNavLink>
+            <TopNavLink to="/login">
+              <TbLogin2 />
+              {t("navLogin")}
+            </TopNavLink>
+            <TopNavLink to="/register">
+              <TbUserPlus />
+              {t("navRegister")}
+            </TopNavLink>
           </div>
         )}
 
         {user && (
           <div className="nav right-side" onClick={() => logout!()}>
-            <TopNavLink to="/">Logout</TopNavLink>
+            <TopNavLink to="/">
+              <TbLogout />
+              {t("navLogout")}
+            </TopNavLink>
           </div>
         )}
+
+        <button
+          className="language-toggle"
+          type="button"
+          onClick={toggleLanguage}
+          aria-label="Toggle language"
+        >
+          <TbLanguage />
+          {t("languageToggle")}
+        </button>
       </header>
     </div>
   );
-}
+};
+
+export default Header;

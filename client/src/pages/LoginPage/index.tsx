@@ -1,10 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../providers/AuthProvider";
-import PageHeader from "../components/PageHeader";
-import TopNavLink from "../components/TopNavLink";
+import { AuthContext } from "../../providers/AuthProvider";
+import PageHeader from "../../components/PageHeader";
+import TopNavLink from "../../components/TopNavLink";
+import { useLanguage } from "../../providers/LanguageProvider";
+import { TbLogin2, TbUserHeart, TbUsers } from "react-icons/tb";
+import "./style.scss";
 
 export const LoginPage = () => {
   const authContext = useContext(AuthContext);
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentURL, setCurrentURL] = useState("babysitter");
@@ -15,7 +19,7 @@ export const LoginPage = () => {
   }, []);
 
   if (!authContext) {
-    return <p>Error: User context is not available.</p>;
+    return <p>{t("authContextUnavailable")}</p>;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,33 +43,31 @@ export const LoginPage = () => {
 
   return (
     <>
-      <PageHeader title="Login" subtitle="Welcome to the Login page" />
-      <div>
+      <PageHeader title={t("loginTitle")} subtitle={t("loginSubtitle")} />
+      <div className="login-page__switcher">
         <button
           onClick={() => handleURLChange("babysitter")}
           className={currentURL === "babysitter" ? "selected" : ""}
         >
-          Babysitter
+          <TbUserHeart />
+          {t("babysitter")}
         </button>
         <button
           onClick={() => handleURLChange("parent")}
           className={currentURL === "parent" ? "selected" : ""}
         >
-          Parent
+          <TbUsers />
+          {t("parent")}
         </button>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="login-form"
-        style={{ display: "flex", flexDirection: "column" }}
-      >
+      <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t("email")}</label>
           <input
             id="email"
             type="email"
-            placeholder="Please enter an email"
+            placeholder={t("emailPlaceholder")}
             value={email}
             onChange={handleInputChange}
             required
@@ -73,11 +75,11 @@ export const LoginPage = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t("password")}</label>
           <input
             id="password"
             type="password"
-            placeholder="Please enter a password"
+            placeholder={t("passwordPlaceholder")}
             value={password}
             onChange={handleInputChange}
             required
@@ -88,13 +90,16 @@ export const LoginPage = () => {
           <div className="error-message">{authContext.error}</div>
         )}
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          <TbLogin2 />
+          {t("loginSubmit")}
+        </button>
       </form>
 
-      <div style={{ marginTop: "10px", textAlign: "center" }}>
+      <div className="login-page__register">
         <p>
-          If you are not registered yet, please{" "}
-          <TopNavLink to="/register">register here</TopNavLink>
+          {t("loginNoAccount")}{" "}
+          <TopNavLink to="/register">{t("loginRegisterLink")}</TopNavLink>
         </p>
       </div>
     </>

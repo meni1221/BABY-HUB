@@ -6,11 +6,26 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import "./style.scss";
+import { NextArrow, PrevArrow } from "../AboutPage";
+import Slider from "react-slick";
+import { API_BASE_URL, apiUrl } from "../../config/api";
+import { useLanguage } from "../../providers/LanguageProvider";
+import { TbEye, TbMessageCircle } from "react-icons/tb";
 
-export default function ParentPage() {
+const ParentPage = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
   const { user } = useContext(AuthContext) ?? {};
-  const { data, GET } = useFetch("http://localhost:7700/babysitter");
-  const { POST } = useFetch<IOrder>("http://localhost:7700");
+  const { t } = useLanguage();
+  const { data, GET } = useFetch<IBabysitter[]>(apiUrl("babysitter"));
+  const { POST } = useFetch<IOrder>(API_BASE_URL);
 
   const [babysitters, setBabysitters] = useState<IBabysitter[]>([]);
   const [number_working, setNumber_working] = useState(1);
@@ -28,7 +43,6 @@ export default function ParentPage() {
 
   useEffect(() => {
     if (data) setBabysitters(data);
-    else console.log("No babysitters found");
   }, [data]);
 
   const openDialog = (id?: string) => {
@@ -67,32 +81,65 @@ export default function ParentPage() {
     <>
       <div className="card-list">
         {babysitters && babysitters.length > 0 ? (
-          babysitters.map((user) => (
-            <div key={user.email} className="user-card">
+          babysitters.map((babysitter) => (
+            <div key={babysitter.email} className="babysitter-card">
               <img
-                src={user.image || "default-avatar.jpg"}
-                alt={`${user.name}'s avatar`}
+                src={babysitter.image || "default-avatar.jpg"}
+                alt={`${babysitter.name}'s avatar`}
                 className="user-avatar"
               />
-              <h2>{user.name}</h2>
+              <h2>{babysitter.name}</h2>
               <p>
-                <strong>Age:</strong> {user.age}
+                <strong>{t("age")}:</strong> {babysitter.age}
               </p>
               <p>
-                <strong>Location:</strong> {user.address}
+                <strong>{t("location")}:</strong> {babysitter.address}
               </p>
-              <button onClick={() => navigate(`/display/${user._id}`)}>
-                More Details
+              <button onClick={() => navigate(`/display/${babysitter._id}`)}>
+                <TbEye />
+                {t("moreDetails")}
               </button>
-              <button onClick={() => openDialog(user._id)}>Contact</button>
+              <button onClick={() => openDialog(babysitter._id)}>
+                <TbMessageCircle />
+                {t("contact")}
+              </button>
             </div>
           ))
         ) : (
-          <p>No babysitters available.</p>
+          <p>{t("noBabysitters")}</p>
         )}
+        <div className="babysitters-carousel">
+          <Slider {...settings}>
+            {babysitters.map((babysitter, index) => (
+              <div key={index} className="babysitter-card">
+                <img
+                  src={babysitter.image || "default-avatar.jpg"}
+                  alt={`${babysitter.name}'s avatar`}
+                  className="user-avatar"
+                />
+                <h2>{babysitter.name}</h2>
+                <p>
+                  <strong>{t("age")}:</strong> {babysitter.age}
+                </p>
+                <p>
+                  <strong>{t("location")}:</strong> {babysitter.address}
+                </p>
+                <button onClick={() => navigate(`/display/${babysitter._id}`)}>
+                  <TbEye />
+                  {t("moreDetails")}
+                </button>
+                <button onClick={() => openDialog(babysitter._id)}>
+                  <TbMessageCircle />
+                  {t("contact")}
+                </button>
+              </div>
+            ))}
+          </Slider>
+        </div>
       </div>
 
-      {/* 🎯 דיאלוג פופאפ */}
+      
+
       <dialog ref={dialogRef} className="popup-dialog">
         <form onSubmit={handleSubmit} className="popup-form">
           <IoClose className="close-icon" onClick={closeDialog} size={24} />
@@ -101,9 +148,11 @@ export default function ParentPage() {
             alt={selectedName}
             className="popup-avatar"
           />
-          <h2>Contact {selectedName}</h2>
+          <h2>
+            {t("contact")} {selectedName}
+          </h2>
 
-          <label htmlFor="number_working">Number of Hours</label>
+          <label htmlFor="number_working">{t("numberOfHours")}</label>
           <input
             id="number_working"
             type="number"
@@ -113,7 +162,7 @@ export default function ParentPage() {
             onChange={(e) => setNumber_working(Number(e.target.value))}
           />
 
-          <label htmlFor="expectations">Expectations</label>
+          <label htmlFor="expectations">{t("expectations")}</label>
           <input
             id="expectations"
             type="text"
@@ -123,14 +172,16 @@ export default function ParentPage() {
 
           <div className="dialog-buttons">
             <button type="button" onClick={closeDialog} className="cancel-btn">
-              Cancel
+              {t("cancel")}
             </button>
             <button type="submit" className="submit-btn">
-              Send Order
+              {t("sendOrder")}
             </button>
           </div>
         </form>
       </dialog>
     </>
   );
-}
+};
+
+export default ParentPage;

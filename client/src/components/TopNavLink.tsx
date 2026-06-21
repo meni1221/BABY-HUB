@@ -1,17 +1,17 @@
-import React from "react";
+import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
 interface TopNavLinkProps {
   to: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
-const TopNavLink: React.FC<TopNavLinkProps> = ({
+const TopNavLink = ({
   to,
   children,
   className = "",
-}) => {
+}: TopNavLinkProps) => {
   return (
     <NavLink to={to} className={`nav-link ${className}`}>
       {children}

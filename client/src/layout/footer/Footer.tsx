@@ -1,11 +1,18 @@
-import "./style.scss"
+import { useLanguage } from "../../providers/LanguageProvider";
+import "./style.scss";
 
-export default function Footer() {
+const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <div>
       <footer>
-        <p>© {new Date().getFullYear()} Pearl Team. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} {t("footerRights")}
+        </p>
       </footer>
     </div>
   );
-}
+};
+
+export default Footer;

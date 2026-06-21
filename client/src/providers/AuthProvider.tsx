@@ -4,6 +4,7 @@ import IBabysitter from "../interface/BabySitter";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { API_BASE_URL } from "../config/api";
 
 interface UserDTO {
   email: string;
@@ -18,10 +19,19 @@ interface AuthContextType {
   clearError: () => void;
 }
 
+interface AuthResponse {
+  foundUser: IParents | IBabysitter;
+  token: string;
+}
+
+interface VerifyTokenResponse {
+  user: UserDTO;
+}
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export default function AuthProvider({ children }: { children: ReactNode }) {
-  const { POST, VerifyToken } = useFetch("http://localhost:7700");
+const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { POST, VerifyToken } = useFetch(API_BASE_URL);
   const [user, setUser] = useState<IParents | IBabysitter | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +44,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const verifyAndLogin = async () => {
       if (token) {
         try {
-          const decodedToken = await VerifyToken();
+          const loginPath = tokenRole === "babysitter" ? "babysitter" : "parent";
+          const decodedToken = await VerifyToken<VerifyTokenResponse>(
+            loginPath
+          );
           if (!decodedToken?.user?.email || !decodedToken?.user?.password) {
             throw new Error("Invalid token data");
           }
@@ -42,8 +55,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           const { email, password } = decodedToken.user;
           let success = false;
           try {
-            const loginPath =
-              tokenRole === "babysitter" ? "babysitter" : "parent";
             success = await login({ email, password }, loginPath);
           } catch (loginError) {
             console.error("Login error:", loginError);
@@ -81,13 +92,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       clearError();
 
-      // בניית ה-URL הנכון
       let endpoint = "auth/login";
       if (urlPath) {
         endpoint += `/${urlPath}`;
       }
 
-      const response = await POST(endpoint, userClient);
+      const response = await POST<AuthResponse>(endpoint, userClient);
 
       if (!response || !response.foundUser) {
         console.error("Invalid response:", response);
@@ -96,11 +106,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(response.foundUser);
 
-      // עדכון הקוקיז
       const role = urlPath === "babysitter" ? "babysitter" : "parent";
       Cookies.set("role", role);
 
-      // ניווט
       navigate(`${urlPath}`);
       return true;
     } catch (error) {
@@ -134,4 +142,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default AuthProvider;

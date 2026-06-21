@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
-import { Register } from "../pages/register/Register";
+import { Register } from "../pages/register";
 import AboutPage from "../pages/AboutPage";
 import ParentPage from "../pages/ParentPage";
 import { BaybisitterHomePage } from "../pages/BaybisitterHomePage";
@@ -10,7 +10,7 @@ import DisplayBabisitterPage from "../pages/DisplayBabisitterPage";
 import ErrorPage from "../pages/ErrorPage";
 import PrivateRouteUser from "../components/UserPrivateRoute";
 
-export default function AppRouter() {
+const AppRouter = () => {
   return (
     <div>
       <Routes>
@@ -38,4 +38,6 @@ export default function AppRouter() {
       </Routes>
     </div>
   );
-}
+};
+
+export default AppRouter;

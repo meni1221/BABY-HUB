@@ -1,17 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import useFetch from "../hooks/useFetch";
+import { apiUrl } from "../config/api";
+import IBabysitter from "../interface/BabySitter";
+import { useLanguage } from "../providers/LanguageProvider";
+import { TbMessageCircle, TbSend } from "react-icons/tb";
 
 interface Props {
   id: string;
 }
 
-export default function CommentRegister({ id }: Props) {
-  const { GETOne, data } = useFetch("http://localhost:7700/babysitter");
+const CommentRegister = ({ id }: Props) => {
+  const { GETOne, addComment, data } = useFetch<IBabysitter>(
+    apiUrl("babysitter")
+  );
   const [stars, setStars] = useState(["star", "star", "star", "star", "star"]);
   const [comment, setComment] = useState("");
-  const [babysitter, setBabysitter] = useState<any>({});
+  const [babysitter, setBabysitter] = useState<IBabysitter | null>(null);
   const { user } = useContext(AuthContext) ?? {};
+  const { t } = useLanguage();
 
   useEffect(() => {
     GETOne(id);
@@ -28,30 +35,36 @@ export default function CommentRegister({ id }: Props) {
     setStars(updatedStars);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const selectedStars = stars.filter(
       (star) => star === "contenerStarChecked"
     ).length;
     if (selectedStars > 0 && comment.trim() !== "") {
-      console.log("Submitting comment:", {
-        babysitterId: id,
-        userId: user?._id,
-        stars: selectedStars,
-        comment,
+      await addComment({
+        id,
+        review: {
+          userId: user!._id!,
+          rating: selectedStars,
+          comment,
+        },
       });
+      setComment("");
     } else {
-      alert("Please fill all fields correctly.");
+      alert(t("commentValidation"));
     }
   };
 
   return user ? (
     <div>
-      <h1>Add comment to {babysitter.name}</h1>
+      <h1>
+        <TbMessageCircle />
+        {t("addCommentTo")} {babysitter?.name || t("fallbackBabysitter")}
+      </h1>
       <input
-        type=""
+        type="text"
         onChange={(e) => setComment(e.target.value)}
         value={comment}
-        placeholder="Write your comment..."
+        placeholder={t("commentPlaceholder")}
       />
       <div className="contenerStar">
         {stars.map((star, index) => (
@@ -63,10 +76,13 @@ export default function CommentRegister({ id }: Props) {
         ))}
       </div>
       <button type="button" onClick={() => handleSubmit()}>
-        Submit
+        <TbSend />
+        {t("submit")}
       </button>
     </div>
   ) : (
-    <p>You must be logged in to add a comment.</p>
+    <p>{t("loginRequiredComment")}</p>
   );
-}
+};
+
+export default CommentRegister;
