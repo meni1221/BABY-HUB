@@ -3,7 +3,7 @@ import {
   Language,
   TranslationKey,
   translations,
-} from "../constants/translations";
+} from "../../constants/translations";
 
 interface LanguageContextValue {
   language: Language;
