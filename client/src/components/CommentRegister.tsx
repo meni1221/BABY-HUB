@@ -5,6 +5,7 @@ import { apiUrl } from "../config/api";
 import IBabysitter from "../interface/BabySitter";
 import { useLanguage } from "../providers/LanguageProvider";
 import { TbMessageCircle, TbSend } from "react-icons/tb";
+import "./CommentRegister.scss";
 
 interface Props {
   id: string;
@@ -55,18 +56,19 @@ const CommentRegister = ({ id }: Props) => {
   };
 
   return user ? (
-    <div>
-      <h1>
+    <section className="comment-register">
+      <h2 className="comment-register__title">
         <TbMessageCircle />
         {t("addCommentTo")} {babysitter?.name || t("fallbackBabysitter")}
-      </h1>
+      </h2>
       <input
+        className="comment-register__input"
         type="text"
         onChange={(e) => setComment(e.target.value)}
         value={comment}
         placeholder={t("commentPlaceholder")}
       />
-      <div className="contenerStar">
+      <div className="comment-register__stars contenerStar">
         {stars.map((star, index) => (
           <div
             key={index}
@@ -79,9 +81,9 @@ const CommentRegister = ({ id }: Props) => {
         <TbSend />
         {t("submit")}
       </button>
-    </div>
+    </section>
   ) : (
-    <p>{t("loginRequiredComment")}</p>
+    <p className="comment-register__notice">{t("loginRequiredComment")}</p>
   );
 };
 
