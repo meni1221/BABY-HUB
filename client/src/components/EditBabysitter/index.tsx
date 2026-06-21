@@ -1,12 +1,12 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiUrl } from "../config/api";
-import useFetch from "../hooks/useFetch";
-import IBabysitter from "../interface/BabySitter";
-import { AuthContext } from "../providers/AuthProvider";
-import { useLanguage } from "../providers/LanguageProvider";
-import PageHeader from "./PageHeader";
-import TopNavLink from "./TopNavLink";
+import { apiUrl } from "../../config/api";
+import useFetch from "../../hooks/useFetch";
+import IBabysitter from "../../interface/BabySitter";
+import { AuthContext } from "../../providers/AuthProvider";
+import { useLanguage } from "../../providers/LanguageProvider";
+import PageHeader from "../PageHeader";
+import TopNavLink from "../TopNavLink";
 
 export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
