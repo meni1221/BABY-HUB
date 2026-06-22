@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 import Layout from "../layout";
 import AuthProvider from "../providers/AuthProvider";
 import LanguageProvider from "../providers/LanguageProvider";
+import NotificationProvider from "../providers/NotificationProvider";
 import ThemeProvider from "../providers/ThemeProvider";
 import { useTheme } from "../providers/ThemeProvider/context";
 import AppRouter from "../router/AppRouter";
@@ -52,35 +53,37 @@ const App = () => {
     <ThemeProvider>
       <MantineThemeBridge>
         <LanguageProvider>
-          <AuthProvider>
-            <Box
-              component="a"
-              href="#main-content"
-              pos="fixed"
-              top={12}
-              left={12}
-              p="sm"
-              bg="babyhub.7"
-              c="white"
-              style={{
-                borderRadius: "var(--mantine-radius-md)",
-                transform: "translateY(-140%)",
-                transition: "transform 160ms ease",
-                zIndex: 9999,
-              }}
-              onFocus={(event) => {
-                event.currentTarget.style.transform = "translateY(0)";
-              }}
-              onBlur={(event) => {
-                event.currentTarget.style.transform = "translateY(-140%)";
-              }}
-            >
-              Skip to content
-            </Box>
-            <Layout>
-              <AppRouter />
-            </Layout>
-          </AuthProvider>
+          <NotificationProvider>
+            <AuthProvider>
+              <Box
+                component="a"
+                href="#main-content"
+                pos="fixed"
+                top={12}
+                left={12}
+                p="sm"
+                bg="babyhub.7"
+                c="white"
+                style={{
+                  borderRadius: "var(--mantine-radius-md)",
+                  transform: "translateY(-140%)",
+                  transition: "transform 160ms ease",
+                  zIndex: 9999,
+                }}
+                onFocus={(event) => {
+                  event.currentTarget.style.transform = "translateY(0)";
+                }}
+                onBlur={(event) => {
+                  event.currentTarget.style.transform = "translateY(-140%)";
+                }}
+              >
+                Skip to content
+              </Box>
+              <Layout>
+                <AppRouter />
+              </Layout>
+            </AuthProvider>
+          </NotificationProvider>
         </LanguageProvider>
       </MantineThemeBridge>
     </ThemeProvider>

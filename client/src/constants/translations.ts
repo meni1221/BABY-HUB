@@ -9,6 +9,7 @@ import {
   dashboardTexts,
   commentTexts,
   errorTexts,
+  feedbackTexts,
 } from './texts';
 
 export type Language = 'en' | 'he';
@@ -25,6 +26,7 @@ export const translations = {
     ...dashboardTexts.en,
     ...commentTexts.en,
     ...errorTexts.en,
+    ...feedbackTexts.en,
   },
   he: {
     ...navigationTexts.he,
@@ -37,6 +39,7 @@ export const translations = {
     ...dashboardTexts.he,
     ...commentTexts.he,
     ...errorTexts.he,
+    ...feedbackTexts.he,
   },
 } as const;
 

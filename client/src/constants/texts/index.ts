@@ -8,3 +8,4 @@ export { parentTexts } from './parent';
 export { dashboardTexts } from './dashboard';
 export { commentTexts } from './comment';
 export { errorTexts } from './error';
+export { feedbackTexts } from './feedback';
