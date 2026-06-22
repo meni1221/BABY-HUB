@@ -1,4 +1,4 @@
-import "./style.scss";
+import { Box, Text, Title } from "@mantine/core";
 
 interface Props {
   title: string;
@@ -7,10 +7,19 @@ interface Props {
 
 const PageHeader = (props: Props) => {
   return (
-    <div className="page-header">
-      <h1 className="page-header__title">{props.title}</h1>
-      <h2 className="page-header__subtitle">{props.subtitle}</h2>
-    </div>
+    <Box
+      component="header"
+      mb="xl"
+      pb="md"
+      style={{ borderBottom: "1px solid var(--mantine-color-default-border)" }}
+    >
+      <Title order={1} size="clamp(1.85rem, 4vw, 3rem)">
+        {props.title}
+      </Title>
+      <Text c="dimmed" mt={8} maw={760}>
+        {props.subtitle}
+      </Text>
+    </Box>
   );
 };
 
