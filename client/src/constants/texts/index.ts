@@ -1,0 +1,10 @@
+export { navigationTexts } from './navigation';
+export { homeTexts } from './home';
+export { aboutTexts } from './about';
+export { authTexts } from './auth';
+export { entityTexts } from './entity';
+export { formTexts } from './form';
+export { parentTexts } from './parent';
+export { dashboardTexts } from './dashboard';
+export { commentTexts } from './comment';
+export { errorTexts } from './error';
