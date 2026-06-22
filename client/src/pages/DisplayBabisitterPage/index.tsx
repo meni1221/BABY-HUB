@@ -1,65 +1,64 @@
-import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import IBabysitter from "../../interface/BabySitter";
+import { Avatar, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import CommentRegister from "../../components/CommentRegister";
-import { apiUrl } from "../../config/api";
-import { useLanguage } from "../../providers/LanguageProvider";
-import "./style.scss";
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import EmptyState from "../../components/EmptyState";
+import PageSection from "../../components/PageSection";
+import { useBabysitterDetails } from "../../hooks/useBabysitterDetails";
 
 const DisplayBabisitterPage = () => {
-  const { GETOne, data } = useFetch<IBabysitter>(apiUrl("babysitter"));
-  const [babysitter, setbabysitter] = useState<IBabysitter>();
   const { id } = useParams();
-  const { t } = useLanguage();
-
-  useEffect(() => {
-    if (!id) return;
-    GETOne(id);
-  }, [id]);
-
-  useEffect(() => {
-    if (data) setbabysitter(data);
-  }, [data]);
+  const { texts } = useLanguage();
+  const { babysitter } = useBabysitterDetails(id);
 
   return (
     <>
       {babysitter ? (
-        <section className="display-babysitter">
-          <img
-            src={babysitter.image || "default-avatar.jpg"}
-            alt={`${babysitter.name}'s avatar`}
-            className="user-avatar"
-          />
+        <Stack gap={48}>
+          <PageSection
+            id="babysitter-details"
+            title={babysitter.name}
+            subtitle={babysitter.about}
+          >
+            <Card p="xl" radius="lg" shadow="xs" withBorder>
+              <Stack align="center">
+                <Avatar
+                  src={babysitter.image || "default-avatar.jpg"}
+                  alt={`${babysitter.name}'s avatar`}
+                  radius="xl"
+                  size={144}
+                />
 
-          <h2>{babysitter.name}</h2>
-          <div className="display-babysitter__details">
-            <p>
-              <strong>{t("age")}:</strong> {babysitter.age}
-            </p>
-            <p>
-              <strong>{t("location")}:</strong> {babysitter.address}
-            </p>
-            <p>
-              <strong>{t("preferences")}:</strong> {babysitter.preferences}
-            </p>
-            <p>
-              <strong>{t("experience")}:</strong> {babysitter.experience}
-            </p>
-            <p>
-              <strong>{t("about")}:</strong> {babysitter.about}
-            </p>
-            <p>
-              <strong>{t("price")}:</strong> {babysitter.price}
-            </p>
-            <p>
-              <strong>{t("likes")}:</strong> {babysitter.likes}
-            </p>
-          </div>
-          <CommentRegister id={babysitter._id!} />
-        </section>
+                <Title order={3} size="h3">{babysitter.name}</Title>
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm" w="100%">
+                  {[
+                    [texts.age, babysitter.age],
+                    [texts.location, babysitter.address],
+                    [texts.preferences, babysitter.preferences],
+                    [texts.experience, babysitter.experience],
+                    [texts.price, babysitter.price],
+                    [texts.likes, babysitter.likes],
+                  ].map(([label, value]) => (
+                    <Card key={String(label)} p="sm" radius="md" withBorder>
+                      <Text c="dimmed" fw={700} size="sm">{label}</Text>
+                      <Text>{value}</Text>
+                    </Card>
+                  ))}
+                </SimpleGrid>
+              </Stack>
+            </Card>
+          </PageSection>
+
+          <PageSection
+            id="babysitter-contact"
+            title={texts.contact}
+            subtitle={texts.expectations}
+          >
+            <CommentRegister id={babysitter._id!} />
+          </PageSection>
+        </Stack>
       ) : (
-        <h1>{t("noUsers")}</h1>
+        <EmptyState title={texts.noUsers} message={texts.noBabysittersHelper} />
       )}
     </>
   );

@@ -1,121 +1,116 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
+import { Avatar, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { NavLink } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
-import IBabysitter from "../../interface/BabySitter";
 import PageHeader from "../../components/PageHeader";
-import { apiUrl } from "../../config/api";
-import { useLanguage } from "../../providers/LanguageProvider";
+import { useLanguage } from "../../providers/LanguageProvider/context";
 import { TbEdit, TbRefresh } from "react-icons/tb";
-import "./style.scss";
-
-interface IOrder {
-  status: string;
-  parent_id: string;
-  babysitter_id: string;
-  number_working: number;
-  expectations: string;
-}
+import Button from "../../components/Button";
+import EmptyState from "../../components/EmptyState";
+import PageSection from "../../components/PageSection";
+import { useBabysitterOrders } from "../../hooks/useBabysitterOrders";
 
 export const BaybisitterHomePage = () => {
-  const [status, setStatus] = useState("waiting");
-  const { user } = useContext(AuthContext) ?? {};
-  const [orders, setorders] = useState<IOrder[]>([]);
-  const { GET, data, PATCH } = useFetch<IOrder[]>(apiUrl("orders"));
-  const userBabysitter = user as IBabysitter;
-  const { t } = useLanguage();
-
-  useEffect(() => {
-    GET();
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      setorders(data);
-    }
-  }, [data]);
-
-  const orderToBabysitter = orders?.filter(
-    (order) => order.babysitter_id == userBabysitter!._id
-  );
-
-  const statusUpdate = (orderid: string) => {
-    if (status === "waiting") {
-      setStatus("approved");
-    }
-    if (status === "approved") {
-      setStatus("Done");
-    }
-    if (status === "Done") {
-      setStatus("rejected");
-    }
-
-    PATCH(orderid, { status });
-  };
+  const { texts } = useLanguage();
+  const { assignedOrders, babysitter, updateStatus } = useBabysitterOrders();
 
   return (
     <>
       <PageHeader
-        title={`${t("welcomeUser")}, ${
-          userBabysitter?.name || t("babysitter")
+        title={`${texts.welcomeUser}, ${
+          babysitter?.name || texts.babysitter
         }`}
-        subtitle={t("dashboardSubtitle")}
+        subtitle={texts.dashboardSubtitle}
       />
 
-      <section className="babysitter-dashboard__profile">
-        <img
-          src={userBabysitter?.image || "/default-avatar.png"}
-          alt={userBabysitter?.name}
-          className="user-avatar"
-        />
-        <h2>{userBabysitter?.name}</h2>
-        <div className="user-info">
-          <p>{t("age")}: {userBabysitter?.age}</p>
-          <p>{t("address")}: {userBabysitter?.address}</p>
-          <p>{t("phone")}: {userBabysitter?.phone}</p>
-          <p>{t("email")}: {userBabysitter?.email}</p>
-          <p>{t("preferences")}: {userBabysitter?.preferences}</p>
-          <p>{t("experience")}: {userBabysitter?.experience}</p>
-          <p>{t("about")}: {userBabysitter?.about}</p>
-          <p>{t("price")}: {userBabysitter?.price}</p>
-          <p>{t("likes")}: {userBabysitter?.likes}</p>
-          <p>{t("budget")}: {userBabysitter?.budget}</p>
-        </div>
-        <NavLink to={`/edit/${userBabysitter!._id}`}>
-          <button>
-            <TbEdit />
-            {t("editProfile")}
-          </button>
-        </NavLink>
-      </section>
+      <Stack gap={48}>
+        <PageSection
+          id="babysitter-profile"
+          title={texts.editProfile}
+          subtitle={texts.dashboardSubtitle}
+        >
+          <Card p="xl" radius="lg" shadow="xs" withBorder>
+            <Stack align="center">
+              <Avatar
+                src={babysitter?.image || "/default-avatar.png"}
+                alt={babysitter?.name || ""}
+                radius="xl"
+                size={116}
+              />
+              <Title order={3} size="h3">
+                {babysitter?.name}
+              </Title>
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="sm" w="100%">
+                {[
+                  [texts.age, babysitter?.age],
+                  [texts.address, babysitter?.address],
+                  [texts.phone, babysitter?.phone],
+                  [texts.email, babysitter?.email],
+                  [texts.preferences, babysitter?.preferences],
+                  [texts.experience, babysitter?.experience],
+                  [texts.about, babysitter?.about],
+                  [texts.price, babysitter?.price],
+                  [texts.likes, babysitter?.likes],
+                ].map(([label, value]) => (
+                  <Card key={String(label)} p="sm" radius="md" withBorder>
+                    <Text c="dimmed" fw={700} size="sm">{label}</Text>
+                    <Text>{value}</Text>
+                  </Card>
+                ))}
+              </SimpleGrid>
+              {babysitter?._id && (
+                <NavLink to={`/edit/${babysitter._id}`}>
+                  <Button>
+                    <TbEdit />
+                    {texts.editProfile}
+                  </Button>
+                </NavLink>
+              )}
+            </Stack>
+          </Card>
+        </PageSection>
 
-      <PageHeader title={t("ordersTitle")} subtitle={t("ordersSubtitle")} />
-
-      <section className="babysitter-dashboard__orders">
-        {orders.length > 0 ? (
-          orderToBabysitter?.map((order) => (
-            <div className="order-card" key={order.parent_id}>
-              <h2>{t("orderDetails")}</h2>
-              <p>{t("status")}: {order.status}</p>
-              <p>{t("babysitterId")}: {order.babysitter_id}</p>
-              <p>{t("parentId")}: {order.parent_id}</p>
-              <p>{t("workingHours")}: {order.number_working}</p>
-              <button
-                onClick={() => statusUpdate(order.parent_id)}
-                className={`status-btn ${order.status}`}
-              >
-                <TbRefresh />
-                {t("updateStatus")}
-              </button>
-            </div>
-          ))
-        ) : (
-          <PageHeader
-            title={t("noOrdersTitle")}
-            subtitle={t("noOrdersSubtitle")}
-          />
-        )}
-      </section>
+        <PageSection
+          id="babysitter-orders"
+          title={texts.ordersTitle}
+          subtitle={texts.ordersSubtitle}
+        >
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+            {assignedOrders.length > 0 ? (
+              assignedOrders.map((order) => (
+                <Card component="article" key={order._id || order.parent_id} p="lg" radius="lg" shadow="xs" withBorder>
+                  <Title order={3} size="h4">{texts.orderDetails}</Title>
+                  <Stack gap={4} mt="sm">
+                    <Text>{texts.status}: {order.status}</Text>
+                    <Text>{texts.babysitterId}: {order.babysitter_id}</Text>
+                    <Text>{texts.parentId}: {order.parent_id}</Text>
+                    <Text>{texts.workingHours}: {order.number_working}</Text>
+                  </Stack>
+                  <Button
+                    onClick={() => order._id && updateStatus(order._id, order.status)}
+                    color={
+                      order.status === "approved"
+                        ? "green"
+                        : order.status === "Done"
+                          ? "blue"
+                          : order.status === "rejected"
+                            ? "red"
+                            : "yellow"
+                    }
+                    mt="md"
+                  >
+                    <TbRefresh />
+                    {texts.updateStatus}
+                  </Button>
+                </Card>
+              ))
+            ) : (
+              <EmptyState
+                title={texts.noOrdersTitle}
+                message={texts.noOrdersSubtitle}
+              />
+            )}
+          </SimpleGrid>
+        </PageSection>
+      </Stack>
     </>
   );
 };
