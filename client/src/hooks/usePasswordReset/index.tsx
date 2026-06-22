@@ -1,12 +1,11 @@
 import { FormEvent, useState } from "react";
 import { apiUrl } from "../../config/api";
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import { useNotification } from "../../providers/NotificationProvider/context";
 import { logger } from "../../utils/logger";
-
-type ResetRole = "babysitter" | "parent";
 
 interface RequestResetPayload {
   email: string;
-  role: ResetRole;
 }
 
 interface ConfirmResetPayload {
@@ -33,11 +32,12 @@ const postPasswordReset = async (path: string, body: object) => {
 };
 
 export const usePasswordResetRequest = () => {
+  const { texts } = useLanguage();
+  const { notify } = useNotification();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isSent, setIsSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [role, setRole] = useState<ResetRole>("parent");
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -47,12 +47,24 @@ export const usePasswordResetRequest = () => {
     try {
       await postPasswordReset("auth/password-reset/request", {
         email,
-        role,
       } satisfies RequestResetPayload);
       setIsSent(true);
+      notify({
+        message: texts.feedbackPasswordResetRequestSuccessMessage,
+        title: texts.feedbackPasswordResetRequestSuccessTitle,
+        tone: "success",
+      });
     } catch (error) {
       logger.error("Password reset request failed", error);
-      setError(error instanceof Error ? error.message : "Password reset request failed");
+      const errorMessage =
+        error instanceof Error ? error.message : texts.feedbackGenericErrorMessage;
+
+      setError(errorMessage);
+      notify({
+        message: errorMessage,
+        title: texts.feedbackPasswordResetErrorTitle,
+        tone: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -64,13 +76,13 @@ export const usePasswordResetRequest = () => {
     handleSubmit,
     isSent,
     isSubmitting,
-    role,
     setEmail,
-    setRole,
   };
 };
 
 export const usePasswordResetConfirm = (token: string) => {
+  const { texts } = useLanguage();
+  const { notify } = useNotification();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isDone, setIsDone] = useState(false);
@@ -82,12 +94,22 @@ export const usePasswordResetConfirm = (token: string) => {
     setError("");
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError(texts.feedbackPasswordTooShortMessage);
+      notify({
+        message: texts.feedbackPasswordTooShortMessage,
+        title: texts.feedbackPasswordResetErrorTitle,
+        tone: "warning",
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(texts.feedbackPasswordMismatchMessage);
+      notify({
+        message: texts.feedbackPasswordMismatchMessage,
+        title: texts.feedbackPasswordResetErrorTitle,
+        tone: "warning",
+      });
       return;
     }
 
@@ -99,9 +121,22 @@ export const usePasswordResetConfirm = (token: string) => {
         token,
       } satisfies ConfirmResetPayload);
       setIsDone(true);
+      notify({
+        message: texts.feedbackPasswordResetConfirmSuccessMessage,
+        title: texts.feedbackPasswordResetConfirmSuccessTitle,
+        tone: "success",
+      });
     } catch (error) {
       logger.error("Password reset confirm failed", error);
-      setError(error instanceof Error ? error.message : "Password reset failed");
+      const errorMessage =
+        error instanceof Error ? error.message : texts.feedbackGenericErrorMessage;
+
+      setError(errorMessage);
+      notify({
+        message: errorMessage,
+        title: texts.feedbackPasswordResetErrorTitle,
+        tone: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }

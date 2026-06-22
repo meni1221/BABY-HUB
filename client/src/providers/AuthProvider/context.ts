@@ -12,7 +12,7 @@ export interface UserDTO {
 export interface AuthContextType {
   user: IParents | IBabysitter | null;
   error: string | null;
-  login: (user: UserDTO, urlPath: string) => Promise<boolean>;
+  login: (user: UserDTO) => Promise<boolean>;
   logout: () => Promise<boolean>;
   clearError: () => void;
   role: AuthRole | null;

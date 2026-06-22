@@ -21,7 +21,6 @@ interface TokenPayload {
 
 interface PasswordResetRequest {
   email: string;
-  role: 'babysitter' | 'parent';
 }
 
 interface PasswordResetConfirm {
@@ -98,66 +97,39 @@ export class AuthService {
     this.loginAttempts.delete(email);
   }
 
-  async loginBabysitter(user: LoginDto, res: Response) {
+  async login(user: LoginDto, res: Response) {
     try {
       if (!user.email || !user.password) {
-        this.logger.warn('WARN babysitter login failed: missing fields');
+        this.logger.warn('WARN login failed: missing fields');
         throw new UnauthorizedException('Missing required fields');
       }
 
       const email = this.normalizeEmail(user.email);
       this.assertLoginAllowed(email);
-      this.logger.log(`INFO login babysitter request: ${email}`);
+      this.logger.log(`INFO login request: ${email}`);
 
-      const foundUser = await BabysitterModel.findOne({ email });
-
-      if (!foundUser || !comparePassword(user.password, foundUser.password)) {
-        this.recordFailedLogin(email);
-        this.logger.warn(`WARN babysitter login failed: ${email}`);
-        throw new UnauthorizedException('Incorrect email or password');
-      }
-
-      this.clearLoginAttempts(email);
-      const token = generateAuthToken({ _id: foundUser._id, isAdmin: false });
-      res.cookie('auth_token', token, cookieConfig);
-
-      this.logger.log(`INFO babysitter logged in: ${foundUser._id}`);
-      return { foundUser };
-    } catch (error) {
-      logAndRethrow(this.logger, 'ERROR babysitter login failed', error);
-    }
-  }
-
-  async loginParent(user: LoginDto, res: Response) {
-    try {
-      if (!user.email || !user.password) {
-        this.logger.warn('WARN parent login failed: missing fields');
-        throw new UnauthorizedException('Missing required fields');
-      }
-
-      const email = this.normalizeEmail(user.email);
-      this.assertLoginAllowed(email);
-      this.logger.log(`INFO parent login request: ${email}`);
-
-      const foundUser = await ParentsModel.findOne({ email });
+      const parent = await ParentsModel.findOne({ email });
+      const babysitter = parent ? null : await BabysitterModel.findOne({ email });
+      const foundUser = parent || babysitter;
+      const role = parent ? 'parent' : 'babysitter';
 
       if (!foundUser || !comparePassword(user.password, foundUser.password)) {
         this.recordFailedLogin(email);
-        this.logger.warn(`WARN parent login failed: ${email}`);
+        this.logger.warn(`WARN login failed: ${email}`);
         throw new UnauthorizedException('Incorrect email or password');
       }
 
       this.clearLoginAttempts(email);
       const token = generateAuthToken({
         _id: foundUser._id,
-        isAdmin: Boolean(foundUser.isAdmin),
+        isAdmin: Boolean('isAdmin' in foundUser && foundUser.isAdmin),
       });
       res.cookie('auth_token', token, cookieConfig);
 
-      this.logger.log(`INFO parent logged in: ${foundUser._id}`);
-      return { foundUser };
+      this.logger.log(`INFO ${role} logged in: ${foundUser._id}`);
+      return { foundUser, role };
     } catch (error) {
-      logAndRethrow(this.logger, 'ERROR parent login failed', error);
+      logAndRethrow(this.logger, 'ERROR login failed', error);
     }
   }
 
@@ -171,21 +143,20 @@ export class AuthService {
     }
   }
 
-  async requestPasswordReset({ email, role }: PasswordResetRequest) {
+  async requestPasswordReset({ email }: PasswordResetRequest) {
     try {
-      if (!email || (role !== 'parent' && role !== 'babysitter')) {
+      if (!email) {
         this.logger.warn('WARN password reset request failed: invalid payload');
         return PASSWORD_RESET_RESPONSE;
       }
 
       const normalizedEmail = this.normalizeEmail(email);
       const user =
-        role === 'parent'
-          ? await ParentsModel.findOne({ email: normalizedEmail })
-          : await BabysitterModel.findOne({ email: normalizedEmail });
+        (await ParentsModel.findOne({ email: normalizedEmail })) ||
+        (await BabysitterModel.findOne({ email: normalizedEmail }));
 
       if (!user) {
-        this.logger.warn(`WARN password reset requested for unknown user: ${role}`);
+        this.logger.warn('WARN password reset requested for unknown user');
         return PASSWORD_RESET_RESPONSE;
       }
 
@@ -204,7 +175,7 @@ export class AuthService {
         resetUrl,
       });
 
-      this.logger.log(`INFO password reset requested: ${role}/${user._id}`);
+      this.logger.log(`INFO password reset requested: ${user._id}`);
       return PASSWORD_RESET_RESPONSE;
     } catch (error) {
       logAndRethrow(this.logger, 'ERROR password reset request failed', error);

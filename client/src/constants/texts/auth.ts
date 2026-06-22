@@ -7,7 +7,7 @@ export const authTexts = {
       "If this email exists in BabyHub, a password reset link was sent.",
     forgotPasswordSubmit: "Send reset link",
     forgotPasswordSubtitle:
-      "Choose your account type and enter your email. We will send a secure reset link.",
+      "Enter the email connected to your account. We will send a secure reset link.",
     forgotPasswordTitle: "Reset your password",
     loginNoAccount: "If you are not registered yet, please",
     loginRegisterLink: "register here",
@@ -30,7 +30,7 @@ export const authTexts = {
       "אם האימייל קיים ב-BabyHub, נשלח אליו קישור לאיפוס סיסמה.",
     forgotPasswordSubmit: "שליחת קישור איפוס",
     forgotPasswordSubtitle:
-      "בחרו סוג חשבון והכניסו אימייל. נשלח קישור מאובטח לאיפוס הסיסמה.",
+      "הכניסו את האימייל שמחובר לחשבון. נשלח קישור מאובטח לאיפוס הסיסמה.",
     forgotPasswordTitle: "איפוס סיסמה",
     loginNoAccount: "עדיין אין לכם משתמש?",
     loginRegisterLink: "הירשמו כאן",

@@ -1,13 +1,10 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider/context";
 
-type LoginRole = "babysitter" | "parent";
-
 export const useLoginForm = () => {
   const authContext = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<LoginRole>("babysitter");
 
   useEffect(() => {
     return () => authContext?.clearError();
@@ -20,24 +17,17 @@ export const useLoginForm = () => {
     authContext?.clearError();
   };
 
-  const handleRoleChange = (nextRole: LoginRole) => {
-    setRole(nextRole);
-    authContext?.clearError();
-  };
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     authContext?.clearError();
-    await authContext?.login({ email, password }, role);
+    await authContext?.login({ email, password });
   };
 
   return {
     authContext,
     email,
     handleInputChange,
-    handleRoleChange,
     handleSubmit,
     password,
-    role,
   };
 };

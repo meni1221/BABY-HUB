@@ -8,6 +8,7 @@ import { generateUserPassword } from '../../helpers/bcrypt';
 import { logAndRethrow } from '../common/error-logger';
 import { IBabysitter, IReview } from '../interface/BabysitterType';
 import BabysitterModel from '../models/BabysitterModel';
+import ParentsModel from '../models/ParentsModel';
 
 @Injectable()
 export class BabysittersService {
@@ -30,9 +31,19 @@ export class BabysittersService {
         throw new BadRequestException('One of the details is missing');
       }
 
+      const email = data.email.trim().toLowerCase();
+      const existingParent = await ParentsModel.findOne({ email });
+
+      if (existingParent) {
+        this.logger.warn(
+          `WARN create babysitter failed: email already exists ${email}`,
+        );
+        throw new BadRequestException('Email is already registered');
+      }
+
       const babysitter = new BabysitterModel({
         ...data,
-        email: data.email.trim().toLowerCase(),
+        email,
       });
       babysitter.password = generateUserPassword(babysitter.password);
       const savedBabysitter = await babysitter.save();

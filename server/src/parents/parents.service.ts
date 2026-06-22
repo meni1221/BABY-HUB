@@ -7,6 +7,7 @@ import {
 import { generateUserPassword } from '../../helpers/bcrypt';
 import { logAndRethrow } from '../common/error-logger';
 import { IParents } from '../interface/parents';
+import BabysitterModel from '../models/BabysitterModel';
 import ParentsModel from '../models/ParentsModel';
 
 @Injectable()
@@ -33,9 +34,17 @@ export class ParentsService {
         throw new BadRequestException('Missing required fields');
       }
 
+      const email = data.email.trim().toLowerCase();
+      const existingBabysitter = await BabysitterModel.findOne({ email });
+
+      if (existingBabysitter) {
+        this.logger.warn(`WARN create parent failed: email already exists ${email}`);
+        throw new BadRequestException('Email is already registered');
+      }
+
       const parent = new ParentsModel({
         ...data,
-        email: data.email.trim().toLowerCase(),
+        email,
       });
       parent.password = generateUserPassword(parent.password);
       const savedParent = await parent.save();

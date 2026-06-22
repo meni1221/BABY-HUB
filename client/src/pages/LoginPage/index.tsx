@@ -13,9 +13,8 @@ import {
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../providers/LanguageProvider/context";
-import { TbLogin2, TbUserHeart, TbUsers } from "react-icons/tb";
+import { TbLogin2 } from "react-icons/tb";
 import Button from "../../components/Button";
-import SegmentedControl from "../../components/SegmentedControl";
 import { useLoginForm } from "../../hooks/useLoginForm";
 
 export const LoginPage = () => {
@@ -24,10 +23,8 @@ export const LoginPage = () => {
     authContext,
     email,
     handleInputChange,
-    handleRoleChange,
     handleSubmit,
     password,
-    role,
   } = useLoginForm();
 
   if (!authContext) {
@@ -37,8 +34,6 @@ export const LoginPage = () => {
       </Alert>
     );
   }
-
-  const selectedRoleLabel = role === "babysitter" ? texts.babysitter : texts.parent;
 
   return (
     <Container maw={560} px={0}>
@@ -54,31 +49,6 @@ export const LoginPage = () => {
 
         <Paper p={{ base: "md", sm: "xl" }} radius="lg" shadow="sm" withBorder>
           <Stack gap="lg">
-            <Stack gap="xs">
-              <Group justify="space-between" align="flex-end" gap="xs">
-                <Stack gap={2}>
-                  <Text fw={800}>{texts.selectAccountType}</Text>
-                  <Text c="dimmed" fz="sm">
-                    {selectedRoleLabel}
-                  </Text>
-                </Stack>
-              </Group>
-
-              <SegmentedControl
-                ariaLabel={texts.selectAccountType}
-                fullWidth
-                mb={0}
-                onChange={handleRoleChange}
-                options={[
-                  { icon: <TbUserHeart />, label: texts.babysitter, value: "babysitter" },
-                  { icon: <TbUsers />, label: texts.parent, value: "parent" },
-                ]}
-                value={role}
-              />
-            </Stack>
-
-            <Divider />
-
             <Stack component="form" gap="md" onSubmit={handleSubmit}>
               <TextInput
                 id="email"
@@ -100,6 +70,8 @@ export const LoginPage = () => {
                 autoComplete="current-password"
                 required
               />
+
+              <Divider />
 
               <Anchor component={Link} fw={800} fz="sm" to="/forgot-password">
                 {texts.forgotPasswordLink}

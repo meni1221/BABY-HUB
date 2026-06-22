@@ -9,9 +9,8 @@ import {
   Title,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { TbMail, TbUserHeart, TbUsers } from "react-icons/tb";
+import { TbMail } from "react-icons/tb";
 import Button from "../../components/Button";
-import SegmentedControl from "../../components/SegmentedControl";
 import { usePasswordResetRequest } from "../../hooks/usePasswordReset";
 import { useLanguage } from "../../providers/LanguageProvider/context";
 
@@ -23,9 +22,7 @@ const ForgotPasswordPage = () => {
     handleSubmit,
     isSent,
     isSubmitting,
-    role,
     setEmail,
-    setRole,
   } = usePasswordResetRequest();
 
   return (
@@ -42,18 +39,6 @@ const ForgotPasswordPage = () => {
 
         <Paper component="form" onSubmit={handleSubmit} p={{ base: "md", sm: "xl" }} radius="lg" shadow="sm" withBorder>
           <Stack gap="lg">
-            <SegmentedControl
-              ariaLabel={texts.selectAccountType}
-              fullWidth
-              mb={0}
-              onChange={setRole}
-              options={[
-                { icon: <TbUserHeart />, label: texts.babysitter, value: "babysitter" },
-                { icon: <TbUsers />, label: texts.parent, value: "parent" },
-              ]}
-              value={role}
-            />
-
             <TextInput
               id="email"
               label={texts.email}

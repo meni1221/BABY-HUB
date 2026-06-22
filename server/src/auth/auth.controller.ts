@@ -9,7 +9,6 @@ interface LoginDto {
 
 interface PasswordResetRequestDto {
   email: string;
-  role: 'babysitter' | 'parent';
 }
 
 interface PasswordResetDto {
@@ -27,17 +26,9 @@ interface CookieRequest extends Request {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login/babysitter')
-  loginBabysitter(
-    @Body() body: LoginDto,
-    @Res({ passthrough: true }) res: Response
-  ) {
-    return this.authService.loginBabysitter(body, res);
-  }
-
-  @Post('login/parent')
-  loginParent(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response) {
-    return this.authService.loginParent(body, res);
+  @Post('login')
+  login(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response) {
+    return this.authService.login(body, res);
   }
 
   @Post('logout')
