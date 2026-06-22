@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { IParents } from "../../interface/parents";
 import IBabysitter from "../../interface/BabySitter";
 import useFetch from "../../hooks/useFetch";
@@ -6,83 +6,49 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "../../config/api";
 import { logger } from "../../utils/logger";
-
-interface UserDTO {
-  email: string;
-  password: string;
-}
-
-interface AuthContextType {
-  user: IParents | IBabysitter | null;
-  error: string | null;
-  login: (user: UserDTO, urlPath: string) => Promise<boolean>;
-  logout: () => Promise<boolean>;
-  clearError: () => void;
-}
+import { AuthContext, AuthRole, UserDTO } from "./context";
 
 interface AuthResponse {
   foundUser: IParents | IBabysitter;
-  token: string;
 }
-
-interface VerifyTokenResponse {
-  user: UserDTO;
-}
-
-export const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { POST, VerifyToken } = useFetch(API_BASE_URL);
   const [user, setUser] = useState<IParents | IBabysitter | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [role, setRole] = useState<AuthRole | null>(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = Cookies.get("auth_token");
     const tokenRole = Cookies.get("role");
-
-    const verifyAndLogin = async () => {
-      if (token) {
-        try {
-          const loginPath = tokenRole === "babysitter" ? "babysitter" : "parent";
-          const decodedToken = await VerifyToken<VerifyTokenResponse>(
-            loginPath
-          );
-          if (!decodedToken?.user?.email || !decodedToken?.user?.password) {
-            throw new Error("Invalid token data");
-          }
-
-          const { email, password } = decodedToken.user;
-          let success = false;
-          try {
-            success = await login({ email, password }, loginPath);
-          } catch (loginError) {
-            logger.error("Login error during token restore", loginError);
-            success = false;
-          }
-
-          if (!success) {
-            handleLogout();
-          }
-        } catch (error) {
-          logger.error("Token verification error", error);
-          handleLogout();
-        }
-      } else {
-        setUser(null);
-      }
-    };
 
     const handleLogout = () => {
       setUser(null);
-      Cookies.remove("auth_token");
+      setRole(null);
       Cookies.remove("role");
       navigate("/login");
     };
 
-    verifyAndLogin();
-  }, []);
+    const verifySession = async () => {
+      if (tokenRole !== "babysitter" && tokenRole !== "parent") {
+        setUser(null);
+        setRole(null);
+        return;
+      }
+
+      try {
+        const verifiedUser = await VerifyToken<IParents | IBabysitter>(tokenRole);
+        setUser(verifiedUser);
+        setRole(tokenRole);
+      } catch (error) {
+        logger.error("Token verification error", error);
+        handleLogout();
+      }
+    };
+
+    verifySession();
+  }, [VerifyToken, navigate]);
 
   const clearError = () => setError(null);
 
@@ -108,10 +74,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(response.foundUser);
 
       const role = urlPath === "babysitter" ? "babysitter" : "parent";
-      Cookies.set("role", role);
+      setRole(role);
+      Cookies.set("role", role, { sameSite: "strict" });
 
       logger.info(`User logged in as ${role}`);
-      navigate(`${urlPath}`);
+      navigate(`/${urlPath}`);
       return true;
     } catch (error) {
       logger.error("Login error details", error);
@@ -127,7 +94,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       clearError();
       await POST("auth/logout");
       setUser(null);
-      Cookies.remove("auth_token");
+      setRole(null);
       Cookies.remove("role");
       logger.info("User logged out");
       navigate("/");
@@ -142,7 +109,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, error, login, logout, clearError }}>
+    <AuthContext.Provider value={{ user, error, login, logout, clearError, role }}>
       {children}
     </AuthContext.Provider>
   );

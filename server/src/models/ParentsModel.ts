@@ -38,19 +38,22 @@ const ParentsSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  budget: {
-    type: Number,
-    required: true,
-  },
-
   email: {
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
+  },
+  passwordResetExpires: {
+    type: Date,
+  },
+  passwordResetToken: {
+    type: String,
   },
   isAdmin: {
     type: Boolean,

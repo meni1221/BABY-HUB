@@ -8,35 +8,53 @@ import { BaybisitterHomePage } from "../../pages/BaybisitterHomePage";
 import { EditBabysitter } from "../../components/EditBabysitter";
 import DisplayBabisitterPage from "../../pages/DisplayBabisitterPage";
 import ErrorPage from "../../pages/ErrorPage";
+import ForgotPasswordPage from "../../pages/ForgotPasswordPage";
+import ResetPasswordPage from "../../pages/ResetPasswordPage";
 import PrivateRouteUser from "../../components/UserPrivateRoute";
 
 const AppRouter = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/babysitter/*"
-          element={<PrivateRouteUser children={<BaybisitterHomePage />} />}
-        />
-        <Route
-          path="/Edit/:id"
-          element={<PrivateRouteUser children={<EditBabysitter />} />}
-        />
-        <Route path="about" element={<AboutPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/parent"
-          element={<PrivateRouteUser children={<ParentPage />} />}
-        />
-        <Route
-          path="/display/:id"
-          element={<PrivateRouteUser children={<DisplayBabisitterPage />} />}
-        />
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/babysitter"
+        element={
+          <PrivateRouteUser requiredRole="babysitter">
+            <BaybisitterHomePage />
+          </PrivateRouteUser>
+        }
+      />
+      <Route
+        path="/edit/:id"
+        element={
+          <PrivateRouteUser requiredRole="babysitter">
+            <EditBabysitter />
+          </PrivateRouteUser>
+        }
+      />
+      <Route
+        path="/parent"
+        element={
+          <PrivateRouteUser requiredRole="parent">
+            <ParentPage />
+          </PrivateRouteUser>
+        }
+      />
+      <Route
+        path="/display/:id"
+        element={
+          <PrivateRouteUser requiredRole="parent">
+            <DisplayBabisitterPage />
+          </PrivateRouteUser>
+        }
+      />
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
   );
 };
 

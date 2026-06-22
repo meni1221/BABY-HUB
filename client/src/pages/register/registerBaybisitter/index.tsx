@@ -1,12 +1,14 @@
+import { NumberInput, Paper, PasswordInput, Select, SimpleGrid, Stack, Textarea, TextInput } from "@mantine/core";
 import { FormEvent, useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import IBabysitter from "../../../interface/BabySitter";
 import { API_BASE_URL } from "../../../config/api";
-import { useLanguage } from "../../../providers/LanguageProvider";
+import { useLanguage } from "../../../providers/LanguageProvider/context";
+import Button from "../../../components/Button";
 
 export const RegisterBaybisitter = () => {
   const { POST } = useFetch<IBabysitter>(API_BASE_URL);
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
 
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
@@ -18,7 +20,6 @@ export const RegisterBaybisitter = () => {
   const [experience, setExperience] = useState("");
   const [about, setAbout] = useState("");
   const [price, setPrice] = useState(0);
-  const [budget, setBudget] = useState(100);
   const [password, setPassword] = useState("");
 
   const addpreferences = (newPpreferences: string) => {
@@ -39,7 +40,6 @@ export const RegisterBaybisitter = () => {
       experience,
       about,
       price,
-      budget,
       password,
     });
 
@@ -53,151 +53,109 @@ export const RegisterBaybisitter = () => {
     setExperience("");
     setAbout("");
     setPrice(0);
-    setBudget(100);
     setPassword("");
   };
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">{t("name")}</label>
-          <input
+    <Paper component="form" onSubmit={handleSubmit} p="xl" radius="md" shadow="xs" withBorder>
+      <Stack>
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+          <TextInput
             id="name"
-            type="text"
-            placeholder={t("fullNamePlaceholder")}
+            label={texts.name}
+            placeholder={texts.fullNamePlaceholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="age">{t("age")}</label>
-          <input
+          <NumberInput
             id="age"
-            type="number"
-            placeholder={t("agePlaceholder")}
+            label={texts.age}
+            placeholder={texts.agePlaceholder}
             value={age}
-            onChange={(e) => setAge(Number(e.target.value))}
+            onChange={(value) => setAge(Number(value) || 0)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="image">{t("image")}</label>
-          <input
+          <TextInput
             id="image"
-            type="text"
-            placeholder={t("imagePlaceholder")}
+            label={texts.image}
+            placeholder={texts.imagePlaceholder}
             value={image}
             onChange={(e) => setImage(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="address">{t("address")}</label>
-          <input
+          <TextInput
             id="address"
-            type="text"
-            placeholder={t("addressPlaceholder")}
+            label={texts.address}
+            placeholder={texts.addressPlaceholder}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="phone">{t("phone")}</label>
-          <input
+          <TextInput
             id="phone"
-            type="text"
-            placeholder={t("phonePlaceholder")}
+            label={texts.phone}
+            placeholder={texts.phonePlaceholder}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="email">{t("email")}</label>
-          <input
+          <TextInput
             id="email"
+            label={texts.email}
             type="email"
-            placeholder={t("emailPlaceholder")}
+            placeholder={texts.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="preferences">{t("preferences")}</label>
-          <select
+          <Select
             id="preferences"
+            label={texts.preferences}
             value={preferences[0]}
-            onChange={(e) => addpreferences(e.target.value)}
-          >
-            <option value="infancy">{t("preferenceInfancy")}</option>
-            <option value="special education">
-              {t("preferenceSpecialEducation")}
-            </option>
-            <option value="Age 5 and up">{t("preferenceAgeFive")}</option>
-            <option value="Rewards">{t("preferenceRewards")}</option>
-            <option value="without food">{t("preferenceWithoutFood")}</option>
-            <option value="no homework">{t("preferenceNoHomework")}</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="experience">{t("experience")}</label>
-          <input
+            onChange={(value) => value && addpreferences(value)}
+            data={[
+              { value: "infancy", label: texts.preferenceInfancy },
+              { value: "special education", label: texts.preferenceSpecialEducation },
+              { value: "Age 5 and up", label: texts.preferenceAgeFive },
+              { value: "Rewards", label: texts.preferenceRewards },
+              { value: "without food", label: texts.preferenceWithoutFood },
+              { value: "no homework", label: texts.preferenceNoHomework },
+            ]}
+          />
+          <TextInput
             id="experience"
-            type="text"
-            placeholder={t("experiencePlaceholder")}
+            label={texts.experience}
+            placeholder={texts.experiencePlaceholder}
             value={experience}
             onChange={(e) => setExperience(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="about">{t("about")}</label>
-          <input
+          <Textarea
             id="about"
-            type="text"
+            label={texts.about}
             value={about}
             onChange={(e) => setAbout(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="price">{t("price")}</label>
-          <input
+          <NumberInput
             id="price"
-            type="number"
-            placeholder={t("pricePlaceholder")}
+            label={texts.price}
+            placeholder={texts.pricePlaceholder}
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={(value) => setPrice(Number(value) || 0)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="budget">{t("budget")}</label>
-          <input
-            id="budget"
-            type="number"
-            placeholder={t("budgetPlaceholder")}
-            value={budget}
-            onChange={(e) => setBudget(Number(e.target.value))}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">{t("password")}</label>
-          <input
+          <PasswordInput
             id="password"
-            type="text"
-            placeholder={t("passwordPlaceholder")}
+            label={texts.password}
+            placeholder={texts.passwordPlaceholder}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-        <button type="submit">{t("registerBabysitterSubmit")}</button>
-      </form>
-    </>
+        </SimpleGrid>
+        <Button type="submit">{texts.registerBabysitterSubmit}</Button>
+      </Stack>
+    </Paper>
   );
 };

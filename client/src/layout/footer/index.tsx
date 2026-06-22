@@ -1,17 +1,21 @@
-import { useLanguage } from "../../providers/LanguageProvider";
-import "./style.scss";
+import { Box, Container, Text } from "@mantine/core";
+import { useLanguage } from "../../providers/LanguageProvider/context";
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
 
   return (
-    <div>
-      <footer>
-        <p>
-          © {new Date().getFullYear()} {t("footerRights")}
-        </p>
-      </footer>
-    </div>
+    <Box
+      component="footer"
+      py="lg"
+      style={{ borderTop: "1px solid var(--mantine-color-default-border)" }}
+    >
+      <Container maw={1180} px={{ base: "md", sm: "xl" }}>
+        <Text c="dimmed" ta="center">
+          © {new Date().getFullYear()} {texts.footerRights}
+        </Text>
+      </Container>
+    </Box>
   );
 };
 

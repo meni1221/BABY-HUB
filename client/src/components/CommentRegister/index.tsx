@@ -1,11 +1,12 @@
+import { Alert, Group, Paper, Rating, Stack, TextInput, Title } from "@mantine/core";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
+import { AuthContext } from "../../providers/AuthProvider/context";
 import useFetch from "../../hooks/useFetch";
 import { apiUrl } from "../../config/api";
 import IBabysitter from "../../interface/BabySitter";
-import { useLanguage } from "../../providers/LanguageProvider";
+import { useLanguage } from "../../providers/LanguageProvider/context";
 import { TbMessageCircle, TbSend } from "react-icons/tb";
-import "./style.scss";
+import Button from "../Button";
 
 interface Props {
   id: string;
@@ -15,11 +16,11 @@ const CommentRegister = ({ id }: Props) => {
   const { GETOne, addComment, data } = useFetch<IBabysitter>(
     apiUrl("babysitter")
   );
-  const [stars, setStars] = useState(["star", "star", "star", "star", "star"]);
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [babysitter, setBabysitter] = useState<IBabysitter | null>(null);
   const { user } = useContext(AuthContext) ?? {};
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
 
   useEffect(() => {
     GETOne(id);
@@ -29,61 +30,46 @@ const CommentRegister = ({ id }: Props) => {
     if (data) setBabysitter(data);
   }, [data]);
 
-  const handelStyle = (num: number) => {
-    const updatedStars = stars.map((_, index) =>
-      index < num ? "contenerStarChecked" : "star"
-    );
-    setStars(updatedStars);
-  };
-
   const handleSubmit = async () => {
-    const selectedStars = stars.filter(
-      (star) => star === "contenerStarChecked"
-    ).length;
-    if (selectedStars > 0 && comment.trim() !== "") {
+    if (rating > 0 && comment.trim() !== "") {
       await addComment({
         id,
         review: {
           userId: user!._id!,
-          rating: selectedStars,
+          rating,
           comment,
         },
       });
       setComment("");
+      setRating(0);
     } else {
-      alert(t("commentValidation"));
+      alert(texts.commentValidation);
     }
   };
 
   return user ? (
-    <section className="comment-register">
-      <h2 className="comment-register__title">
+    <Paper component="section" mt="xl" p="lg" radius="md" shadow="xs" withBorder>
+      <Stack>
+      <Title order={2} size="h3">
         <TbMessageCircle />
-        {t("addCommentTo")} {babysitter?.name || t("fallbackBabysitter")}
-      </h2>
-      <input
-        className="comment-register__input"
-        type="text"
+        {texts.addCommentTo} {babysitter?.name || texts.fallbackBabysitter}
+      </Title>
+      <TextInput
         onChange={(e) => setComment(e.target.value)}
         value={comment}
-        placeholder={t("commentPlaceholder")}
+        placeholder={texts.commentPlaceholder}
       />
-      <div className="comment-register__stars contenerStar">
-        {stars.map((star, index) => (
-          <div
-            key={index}
-            onClick={() => handelStyle(index + 1)}
-            className={star}
-          ></div>
-        ))}
-      </div>
-      <button type="button" onClick={() => handleSubmit()}>
+      <Rating value={rating} onChange={setRating} size="lg" />
+      <Group justify="flex-end">
+      <Button type="button" onClick={() => handleSubmit()}>
         <TbSend />
-        {t("submit")}
-      </button>
-    </section>
+        {texts.submit}
+      </Button>
+      </Group>
+      </Stack>
+    </Paper>
   ) : (
-    <p className="comment-register__notice">{t("loginRequiredComment")}</p>
+    <Alert color="yellow" mt="xl">{texts.loginRequiredComment}</Alert>
   );
 };
 

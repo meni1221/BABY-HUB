@@ -1,13 +1,13 @@
 import PageHeader from "../../components/PageHeader";
-import { useLanguage } from "../../providers/LanguageProvider";
+import { useLanguage } from "../../providers/LanguageProvider/context";
 
 const ErrorPage = () => {
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
 
   return (
     <PageHeader
-      title={t("errorTitle")}
-      subtitle={t("errorSubtitle")}
+      title={texts.errorTitle}
+      subtitle={texts.errorSubtitle}
     />
   );
 };

@@ -1,13 +1,23 @@
-import React, { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
+import { AuthContext, AuthRole } from "../../providers/AuthProvider/context";
 interface PrivateRouteProps {
-  children: JSX.Element;
+  children: ReactNode;
+  requiredRole?: AuthRole;
 }
 
-const PrivateRouteUser: React.FC<PrivateRouteProps> = ({ children }) => {
-  const { user } = useContext(AuthContext) ?? {};
-  return user ? children : <Navigate to="/parent" />;
+const PrivateRouteUser = ({ children, requiredRole }: PrivateRouteProps) => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext?.user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (requiredRole && authContext.role !== requiredRole) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 export default PrivateRouteUser;

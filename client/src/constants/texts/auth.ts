@@ -1,0 +1,48 @@
+export const authTexts = {
+  en: {
+    authContextUnavailable: "Error: user context is not available.",
+    forgotPasswordBackToLogin: "Back to login",
+    forgotPasswordLink: "Forgot password?",
+    forgotPasswordSentText:
+      "If this email exists in BabyHub, a password reset link was sent.",
+    forgotPasswordSubmit: "Send reset link",
+    forgotPasswordSubtitle:
+      "Choose your account type and enter your email. We will send a secure reset link.",
+    forgotPasswordTitle: "Reset your password",
+    loginNoAccount: "If you are not registered yet, please",
+    loginRegisterLink: "register here",
+    loginSubmit: "Login",
+    loginSubtitle: "Welcome to the Login page",
+    loginTitle: "Login",
+    resetPasswordConfirmLabel: "Confirm new password",
+    resetPasswordDoneText: "Your password was updated. You can now log in.",
+    resetPasswordInvalidToken: "Password reset token is missing.",
+    resetPasswordSubmit: "Update password",
+    resetPasswordSubtitle: "Choose a new password with at least 8 characters.",
+    resetPasswordTitle: "Create a new password",
+    selectAccountType: "Select account type",
+  },
+  he: {
+    authContextUnavailable: "שגיאה: פרטי המשתמש אינם זמינים.",
+    forgotPasswordBackToLogin: "חזרה להתחברות",
+    forgotPasswordLink: "שכחת סיסמה?",
+    forgotPasswordSentText:
+      "אם האימייל קיים ב-BabyHub, נשלח אליו קישור לאיפוס סיסמה.",
+    forgotPasswordSubmit: "שליחת קישור איפוס",
+    forgotPasswordSubtitle:
+      "בחרו סוג חשבון והכניסו אימייל. נשלח קישור מאובטח לאיפוס הסיסמה.",
+    forgotPasswordTitle: "איפוס סיסמה",
+    loginNoAccount: "עדיין אין לכם משתמש?",
+    loginRegisterLink: "הירשמו כאן",
+    loginSubmit: "התחברות",
+    loginSubtitle: "ברוכים הבאים למסך ההתחברות",
+    loginTitle: "התחברות",
+    resetPasswordConfirmLabel: "אימות סיסמה חדשה",
+    resetPasswordDoneText: "הסיסמה עודכנה. אפשר להתחבר עכשיו.",
+    resetPasswordInvalidToken: "חסר קישור איפוס סיסמה.",
+    resetPasswordSubmit: "עדכון סיסמה",
+    resetPasswordSubtitle: "בחרו סיסמה חדשה באורך 8 תווים לפחות.",
+    resetPasswordTitle: "יצירת סיסמה חדשה",
+    selectAccountType: "בחירת סוג משתמש",
+  },
+} as const;

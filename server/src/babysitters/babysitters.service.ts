@@ -30,7 +30,10 @@ export class BabysittersService {
         throw new BadRequestException('One of the details is missing');
       }
 
-      const babysitter = new BabysitterModel(data);
+      const babysitter = new BabysitterModel({
+        ...data,
+        email: data.email.trim().toLowerCase(),
+      });
       babysitter.password = generateUserPassword(babysitter.password);
       const savedBabysitter = await babysitter.save();
 

@@ -1,17 +1,18 @@
+import { Group, NumberInput, Paper, Select, SimpleGrid, Stack, Textarea, TextInput } from "@mantine/core";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiUrl } from "../../config/api";
 import useFetch from "../../hooks/useFetch";
 import IBabysitter from "../../interface/BabySitter";
-import { AuthContext } from "../../providers/AuthProvider";
-import { useLanguage } from "../../providers/LanguageProvider";
+import { AuthContext } from "../../providers/AuthProvider/context";
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import Button from "../Button";
 import PageHeader from "../PageHeader";
-import TopNavLink from "../TopNavLink";
 
 export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
   const { PATCH } = useFetch<IBabysitter>(apiUrl("babysitter"));
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -25,7 +26,6 @@ export const EditBabysitter = () => {
   const [experience, setExperience] = useState("");
   const [about, setAbout] = useState("");
   const [price, setPrice] = useState(0);
-  const [budget, setBudget] = useState(100);
 
   const userBabysitter = user as IBabysitter;
 
@@ -42,7 +42,6 @@ export const EditBabysitter = () => {
     setExperience(userBabysitter.experience || "");
     setAbout(userBabysitter.about || "");
     setPrice(userBabysitter.price || 0);
-    setBudget(userBabysitter.budget || 100);
   }, [userBabysitter]);
 
   const addPreferences = (newPreference: string) => {
@@ -65,7 +64,6 @@ export const EditBabysitter = () => {
       experience,
       about,
       price,
-      budget,
     });
 
     navigate("/babysitter");
@@ -73,141 +71,107 @@ export const EditBabysitter = () => {
 
   return (
     <>
-      <PageHeader title={t("editTitle")} subtitle={t("editSubtitle")} />
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">{t("name")}</label>
-          <input
+      <PageHeader title={texts.editTitle} subtitle={texts.editSubtitle} />
+      <Paper component="form" onSubmit={handleSubmit} p="xl" radius="md" shadow="xs" withBorder>
+        <Stack>
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+          <TextInput
             id="name"
-            type="text"
-            placeholder={t("namePlaceholder")}
+            label={texts.name}
+            placeholder={texts.namePlaceholder}
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="age">{t("age")}</label>
-          <input
+          <NumberInput
             id="age"
-            type="number"
-            placeholder={t("agePlaceholder")}
+            label={texts.age}
+            placeholder={texts.agePlaceholder}
             value={age}
-            onChange={(event) => setAge(Number(event.target.value))}
+            onChange={(value) => setAge(Number(value) || 0)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="image">{t("image")}</label>
-          <input
+          <TextInput
             id="image"
-            type="text"
-            placeholder={t("imagePlaceholder")}
+            label={texts.image}
+            placeholder={texts.imagePlaceholder}
             value={image}
             onChange={(event) => setImage(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="address">{t("address")}</label>
-          <input
+          <TextInput
             id="address"
-            type="text"
-            placeholder={t("addressPlaceholder")}
+            label={texts.address}
+            placeholder={texts.addressPlaceholder}
             value={address}
             onChange={(event) => setAddress(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="phone">{t("phone")}</label>
-          <input
+          <TextInput
             id="phone"
-            type="text"
-            placeholder={t("phonePlaceholder")}
+            label={texts.phone}
+            placeholder={texts.phonePlaceholder}
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="email">{t("email")}</label>
-          <input
+          <TextInput
             id="email"
+            label={texts.email}
             type="email"
-            placeholder={t("emailPlaceholder")}
+            placeholder={texts.emailPlaceholder}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="preferences">{t("preferences")}</label>
-          <select
+          <Select
             id="preferences"
+            label={texts.preferences}
             value={preferences[0]}
-            onChange={(event) => addPreferences(event.target.value)}
-          >
-            <option value="infancy">{t("preferenceInfancy")}</option>
-            <option value="special education">
-              {t("preferenceSpecialEducation")}
-            </option>
-            <option value="Age 5 and up">{t("preferenceAgeFive")}</option>
-            <option value="Rewards">{t("preferenceRewards")}</option>
-            <option value="without food">{t("preferenceWithoutFood")}</option>
-            <option value="no homework">{t("preferenceNoHomework")}</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="experience">{t("experience")}</label>
-          <input
+            onChange={(value) => value && addPreferences(value)}
+            data={[
+              { value: "infancy", label: texts.preferenceInfancy },
+              { value: "special education", label: texts.preferenceSpecialEducation },
+              { value: "Age 5 and up", label: texts.preferenceAgeFive },
+              { value: "Rewards", label: texts.preferenceRewards },
+              { value: "without food", label: texts.preferenceWithoutFood },
+              { value: "no homework", label: texts.preferenceNoHomework },
+            ]}
+          />
+          <TextInput
             id="experience"
-            type="text"
-            placeholder={t("experiencePlaceholder")}
+            label={texts.experience}
+            placeholder={texts.experiencePlaceholder}
             value={experience}
             onChange={(event) => setExperience(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="about">{t("about")}</label>
-          <input
+          <Textarea
             id="about"
-            type="text"
-            placeholder={t("aboutPlaceholder")}
+            label={texts.about}
+            placeholder={texts.aboutPlaceholder}
             value={about}
             onChange={(event) => setAbout(event.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="price">{t("price")}</label>
-          <input
+          <NumberInput
             id="price"
-            type="number"
-            placeholder={t("pricePlaceholder")}
+            label={texts.price}
+            placeholder={texts.pricePlaceholder}
             value={price}
-            onChange={(event) => setPrice(Number(event.target.value))}
+            onChange={(value) => setPrice(Number(value) || 0)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="budget">{t("budget")}</label>
-          <input
-            id="budget"
-            type="number"
-            placeholder={t("budgetPlaceholder")}
-            value={budget}
-            onChange={(event) => setBudget(Number(event.target.value))}
-            required
-          />
-        </div>
+        </SimpleGrid>
 
-        <button type="submit">{t("editSubmit")}</button>
-        <button type="button">
-          <TopNavLink to="/babysitter">{t("back")}</TopNavLink>
-        </button>
-      </form>
+        <Group justify="flex-end">
+        <Button type="submit">{texts.editSubmit}</Button>
+        <Button component={Link} to="/babysitter" type="button" variant="ghost">
+          {texts.back}
+        </Button>
+        </Group>
+        </Stack>
+      </Paper>
     </>
   );
 };

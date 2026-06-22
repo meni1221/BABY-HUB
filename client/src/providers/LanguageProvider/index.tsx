@@ -1,18 +1,5 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import {
-  Language,
-  TranslationKey,
-  translations,
-} from "../../constants/translations";
-
-interface LanguageContextValue {
-  language: Language;
-  isRtl: boolean;
-  toggleLanguage: () => void;
-  t: (key: TranslationKey) => string;
-}
-
-const LanguageContext = createContext<LanguageContextValue | null>(null);
+import { ReactNode, useEffect, useState } from "react";
+import { Language, LanguageContext, translations } from "./context";
 
 const getInitialLanguage = (): Language => {
   const storedLanguage = localStorage.getItem("babyhub-language");
@@ -21,7 +8,7 @@ const getInitialLanguage = (): Language => {
     : "en";
 };
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>(getInitialLanguage);
   const isRtl = language === "he";
 
@@ -37,21 +24,13 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const t = (key: TranslationKey) => translations[language][key];
+  const texts = translations[language];
 
   return (
-    <LanguageContext.Provider value={{ language, isRtl, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, isRtl, texts, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-
-  if (!context) {
-    throw new Error("useLanguage must be used inside LanguageProvider");
-  }
-
-  return context;
-};
+export default LanguageProvider;

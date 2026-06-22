@@ -10,7 +10,6 @@ export interface IBabysitter extends Document {
   about: string;
   price: number;
   likes: [string];
-  budget: number;
   password: string;
   _id?: string;
 }

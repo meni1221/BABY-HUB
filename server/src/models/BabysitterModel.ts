@@ -31,6 +31,8 @@ const BabysitterSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
     preferences: {
       type: [String],
@@ -48,12 +50,15 @@ const BabysitterSchema: Schema = new Schema(
     likes: {
       type: [String],
     },
-    budget: {
-      type: Number,
-    },
     password: {
       type: String,
       required: true,
+    },
+    passwordResetExpires: {
+      type: Date,
+    },
+    passwordResetToken: {
+      type: String,
     },
     reviews: [
       {

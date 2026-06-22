@@ -5,7 +5,15 @@ interface TokenUser {
   isAdmin: boolean;
 }
 
-const secretKey = process.env.JWT_SECRET || 'fallback_secret_key';
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    throw new Error('JWT_SECRET environment variable is required');
+  }
+
+  return secret;
+};
 
 const generateAuthToken = (user: TokenUser): string => {
   return jwt.sign(
@@ -13,11 +21,11 @@ const generateAuthToken = (user: TokenUser): string => {
       id: user._id.toString(),
       isAdmin: user.isAdmin,
     },
-    secretKey,
+    getJwtSecret(),
     {
       expiresIn: '1h',
     }
   );
 };
 
-export { generateAuthToken };
+export { generateAuthToken, getJwtSecret };

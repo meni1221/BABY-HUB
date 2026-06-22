@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { apiUrl } from "../../config/api";
 import { logger } from "../../utils/logger";
 
@@ -37,7 +37,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const GET = async () => {
+  const GET = useCallback(async () => {
     try {
       logger.info(`GET ${url}`);
       const response = await fetch(`${url}`);
@@ -52,9 +52,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       logger.error(`GET error ${url}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
-  };
+  }, [url]);
 
-  const GETOne = async (id: string) => {
+  const GETOne = useCallback(async (id: string) => {
     try {
       logger.info(`GET one ${url}/${id}`);
       const response = await fetch(`${url}/${id}`);
@@ -69,9 +69,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       logger.error(`GET one error ${url}/${id}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
-  };
+  }, [url]);
 
-  const POST = async <TResponse = T,>(endpoint: string, body: object = {}) => {
+  const POST = useCallback(async <TResponse = T,>(endpoint: string, body: object = {}) => {
     try {
       logger.info(`POST ${url}/${endpoint}`);
       const response = await fetch(`${url}/${endpoint}`, {
@@ -95,9 +95,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       setError((error as Error).message || "An unknown error occurred.");
       throw error;
     }
-  };
+  }, [url]);
 
-  const PATCH = async (id: string, body: Record<string, unknown>) => {
+  const PATCH = useCallback(async (id: string, body: Record<string, unknown>) => {
     try {
       logger.info(`PATCH ${url}/${id}`);
       const response = await fetch(`${url}/${id}`, {
@@ -117,8 +117,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       logger.error(`PATCH error ${url}/${id}`, error);
       setError((error as Error).message || "An unknown error occurred.");
     }
-  };
-  const DELETE = async (id: string) => {
+  }, [url]);
+
+  const DELETE = useCallback(async (id: string) => {
     try {
       logger.info(`DELETE ${url}/${id}`);
       const response = await fetch(`${url}/${id}`, {
@@ -137,9 +138,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       logger.error(`DELETE error ${url}/${id}`, error);
       setError((error as Error).message);
     }
-  };
+  }, [url]);
 
-  const VerifyToken = async <TResponse = T,>(role: string) => {
+  const VerifyToken = useCallback(async <TResponse = T,>(role: string) => {
     try {
       logger.info(`Verify token for role ${role}`);
       const response = await fetch(apiUrl(`auth/verifyUser/${role}`), {
@@ -162,9 +163,9 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       setError((error as Error).message || "An unknown error occurred.");
       throw error;
     }
-  };
+  }, []);
 
-  const addComment = async (comment: IComment) => {
+  const addComment = useCallback(async (comment: IComment) => {
     const endpoint = apiUrl(`babysitter/${comment.id}/reviews`);
 
     try {
@@ -188,7 +189,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
       setError((error as Error).message || "An unknown error occurred.");
       throw error;
     }
-  };
+  }, []);
 
   return {
     data,

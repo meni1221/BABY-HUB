@@ -1,17 +1,18 @@
+import { NumberInput, Paper, PasswordInput, SimpleGrid, Stack, TextInput } from "@mantine/core";
 import { FormEvent, useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { IParents } from "../../../interface/parents";
 import { API_BASE_URL } from "../../../config/api";
-import { useLanguage } from "../../../providers/LanguageProvider";
+import { useLanguage } from "../../../providers/LanguageProvider/context";
+import Button from "../../../components/Button";
 
 export const RegisterParent = () => {
   const { POST } = useFetch<IParents>(API_BASE_URL);
-  const { t } = useLanguage();
+  const { texts } = useLanguage();
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
   const [phone, setPhone] = useState("");
-  const [budget, setBudget] = useState(100);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,7 +29,6 @@ export const RegisterParent = () => {
       amount,
       address,
       phone,
-      budget,
       email,
       password,
     });
@@ -36,111 +36,82 @@ export const RegisterParent = () => {
     setName("");
     setAmount(1);
     setPhone("");
-    setBudget(100);
     setEmail("");
     setPassword("");
   };
 
   return (
-    <>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name">{t("name")}</label>
-            <input
+    <Paper component="form" onSubmit={handleSubmit} p="xl" radius="md" shadow="xs" withBorder>
+      <Stack>
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+            <TextInput
               id="name"
-              type="text"
-              placeholder={t("namePlaceholder")}
+              label={texts.name}
+              placeholder={texts.namePlaceholder}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="amount">{t("amount")}</label>
-            <input
+            <NumberInput
               id="amount"
-              type="number"
-              placeholder={t("amountPlaceholder")}
+              label={texts.amount}
+              placeholder={texts.amountPlaceholder}
               value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              onChange={(value) => setAmount(Number(value) || 1)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="address">{t("address")}</label>
-            <input
+            <TextInput
               id="city"
-              type="text"
-              placeholder={t("cityPlaceholder")}
+              label={texts.city}
+              placeholder={texts.cityPlaceholder}
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
             />
-            <input
+            <TextInput
               id="street"
-              type="text"
-              placeholder={t("streetPlaceholder")}
+              label={texts.street}
+              placeholder={texts.streetPlaceholder}
               value={street}
               onChange={(e) => setStreet(e.target.value)}
               required
             />
-            <input
+            <NumberInput
               id="buildingNumber"
-              type="number"
-              placeholder={t("buildingNumberPlaceholder")}
+              label={texts.buildingNumber}
+              placeholder={texts.buildingNumberPlaceholder}
               value={buildingNumber}
-              onChange={(e) => setBuildingNumber(Number(e.target.value))}
+              onChange={(value) => setBuildingNumber(Number(value) || 0)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="phone">{t("phone")}</label>
-            <input
+            <TextInput
               id="phone"
-              type="text"
-              placeholder={t("phonePlaceholder")}
+              label={texts.phone}
+              placeholder={texts.phonePlaceholder}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="budget">{t("budget")}</label>
-            <input
-              id="budget"
-              type="number"
-              placeholder={t("budgetPlaceholder")}
-              value={budget}
-              onChange={(e) => setBudget(Number(e.target.value))}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email">{t("email")}</label>
-            <input
+            <TextInput
               id="email"
+              label={texts.email}
               type="email"
-              placeholder={t("emailPlaceholder")}
+              placeholder={texts.emailPlaceholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="password">{t("password")}</label>
-            <input
+            <PasswordInput
               id="password"
-              type="text"
-              placeholder={t("passwordPlaceholder")}
+              label={texts.password}
+              placeholder={texts.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </div>
-          <button type="submit">{t("registerParentSubmit")}</button>
-        </form>
-      </div>
-    </>
+        </SimpleGrid>
+        <Button type="submit">{texts.registerParentSubmit}</Button>
+      </Stack>
+    </Paper>
   );
 };

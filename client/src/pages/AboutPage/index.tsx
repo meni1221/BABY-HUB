@@ -1,17 +1,9 @@
+import { Avatar, Box, Card, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import miki from "../../assets/miki.png";
 import meni from "../../assets/meni.png";
 import eliya from "../../assets/eliya.png";
-import PageHeader from "../../components/PageHeader";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
-import { useLanguage } from "../../providers/LanguageProvider";
-import "./style.scss";
-
-interface ArrowProps {
-  onClick?: () => void;
-}
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import SystemInfo from "../../components/SystemInfo";
 
 const developers = [
   { name: "Miki", image: miki },
@@ -19,67 +11,48 @@ const developers = [
   { name: "Eliya", image: eliya },
 ];
 
-export const NextArrow = (props: ArrowProps) => {
-  const { onClick } = props;
-  return (
-    <div className="custom-arrow next" onClick={onClick}>
-      <TbChevronRight />
-    </div>
-  );
-};
-
-export const PrevArrow = (props: ArrowProps) => {
-  const { onClick } = props;
-  return (
-    <div className="custom-arrow prev" onClick={onClick}>
-      <TbChevronLeft />
-    </div>
-  );
-};
-
 const AboutPage = () => {
-  const { t } = useLanguage();
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
+  const { texts } = useLanguage();
 
   return (
-    <>
-      <PageHeader title={t("aboutTitle")} subtitle={t("aboutSubtitle")} />
-      <div className="about-container">
-        <div className="developers-list">
-          {developers.map((dev, index) => (
-            <div key={index} className="developer-card">
-              <img src={dev.image} alt={dev.name} className="developer-image" />
-              <h3>{dev.name}</h3>
-              <p>{t("developerRole")}</p>
-            </div>
-          ))}
-        </div>
+    <Stack gap={48}>
+      <SystemInfo />
 
-        <div className="developers-carousel">
-          <Slider {...settings}>
-            {developers.map((dev, index) => (
-              <div key={index} className="developer-card">
-                <img
+      <Box component="section" aria-labelledby="developers-title">
+        <Stack gap={6} mb="md">
+          <Text c="babyhub" fw={800} fz="sm">
+            {texts.aboutSubtitle}
+          </Text>
+          <Title id="developers-title" order={2} size="h3">
+            {texts.aboutTitle}
+          </Title>
+        </Stack>
+
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md">
+          {developers.map((dev) => (
+            <Card component="article" key={dev.name} p="md" radius="lg" shadow="xs" withBorder>
+              <Group gap="md" wrap="nowrap">
+                <Avatar
                   src={dev.image}
                   alt={dev.name}
-                  className="developer-image"
+                  radius="xl"
+                  size={68}
+                  styles={{ image: { objectPosition: "top center" } }}
                 />
-                <h3>{dev.name}</h3>
-                <p>{t("developerRole")}</p>
-              </div>
-            ))}
-          </Slider>
-        </div>
-      </div>
-    </>
+                <Stack gap={2}>
+                  <Title order={3} size="h4">
+                    {dev.name}
+                  </Title>
+                  <Text c="dimmed" fz="sm">
+                    {texts.developerRole}
+                  </Text>
+                </Stack>
+              </Group>
+            </Card>
+          ))}
+        </SimpleGrid>
+      </Box>
+    </Stack>
   );
 };
 
