@@ -4,11 +4,13 @@ import useFetch from "../../../hooks/useFetch";
 import IBabysitter from "../../../interface/BabySitter";
 import { API_BASE_URL } from "../../../config/api";
 import { useLanguage } from "../../../providers/LanguageProvider/context";
+import { useNotification } from "../../../providers/NotificationProvider/context";
 import Button from "../../../components/Button";
 
 export const RegisterBaybisitter = () => {
   const { POST } = useFetch<IBabysitter>(API_BASE_URL);
   const { texts } = useLanguage();
+  const { notify } = useNotification();
 
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
@@ -27,33 +29,49 @@ export const RegisterBaybisitter = () => {
     setPreferences([...preferences, newPpreferences]);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    POST("babysitter", {
-      name,
-      age,
-      image,
-      address,
-      phone,
-      email,
-      preferences,
-      experience,
-      about,
-      price,
-      password,
-    });
+    try {
+      await POST("babysitter", {
+        name,
+        age,
+        image,
+        address,
+        phone,
+        email,
+        preferences,
+        experience,
+        about,
+        price,
+        password,
+      });
 
-    setName("");
-    setAge(0);
-    setImage("");
-    setAddress("");
-    setPhone("");
-    setEmail("");
-    setPreferences([""]);
-    setExperience("");
-    setAbout("");
-    setPrice(0);
-    setPassword("");
+      setName("");
+      setAge(0);
+      setImage("");
+      setAddress("");
+      setPhone("");
+      setEmail("");
+      setPreferences([""]);
+      setExperience("");
+      setAbout("");
+      setPrice(0);
+      setPassword("");
+      notify({
+        message: texts.feedbackRegisterBabysitterSuccessMessage,
+        title: texts.feedbackRegisterSuccessTitle,
+        tone: "success",
+      });
+    } catch (error) {
+      notify({
+        message:
+          error instanceof Error
+            ? error.message
+            : texts.feedbackGenericErrorMessage,
+        title: texts.feedbackRegisterErrorTitle,
+        tone: "error",
+      });
+    }
   };
   return (
     <Paper component="form" onSubmit={handleSubmit} p="xl" radius="md" shadow="xs" withBorder>

@@ -116,6 +116,7 @@ const useFetch = <T,>(url: string): UseFetchResult<T> => {
     } catch (error: unknown) {
       logger.error(`PATCH error ${url}/${id}`, error);
       setError((error as Error).message || "An unknown error occurred.");
+      throw error;
     }
   }, [url]);
 

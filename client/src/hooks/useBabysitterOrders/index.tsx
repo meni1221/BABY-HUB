@@ -4,6 +4,8 @@ import IOrder from "../../interface/orderType";
 import IBabysitter from "../../interface/BabySitter";
 import useFetch from "../useFetch";
 import { AuthContext } from "../../providers/AuthProvider/context";
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import { useNotification } from "../../providers/NotificationProvider/context";
 
 const nextStatus = (status: string) => {
   if (status === "waiting") return "approved";
@@ -14,6 +16,8 @@ const nextStatus = (status: string) => {
 
 export const useBabysitterOrders = () => {
   const { user } = useContext(AuthContext) ?? {};
+  const { texts } = useLanguage();
+  const { notify } = useNotification();
   const babysitter = user as IBabysitter | undefined;
   const { GET, PATCH, data } = useFetch<IOrder[]>(apiUrl("orders"));
   const [orders, setOrders] = useState<IOrder[]>([]);
@@ -33,8 +37,24 @@ export const useBabysitterOrders = () => {
   );
 
   const updateStatus = async (orderId: string, currentStatus: string) => {
-    await PATCH(orderId, { status: nextStatus(currentStatus) });
-    await GET();
+    try {
+      await PATCH(orderId, { status: nextStatus(currentStatus) });
+      await GET();
+      notify({
+        message: texts.feedbackOrderStatusSuccessMessage,
+        title: texts.feedbackOrderStatusSuccessTitle,
+        tone: "success",
+      });
+    } catch (error) {
+      notify({
+        message:
+          error instanceof Error
+            ? error.message
+            : texts.feedbackGenericErrorMessage,
+        title: texts.feedbackOrderStatusErrorTitle,
+        tone: "error",
+      });
+    }
   };
 
   return { assignedOrders, babysitter, orders, updateStatus };

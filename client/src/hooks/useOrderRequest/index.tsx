@@ -4,9 +4,13 @@ import IBabysitter from "../../interface/BabySitter";
 import IOrder from "../../interface/orderType";
 import useFetch from "../useFetch";
 import { AuthContext } from "../../providers/AuthProvider/context";
+import { useLanguage } from "../../providers/LanguageProvider/context";
+import { useNotification } from "../../providers/NotificationProvider/context";
 
 export const useOrderRequest = (babysitters: IBabysitter[]) => {
   const { user } = useContext(AuthContext) ?? {};
+  const { texts } = useLanguage();
+  const { notify } = useNotification();
   const { POST } = useFetch<IOrder>(API_BASE_URL);
   const [expectations, setExpectations] = useState("");
   const [numberWorking, setNumberWorking] = useState(1);
@@ -28,20 +32,36 @@ export const useOrderRequest = (babysitters: IBabysitter[]) => {
     setIsDialogOpen(false);
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!user?._id || !selectedBabysitter?._id) return;
 
-    POST("orders", {
-      parent_id: user._id,
-      babysitter_id: selectedBabysitter._id,
-      number_working: numberWorking,
-      expectations,
-    });
+    try {
+      await POST("orders", {
+        parent_id: user._id,
+        babysitter_id: selectedBabysitter._id,
+        number_working: numberWorking,
+        expectations,
+      });
 
-    setNumberWorking(1);
-    setExpectations("");
-    closeDialog();
+      setNumberWorking(1);
+      setExpectations("");
+      closeDialog();
+      notify({
+        message: texts.feedbackOrderRequestSuccessMessage,
+        title: texts.feedbackOrderRequestSuccessTitle,
+        tone: "success",
+      });
+    } catch (error) {
+      notify({
+        message:
+          error instanceof Error
+            ? error.message
+            : texts.feedbackGenericErrorMessage,
+        title: texts.feedbackOrderRequestErrorTitle,
+        tone: "error",
+      });
+    }
   };
 
   return {

@@ -6,6 +6,7 @@ import useFetch from "../../hooks/useFetch";
 import IBabysitter from "../../interface/BabySitter";
 import { AuthContext } from "../../providers/AuthProvider/context";
 import { useLanguage } from "../../providers/LanguageProvider/context";
+import { useNotification } from "../../providers/NotificationProvider/context";
 import Button from "../Button";
 import PageHeader from "../PageHeader";
 
@@ -13,6 +14,7 @@ export const EditBabysitter = () => {
   const { user } = useContext(AuthContext) ?? {};
   const { PATCH } = useFetch<IBabysitter>(apiUrl("babysitter"));
   const { texts } = useLanguage();
+  const { notify } = useNotification();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -49,24 +51,40 @@ export const EditBabysitter = () => {
     setPreferences([...preferences, newPreference]);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!id) return;
 
-    PATCH(id, {
-      name,
-      age,
-      image,
-      address,
-      phone,
-      email,
-      preferences,
-      experience,
-      about,
-      price,
-    });
+    try {
+      await PATCH(id, {
+        name,
+        age,
+        image,
+        address,
+        phone,
+        email,
+        preferences,
+        experience,
+        about,
+        price,
+      });
 
-    navigate("/babysitter");
+      notify({
+        message: texts.feedbackProfileUpdateSuccessMessage,
+        title: texts.feedbackProfileUpdateSuccessTitle,
+        tone: "success",
+      });
+      navigate("/babysitter");
+    } catch (error) {
+      notify({
+        message:
+          error instanceof Error
+            ? error.message
+            : texts.feedbackGenericErrorMessage,
+        title: texts.feedbackProfileUpdateErrorTitle,
+        tone: "error",
+      });
+    }
   };
 
   return (

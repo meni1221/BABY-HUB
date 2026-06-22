@@ -4,11 +4,13 @@ import useFetch from "../../../hooks/useFetch";
 import { IParents } from "../../../interface/parents";
 import { API_BASE_URL } from "../../../config/api";
 import { useLanguage } from "../../../providers/LanguageProvider/context";
+import { useNotification } from "../../../providers/NotificationProvider/context";
 import Button from "../../../components/Button";
 
 export const RegisterParent = () => {
   const { POST } = useFetch<IParents>(API_BASE_URL);
   const { texts } = useLanguage();
+  const { notify } = useNotification();
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(1);
@@ -20,24 +22,40 @@ export const RegisterParent = () => {
   const [street, setStreet] = useState("");
   const [buildingNumber, setBuildingNumber] = useState(0);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const address = { city, street, buildingNumber };
 
-    POST("parents", {
-      name,
-      amount,
-      address,
-      phone,
-      email,
-      password,
-    });
+    try {
+      await POST("parents", {
+        name,
+        amount,
+        address,
+        phone,
+        email,
+        password,
+      });
 
-    setName("");
-    setAmount(1);
-    setPhone("");
-    setEmail("");
-    setPassword("");
+      setName("");
+      setAmount(1);
+      setPhone("");
+      setEmail("");
+      setPassword("");
+      notify({
+        message: texts.feedbackRegisterParentSuccessMessage,
+        title: texts.feedbackRegisterSuccessTitle,
+        tone: "success",
+      });
+    } catch (error) {
+      notify({
+        message:
+          error instanceof Error
+            ? error.message
+            : texts.feedbackGenericErrorMessage,
+        title: texts.feedbackRegisterErrorTitle,
+        tone: "error",
+      });
+    }
   };
 
   return (

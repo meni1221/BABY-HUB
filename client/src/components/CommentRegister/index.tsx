@@ -5,6 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import { apiUrl } from "../../config/api";
 import IBabysitter from "../../interface/BabySitter";
 import { useLanguage } from "../../providers/LanguageProvider/context";
+import { useNotification } from "../../providers/NotificationProvider/context";
 import { TbMessageCircle, TbSend } from "react-icons/tb";
 import Button from "../Button";
 
@@ -21,6 +22,7 @@ const CommentRegister = ({ id }: Props) => {
   const [babysitter, setBabysitter] = useState<IBabysitter | null>(null);
   const { user } = useContext(AuthContext) ?? {};
   const { texts } = useLanguage();
+  const { notify } = useNotification();
 
   useEffect(() => {
     GETOne(id);
@@ -32,18 +34,38 @@ const CommentRegister = ({ id }: Props) => {
 
   const handleSubmit = async () => {
     if (rating > 0 && comment.trim() !== "") {
-      await addComment({
-        id,
-        review: {
-          userId: user!._id!,
-          rating,
-          comment,
-        },
-      });
-      setComment("");
-      setRating(0);
+      try {
+        await addComment({
+          id,
+          review: {
+            userId: user!._id!,
+            rating,
+            comment,
+          },
+        });
+        setComment("");
+        setRating(0);
+        notify({
+          message: texts.feedbackCommentSuccessMessage,
+          title: texts.feedbackCommentSuccessTitle,
+          tone: "success",
+        });
+      } catch (error) {
+        notify({
+          message:
+            error instanceof Error
+              ? error.message
+              : texts.feedbackGenericErrorMessage,
+          title: texts.feedbackCommentErrorTitle,
+          tone: "error",
+        });
+      }
     } else {
-      alert(texts.commentValidation);
+      notify({
+        message: texts.feedbackCommentErrorMessage,
+        title: texts.feedbackCommentErrorTitle,
+        tone: "warning",
+      });
     }
   };
 
