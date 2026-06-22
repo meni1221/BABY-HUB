@@ -33,7 +33,10 @@ export class ParentsService {
         throw new BadRequestException('Missing required fields');
       }
 
-      const parent = new ParentsModel(data);
+      const parent = new ParentsModel({
+        ...data,
+        email: data.email.trim().toLowerCase(),
+      });
       parent.password = generateUserPassword(parent.password);
       const savedParent = await parent.save();
 

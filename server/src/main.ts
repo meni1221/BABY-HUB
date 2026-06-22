@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
+import { json, NextFunction, Request, Response, urlencoded } from 'express';
 import mongoose from 'mongoose';
 import { createServer } from 'net';
 import { AppModule } from './app.module';
@@ -11,6 +12,21 @@ import loadInitialData from './initailData/initailData';
 const START_PORT = Number(process.env.PORT || 8000);
 const MAX_PORT_ATTEMPTS = 10;
 const logger = new Logger('Bootstrap');
+
+const securityHeaders = (
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader(
+    'Permissions-Policy',
+    'camera=(), microphone=(), geolocation=()',
+  );
+  next();
+};
 
 const isPortAvailable = (port: number): Promise<boolean> =>
   new Promise((resolve) => {
@@ -49,6 +65,9 @@ const bootstrap = async () => {
     credentials: true,
   });
 
+  app.use(securityHeaders);
+  app.use(json({ limit: process.env.JSON_BODY_LIMIT || '1mb' }));
+  app.use(urlencoded({ extended: true, limit: '1mb' }));
   app.use(cookieParser());
 
   logger.log('INFO connecting to MongoDB');

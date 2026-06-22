@@ -7,6 +7,16 @@ interface LoginDto {
   password: string;
 }
 
+interface PasswordResetRequestDto {
+  email: string;
+  role: 'babysitter' | 'parent';
+}
+
+interface PasswordResetDto {
+  password: string;
+  token: string;
+}
+
 interface CookieRequest extends Request {
   cookies: {
     auth_token?: string;
@@ -33,6 +43,16 @@ export class AuthController {
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     return this.authService.logout(res);
+  }
+
+  @Post('password-reset/request')
+  requestPasswordReset(@Body() body: PasswordResetRequestDto) {
+    return this.authService.requestPasswordReset(body);
+  }
+
+  @Post('password-reset/confirm')
+  resetPassword(@Body() body: PasswordResetDto) {
+    return this.authService.resetPassword(body);
   }
 
   @Post('verifyUser/:role')
